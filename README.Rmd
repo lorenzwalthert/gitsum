@@ -1,0 +1,65 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+library("gitsum")
+library("tidyverse")
+```
+
+*All just work in progress!*
+
+# Introduction
+This package parses a git repository history to collect 
+comprehensive information about the activity in the repo. The parsed 
+data is made available to the user in a tabular format and can be used to 
+create various statistics on the repository. Graphs, figures or even 
+reports can be generated automatically.
+
+To parse the git repo history, there are two functions available get_log_simple()`
+and `get_log_regex()`
+```{r}
+get_log_simple()
+```
+
+```{r}
+get_log_regex()
+```
+
+The regex-based function can extract more information. For each commit, 
+it also returns information on which files were changed.
+
+```{r}
+tbl <- get_log_regex() %>%
+  select(short_hash, message, total_files_changed, nested)
+tbl 
+```
+```{r}
+tbl$nested[[3]]
+```
+
+Since the data has such a high resolution, various graphs, tables ect. 
+can be produced from it to give insights into a git history.
+
+# Examples
+You can use standard R commands to get your summaries from the commit tibble.
+```{r}
+log <- get_log_regex()
+log %>%
+group_by(author_name) %>%
+  count()
+
+log %>%
+  unnest(nested) %>%
+  filter(!is.na(changed_file)) %>%
+  ggplot(aes(x = changed_file, y = edits)) + geom_col() + coord_flip()
+
+```
+
