@@ -1,7 +1,7 @@
 Package: gitsum
 Type: Package
 Title: get extensive summaries of git repos
-Version: 0.0.9000
+Version: 0.0.9001
 Authors@R: person("Lorenz", "Walthert", 
     email = "lorenz.walthert@icloud.com", role = c("aut", "cre"))
 Description: This package parses a git repository history to collect 
