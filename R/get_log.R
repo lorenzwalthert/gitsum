@@ -1,14 +1,18 @@
+
+#   ____________________________________________________________________________
+#   simple log                                                              ####
+
 #' get the log from a git repo
 #'
-#' @param path the path to a git repo.
+#' @inheritParams create_log
 #' @importFrom readr read_delim
 #' @importFrom tidyr separate_
-#' @importFrom dplyr mutate_ select_ if_else rowwise
-#' @importFrom dplyr everything
+#' @importFrom dplyr mutate_ select_ if_else rowwise rename_
+#' @importFrom dplyr everything arrange_
 #' @importFrom lubridate ymd_hms
 #' @import magrittr
 #' @export
-get_log <- function(path = ".") {
+get_log_simple <- function(path = ".") {
   path <- file.path(path, "commits.local.tsv.txt")
   if (file.exists(path)) {
     message("file ", path, " exists already")
@@ -28,52 +32,110 @@ get_log <- function(path = ".") {
             message_short = ~substr(message, 1, 20)) %>%
     rowwise() %>%
     mutate_(n_parents = ~sum(!is.na(left_parent),!is.na(right_parent))) %>%
-    select_(~author, ~message_short, ~final_date, ~everything())
+    rename_(date = ~final_date) %>%
+    select_(~author, ~message_short, ~date, ~everything()) %>%
+    arrange_(~date)
   unlink(path)
   log
 }
 
+#   ____________________________________________________________________________
+#   advanced log                                                            ####
+# in the advanced method, we use regex to extract patterns from a log file.
+# This is probably less safe, but allows us to catch much more information.
+#' get log of a github repo via regex
+#' @inheritParams create_log
+#' @importFrom readr read_lines
+#' @importFrom stats setNames
+#' @importFrom purrr map_df
+#' @importFrom dplyr mutate_ select_ everything
+#' @importFrom lubridate ymd_hms
+#' @importFrom tidyr nest_
+#' @importFrom tibble data_frame
+#' @importFrom dplyr arrange_
+#' @inheritParams get_log_simple
+#' @export
+get_log_regex <- function(path = ".") {
+  # create log
+  file_in <- create_log(path = path)
+  level <- cumsum(grepl("^commit\\s\\w+?\\s?\\w+?\\s?\\w+?$", file_in))
+  all_raw <- split(file_in, level)
 
-get_change_log <- function(path) {
-  system(' git log --pretty=tformat: --numstat > commits.local.tsv.txt')
+  # get regex-finder-functions
+  fnc_list <- setNames(c(lapply(get_pattern(), extract_factory),
+                         find_message, find_description),
+                       nm = c(names(get_pattern()),
+                              "message", "description"))
+  # get list of extracted elements
+  to_convert <- parse_log(all_raw, fnc_list) %>%
+    # convert to data_frame
+    map_df(function(x) do.call("data_frame", args = x)) %>%
+    # some reformatting
+    mutate_(date = ~ymd_hms(paste(year, month, monthday, time)),
+            short_message = ~substr(message, 1, 20),
+            short_description = ~substr(description, 1, 20),
+            deletions_symbol = ~deletions,
+            insertions_symbol = ~insertions,
+            deletions = ~nchar(deletions),
+            insertions = ~nchar(insertions))
+  suppressMessages(type_convert(to_convert)) %>%
+    nest_("nested", c("changed_file", "edits", "deletions", "insertions",
+                      "deletions_symbol", "insertions_symbol")) %>%
+    select_(~short_hash, ~author_name, ~date,
+            ~short_message, ~short_description, ~everything()) %>%
+    arrange_(~date)
+
 }
 
-
-file_in <- readr::read_lines("log_stat.txt")
-level <- cumsum(grepl("^commit [[:alnum:]]+$", file_in))
-
-all_raw <- split(file_in, level)
-
-extract_commit <- function(raw) {
-  pattern <- "^commit ([[:alnum:]]+)$"
-  ind <- grepl(pattern, raw)
-  gsub(pattern, "\\1", raw[ind])
-}
-extract_commit(all_raw[[1]])
-
+#' closure to extract regex pattern from vector
+#'
+#' @param pattern The pattern the function should be able to extract.
 extract_factory <- function(pattern) {
   function(raw) {
     ind <- grepl(pattern, raw, perl = TRUE)
     out <- gsub(pattern, "\\1", raw[ind], perl = TRUE)
-    trimws(out)
+    out <- trimws(out)
+    if (length(out) == 0) {
+      NA
+    } else {
+      out
+    }
   }
 }
 
-extract_commit <- extract_factory("^commit (\\w+)$")
-extract_commit(all_raw[[1]])
 
-all_pattern <- c(hash          = "^commit (\\w+)$",
-                 author        = "^Author\\:\\s(.*)\\s<.*$",
-                 weekday       = "^Date\\:\\s*(\\w+)\\s\\w+\\s+\\d+\\s\\d+:\\d+:\\d+\\s\\d+\\s.*",
-                 month         = "^Date\\:\\s*\\w+\\s(\\w+)\\s+\\d+\\s\\d+:\\d+:\\d+\\s\\d+\\s.*",
-                 monthday      = "^Date\\:\\s*\\w+\\s\\w+\\s+(\\d+)\\s\\d+:\\d+:\\d+\\s\\d+\\s.*",
-                 time          = "^Date\\:\\s*\\w+\\s\\w+\\s+\\d+\\s(\\d+:\\d+:\\d+)\\s\\d+\\s.*",
-                 year          = "^Date\\:\\s*\\w+\\s\\w+\\s+\\d+\\s\\d+:\\d+:\\d+\\s(\\d+)\\s.*",
-                 changed_files = "^\\s(.*\\s)+\\|\\s+\\d+\\s\\+*\\-*",
-                 edits = "^\\s.*\\s+\\|\\s+(\\d+)\\s\\+*\\-*",
-                 insertions = "^\\s.*\\s+\\|\\s+\\d+\\s(\\+*)\\-*",
-                 deletions = "^\\s.*\\s+\\|\\s+\\d+\\s\\+*(\\-*)")
+#' regex patterns for extraction
+#'
+#' @return returns a named vector with regex patterns to extract from a
+#'   git log.
+get_pattern <- function() {
+  c(hash                = "^commit\\s(\\w+).*$",
+    left_parent         = "^commit\\s\\w+\\s(\\w+).*$",
+    right_parent        = "^commit\\s\\w+\\s\\w+\\s(\\w+)$",
+    short_hash          = "^commit\\s(\\w{4})\\w*$",
+    author_name         = "^Author\\:\\s(.*)\\s<.*>$",
+    author_email        = "^Author\\:\\s.*\\s<(.*)>$",
+    weekday             = "^Date\\:\\s*(\\w+)\\s\\w+\\s+\\d+\\s\\d+:\\d+:\\d+\\s\\d+\\s.*",
+    month               = "^Date\\:\\s*\\w+\\s(\\w+)\\s+\\d+\\s\\d+:\\d+:\\d+\\s\\d+\\s.*",
+    monthday            = "^Date\\:\\s*\\w+\\s\\w+\\s+(\\d+)\\s\\d+:\\d+:\\d+\\s\\d+\\s.*",
+    time                = "^Date\\:\\s*\\w+\\s\\w+\\s+\\d+\\s(\\d+:\\d+:\\d+)\\s\\d+\\s[\\+\\-]?\\d+$",
+    timezone            = "^Date\\:\\s*\\w+\\s\\w+\\s+\\d+\\s\\d+:\\d+:\\d+\\s\\d+\\s([\\+\\-]?\\d+)$",
+    year                = "^Date\\:\\s*\\w+\\s\\w+\\s+\\d+\\s\\d+:\\d+:\\d+\\s(\\d+)\\s.*",
+    total_files_changed = "^\\s(\\d+)\\sfiles?\\schanged,\\s\\d+\\sinsertion?s\\(\\+\\),\\s\\d+\\sdeletion?s\\(\\-\\)$",
+    total_insertions    = "^\\s\\d+\\sfiles?\\schanged,\\s(\\d+)\\sinsertion?s\\(\\+\\),\\s\\d+\\sdeletion?s\\(\\-\\)$",
+    total_deletions     = "^\\s\\d+\\sfiles?\\schanged,\\s\\d+\\sinsertion?s\\(\\+\\),\\s(\\d+)\\sdeletion?s\\(\\-\\)$",
+    changed_file       = "^\\s(.*\\s)+\\|\\s+\\d+\\s\\+*\\-*",
+    edits               = "^\\s.*\\s+\\|\\s+(\\d+)\\s\\+*\\-*",
+    insertions          = "^\\s.*\\s+\\|\\s+\\d+\\s(\\+*)\\-*",
+    deletions           = "^\\s.*\\s+\\|\\s+\\d+\\s\\+*(\\-*)")
+}
 
+#' extract message or description from a log
+#'
+#' For message and description extraction, a different approach is used and
+#'   one cannot rely on the approach with the simple extraction factory.
+#' @param raw A character vector corresponding to one commit.
+#' @param target either "message" or "description
 find_message_and_desc <- function(raw, target) {
   ind <- which(grepl("^\\s{4}$", raw))
   if (length(ind) == 1) {
@@ -87,50 +149,56 @@ find_message_and_desc <- function(raw, target) {
   }
   if (target == "message") description <- NULL
   if (target == "description") message <- NULL
-  c(message = message, description = description)
+  c(message, description)
 }
-
 
 find_message <- function(raw) {
   find_message_and_desc(raw, target = "message")
 }
 
 find_description <- function(raw) {
-  find_message_and_desc(raw, target = "message")
+  find_message_and_desc(raw, target = "description")
 }
 
-find_message(all_raw[[1]])
-
-out <- setNames(c(lapply(all_pattern, extract_factory), find_message),
-         nm = c(names(all_pattern), "find_message"))
-
+#' parse a raw log
+#'
+#' @param raw a character vector of one commit.
+#' @param fnc_list the list list of named functions that return the elements
+#'   we want to extract from the log, i.e. author, hash etc.
 parse_log <- function(raw, fnc_list) {
   lapply(raw, function(raw_one) {
-    as.list(lapply(out, function(fnc) fnc(raw = raw_one)))
+    as.list(lapply(fnc_list, function(fnc) fnc(raw = raw_one)))
   })
 }
 
-a <- lapply(out, function(fnc) fnc(raw = all_raw[[1]]))
 
-a <- parse_log(all_raw, out)
+# do.call("data_frame", a[[15]])
+#
+# b <- map_df(a, function(x) do.call("data_frame", args = x)) %>%
+#   nest_("nested", c("changed_file", "edits", "deletions", "insertions")) %>%
+#   mutate_(date = ~ymd_hms(paste(year, month, monthday, time)),
+#           short_message = ~substr(message, 1, 20),
+#           short_description = ~substr(description, 1, 20)) %>%
+#   select_(~short_hash, ~author, ~date, ~short_message, ~short_description, ~everything())
+#
+#
+# find_description(all_raw[[1]])
+# find_message(all_raw[[1]])
 
-b <- map(a[2], function(x) do.call("data_frame", args = x))
+#' Create the log raw data and clean up
+#' @param path the path to the git directory one wants to create summaries for.
+#' @param file_name the name of the temporary file.
+create_log <- function(path, file_name = ".log_stat.txt") {
+  path_to_file <- file.path(path, file_name) %>%
+    path.expand()
+  if (file.exists(path_to_file)) {
+    message("file ", path_to_file, " exists already")
+  }
+  error <- system(paste('cd', path, '&&', 'git log --stat --parents >', file_name))
+  if (error == 128) stop(path, " is not a git repository")
 
-bind <- function(a) {
-
+  # get list of commits
+  temp <- read_lines(path_to_file)
+  unlink(path_to_file)
+  temp
 }
-
-b %>%
-  nest(changed_files)
-
-
-
-a <- parse_log(all_raw, out)
-b <- transpose(a)
-out$author(all_raw[[1]])
-out$weekday(all_raw[[1]])
-out$year(all_raw[[1]])
-
-
-
-find_message(all_raw[[3]])
