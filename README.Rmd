@@ -14,19 +14,14 @@ library("gitsum")
 library("tidyverse")
 ```
 
-*All just work in progress!*
+*Package is work in progress!*
 
 # Introduction
 This package parses a git repository history to collect 
 comprehensive information about the activity in the repo. The parsed 
 data is made available to the user in a tabular format.
-To parse the git repo history, the package contains a function `get_log_regex`
-to parse the data via regex
-```{r}
-get_log_regex()
-```
-
-For each commit, it also returns information on which files were changed in a 
+To parse the git repo history,use `get_log_regex`.
+For each commit, the function also information on which files were changed in a 
 nested tibble.
 
 ```{r}
@@ -53,7 +48,7 @@ group_by(author_name) %>%
 ```
 
 Next, we want to see which files were contained in most commits.
-```{r}
+```{r ggplot1}
 log %>%
   unnest(nested) %>% # unnest the tibble
   group_by(changed_file) %>%
