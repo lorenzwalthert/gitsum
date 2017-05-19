@@ -1,16 +1,22 @@
 Package: gitsum
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: MIT
+Title: get extensive summaries of git repos
+Version: 0.0.9000
+Authors@R: person("Lorenz", "Walthert", 
+    email = "lorenz.walthert@icloud.com", role = c("aut", "cre"))
+Description: This package parses a git repository history to collect 
+    comprehensive information about the activity in the repo. The parsed 
+    data is made available to the user in a tabular format and can be used to 
+    create various statistics on the repository. Graphs, figures or even 
+    reports can be generated automatically.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000
+Depends: R(>= 2.10)
 Imports: lubridate,
     dplyr, magrittr, 
     readr, 
-    tidyr
+    tidyr,
+    purrr,
+    tibble
