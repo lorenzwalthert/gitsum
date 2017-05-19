@@ -53,6 +53,7 @@ get_log_simple <- function(path = ".") {
 #' @importFrom tidyr nest_
 #' @importFrom tibble data_frame
 #' @importFrom dplyr arrange_
+#' @importFrom readr type_convert
 #' @inheritParams get_log_simple
 #' @export
 get_log_regex <- function(path = ".") {
@@ -170,20 +171,6 @@ parse_log <- function(raw, fnc_list) {
     as.list(lapply(fnc_list, function(fnc) fnc(raw = raw_one)))
   })
 }
-
-
-# do.call("data_frame", a[[15]])
-#
-# b <- map_df(a, function(x) do.call("data_frame", args = x)) %>%
-#   nest_("nested", c("changed_file", "edits", "deletions", "insertions")) %>%
-#   mutate_(date = ~ymd_hms(paste(year, month, monthday, time)),
-#           short_message = ~substr(message, 1, 20),
-#           short_description = ~substr(description, 1, 20)) %>%
-#   select_(~short_hash, ~author, ~date, ~short_message, ~short_description, ~everything())
-#
-#
-# find_description(all_raw[[1]])
-# find_message(all_raw[[1]])
 
 #' Create the log raw data and clean up
 #' @param path the path to the git directory one wants to create summaries for.
