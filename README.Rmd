@@ -52,7 +52,7 @@ group_by(author_name) %>%
   count()
 ```
 
-Next, we want to see which files were contained in most commits.
+Next, we want to see which files were contained in most commits:
 ```{r ggplot1}
 log %>%
   unnest(nested) %>% # unnest the tibble
@@ -61,17 +61,19 @@ log %>%
   theme_minimal()
 ```
 
+We can also easily get a visual overview of the number of insertions & deletions in commits over time:
 ```{r ggplot2}
-dat <- data.frame(
+commit.dat <- data.frame(
     edits = rep(c("Insertions", "Deletions"), each = nrow(log)),
     commit = rep(1:nrow(log), 2),
     count = c(log$total_insertions, -log$total_deletions))
     
-ggplot(dat, aes(x = commit, y = count, fill = edits)) + 
+ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
   geom_bar(stat = "identity", position = "identity") +
   theme_minimal()
 ```
 
+Or the number of commits broken down by day of the week:
 ```{r ggplot3}
 log %>%
   mutate(weekday = factor(weekday, c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))) %>% 

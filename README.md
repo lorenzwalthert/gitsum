@@ -21,21 +21,24 @@ library("forcats")
 tbl <- get_log_regex() %>%
   select(short_hash, message, total_files_changed, nested)
 tbl 
-#> # A tibble: 12 x 4
-#>    short_hash               message total_files_changed           nested
-#>         <chr>                 <chr>               <int>           <list>
-#>  1       243f        initial commit                   7 <tibble [7 x 6]>
-#>  2       f8ee  add log example data                   1 <tibble [1 x 6]>
-#>  3       6328           add parents                   3 <tibble [3 x 6]>
-#>  4       dfab          intermediate                   1 <tibble [1 x 6]>
-#>  5       7825           add licence                   1 <tibble [1 x 6]>
-#>  6       2ac3            add readme                   2 <tibble [2 x 6]>
-#>  7       7a2a     document log data                   1 <tibble [1 x 6]>
-#>  8       943c         add helpfiles                  10 <tibble [9 x 6]>
-#>  9       917e update infrastructure                   3 <tibble [3 x 6]>
-#> 10       4fc0        remove garbage                   6 <tibble [5 x 6]>
-#> 11       7be6        add md anyways                   5 <tibble [3 x 6]>
-#> 12       90df             fix regex                   4 <tibble [3 x 6]>
+#> # A tibble: 13 x 4
+#>    short_hash
+#>         <chr>
+#>  1       243f
+#>  2       f8ee
+#>  3       6328
+#>  4       dfab
+#>  5       7825
+#>  6       2ac3
+#>  7       7a2a
+#>  8       943c
+#>  9       917e
+#> 10       4fc0
+#> 11       7be6
+#> 12       90df
+#> 13       5d32
+#> # ... with 3 more variables: message <chr>, total_files_changed <int>,
+#> #   nested <list>
 ```
 
 ``` r
@@ -61,13 +64,14 @@ log <- get_log_regex()
 log %>%
 group_by(author_name) %>%
   count()
-#> # A tibble: 1 x 2
+#> # A tibble: 2 x 2
 #>       author_name     n
 #>             <chr> <int>
-#> 1 Lorenz Walthert    12
+#> 1      jonmcalder     1
+#> 2 Lorenz Walthert    12
 ```
 
-Next, we want to see which files were contained in most commits.
+Next, we want to see which files were contained in most commits:
 
 ``` r
 log %>%
@@ -79,19 +83,23 @@ log %>%
 
 ![](README-ggplot1-1.png)
 
+We can also easily get a visual overview of the number of insertions & deletions in commits over time:
+
 ``` r
-dat <- data.frame(
+commit.dat <- data.frame(
     edits = rep(c("Insertions", "Deletions"), each = nrow(log)),
     commit = rep(1:nrow(log), 2),
     count = c(log$total_insertions, -log$total_deletions))
     
-ggplot(dat, aes(x = commit, y = count, fill = edits)) + 
+ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
   geom_bar(stat = "identity", position = "identity") +
   theme_minimal()
 #> Warning: Removed 8 rows containing missing values (geom_bar).
 ```
 
 ![](README-ggplot2-1.png)
+
+Or the number of commits broken down by day of the week:
 
 ``` r
 log %>%
