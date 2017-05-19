@@ -10,8 +10,6 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "README-"
 )
-library("gitsum")
-library("tidyverse")
 ```
 
 *Package is work in progress!*
@@ -23,6 +21,12 @@ data is made available to the user in a tabular format.
 To parse the git repo history,use `get_log_regex`.
 For each commit, the function also information on which files were changed in a 
 nested tibble.
+
+```{r, message=FALSE}
+library("gitsum")
+library("tidyverse")
+library("forcats")
+```
 
 ```{r}
 tbl <- get_log_regex() %>%
@@ -51,10 +55,8 @@ Next, we want to see which files were contained in most commits.
 ```{r ggplot1}
 log %>%
   unnest(nested) %>% # unnest the tibble
-  group_by(changed_file) %>%
-  count() %>%
-  na.omit() %>%
-  ggplot(aes(x = changed_file, y = n)) + geom_col() + coord_flip()
+  mutate(changed_file = fct_infreq(changed_file)) %>%
+  ggplot(aes(x = changed_file)) + geom_bar() + coord_flip()
 
 ```
 

@@ -61,7 +61,6 @@ get_log_regex <- function(path = ".") {
   file_in <- create_log(path = path)
   level <- cumsum(grepl("^commit\\s\\w+?\\s?\\w+?\\s?\\w+?$", file_in))
   all_raw <- split(file_in, level)
-
   # get regex-finder-functions
   fnc_list <- setNames(c(lapply(get_pattern(), extract_factory),
                          find_message, find_description),
@@ -113,7 +112,7 @@ get_pattern <- function() {
   c(hash                = "^commit\\s(\\w+).*$",
     left_parent         = "^commit\\s\\w+\\s(\\w+).*$",
     right_parent        = "^commit\\s\\w+\\s\\w+\\s(\\w+)$",
-    short_hash          = "^commit\\s(\\w{4})\\w*$",
+    short_hash          = "^commit\\s(\\w{4})\\w*.*$",
     author_name         = "^Author\\:\\s(.*)\\s<.*>$",
     author_email        = "^Author\\:\\s.*\\s<(.*)>$",
     weekday             = "^Date\\:\\s*(\\w+)\\s\\w+\\s+\\d+\\s\\d+:\\d+:\\d+\\s\\d+\\s.*",
@@ -122,9 +121,9 @@ get_pattern <- function() {
     time                = "^Date\\:\\s*\\w+\\s\\w+\\s+\\d+\\s(\\d+:\\d+:\\d+)\\s\\d+\\s[\\+\\-]?\\d+$",
     timezone            = "^Date\\:\\s*\\w+\\s\\w+\\s+\\d+\\s\\d+:\\d+:\\d+\\s\\d+\\s([\\+\\-]?\\d+)$",
     year                = "^Date\\:\\s*\\w+\\s\\w+\\s+\\d+\\s\\d+:\\d+:\\d+\\s(\\d+)\\s.*",
-    total_files_changed = "^\\s(\\d+)\\sfiles?\\schanged,\\s\\d+\\sinsertion?s\\(\\+\\),\\s\\d+\\sdeletion?s\\(\\-\\)$",
-    total_insertions    = "^\\s\\d+\\sfiles?\\schanged,\\s(\\d+)\\sinsertion?s\\(\\+\\),\\s\\d+\\sdeletion?s\\(\\-\\)$",
-    total_deletions     = "^\\s\\d+\\sfiles?\\schanged,\\s\\d+\\sinsertion?s\\(\\+\\),\\s(\\d+)\\sdeletion?s\\(\\-\\)$",
+    total_files_changed = "^\\s(\\d+)\\sfiles?\\schanged,.*$",
+    total_insertions    = "^\\s\\d+\\sfiles?\\schanged,\\s(\\d+)\\sinsertions\\(\\+\\),.*$",
+    total_deletions     = "^\\s\\d+\\sfiles?\\schanged,.*\\s(\\d+)\\sdeletions\\(\\-\\)$",
     changed_file       = "^\\s(.*\\s)+\\|\\s+\\d+\\s\\+*\\-*",
     edits               = "^\\s.*\\s+\\|\\s+(\\d+)\\s\\+*\\-*",
     insertions          = "^\\s.*\\s+\\|\\s+\\d+\\s(\\+*)\\-*",

@@ -8,23 +8,30 @@ Introduction
 This package parses a git repository history to collect comprehensive information about the activity in the repo. The parsed data is made available to the user in a tabular format. To parse the git repo history,use `get_log_regex`. For each commit, the function also information on which files were changed in a nested tibble.
 
 ``` r
+library("gitsum")
+library("tidyverse")
+library("forcats")
+```
+
+``` r
 tbl <- get_log_regex() %>%
   select(short_hash, message, total_files_changed, nested)
 tbl 
-#> # A tibble: 11 × 4
+#> # A tibble: 12 × 4
 #>    short_hash               message total_files_changed           nested
 #>         <chr>                 <chr>               <int>           <list>
-#> 1        243f        initial commit                  NA <tibble [7 × 6]>
-#> 2        <NA>  add log example data                   1 <tibble [1 × 6]>
-#> 3        <NA>           add parents                   3 <tibble [3 × 6]>
-#> 4        <NA>          intermediate                   1 <tibble [1 × 6]>
-#> 5        <NA>           add licence                  NA <tibble [1 × 6]>
-#> 6        <NA>            add readme                  NA <tibble [2 × 6]>
-#> 7        <NA>     document log data                  NA <tibble [1 × 6]>
-#> 8        <NA>         add helpfiles                  10 <tibble [9 × 6]>
-#> 9        <NA> update infrastructure                   3 <tibble [3 × 6]>
-#> 10       <NA>        remove garbage                   6 <tibble [5 × 6]>
-#> 11       <NA>        add md anyways                   5 <tibble [3 × 6]>
+#> 1        243f        initial commit                   7 <tibble [7 × 6]>
+#> 2        f8ee  add log example data                   1 <tibble [1 × 6]>
+#> 3        6328           add parents                   3 <tibble [3 × 6]>
+#> 4        dfab          intermediate                   1 <tibble [1 × 6]>
+#> 5        7825           add licence                   1 <tibble [1 × 6]>
+#> 6        2ac3            add readme                   2 <tibble [2 × 6]>
+#> 7        7a2a     document log data                   1 <tibble [1 × 6]>
+#> 8        943c         add helpfiles                  10 <tibble [9 × 6]>
+#> 9        917e update infrastructure                   3 <tibble [3 × 6]>
+#> 10       4fc0        remove garbage                   6 <tibble [5 × 6]>
+#> 11       7be6        add md anyways                   5 <tibble [3 × 6]>
+#> 12       cd3f             fix regex                   4 <tibble [3 × 6]>
 ```
 
 ``` r
@@ -53,7 +60,7 @@ group_by(author_name) %>%
 #> # A tibble: 1 × 2
 #>       author_name     n
 #>             <chr> <int>
-#> 1 Lorenz Walthert    11
+#> 1 Lorenz Walthert    12
 ```
 
 Next, we want to see which files were contained in most commits.
@@ -61,10 +68,8 @@ Next, we want to see which files were contained in most commits.
 ``` r
 log %>%
   unnest(nested) %>% # unnest the tibble
-  group_by(changed_file) %>%
-  count() %>%
-  na.omit() %>%
-  ggplot(aes(x = changed_file, y = n)) + geom_col() + coord_flip()
+  mutate(changed_file = fct_infreq(changed_file)) %>%
+  ggplot(aes(x = changed_file)) + geom_bar() + coord_flip()
 ```
 
 ![](README-ggplot1-1.png)
