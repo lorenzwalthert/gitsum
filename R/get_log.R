@@ -13,13 +13,17 @@
 #' @import magrittr
 #' @export
 get_log_simple <- function(path = ".") {
-  path <- file.path(path, "commits.local.tsv.txt")
-  if (file.exists(path)) {
-    message("file ", path, " exists already")
+  filepath <- file.path(path, "commits.local.tsv.txt")
+  if (file.exists(filepath)) {
+    message("file ", filepath, " exists already")
   }
-  system('git log --date=local --pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" > commits.local.tsv.txt')
+  if (Sys.info()[1] == "Windows") {
+    shell(paste('cd', path, '&&', 'git log --date=local --pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" > commits.local.tsv.txt'))
+  } else {
+    system(paste('cd', path, '&&', 'git log --date=local --pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" > commits.local.tsv.txt'))
+  }
   time <- c("weekday", "month", "monthday", "time", "year")
-  log <- read_delim("commits.local.tsv.txt", delim = "\t",
+  log <- read_delim(filepath, delim = "\t",
                     col_names = c("commit",
                                   "author",
                                   "date",
@@ -35,7 +39,7 @@ get_log_simple <- function(path = ".") {
     rename_(date = ~final_date) %>%
     select_(~author, ~message_short, ~date, ~everything()) %>%
     arrange_(~date)
-  unlink(path)
+  unlink(filepath)
   log
 }
 
