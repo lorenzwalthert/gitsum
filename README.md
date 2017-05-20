@@ -15,27 +15,27 @@ library("forcats")
 
 ``` r
 tbl <- get_log_regex() %>%
-  select(short_hash, message, total_files_changed, nested)
+  select(short_hash, short_message, total_files_changed, nested)
+#> Warning: package 'bindrcpp' was built under R version 3.3.3
 tbl 
-#> # A tibble: 14 x 4
-#>    short_hash
-#>         <chr>
-#>  1       243f
-#>  2       f8ee
-#>  3       6328
-#>  4       dfab
-#>  5       7825
-#>  6       2ac3
-#>  7       7a2a
-#>  8       943c
-#>  9       917e
-#> 10       4fc0
-#> 11       7be6
-#> 12       90df
-#> 13       5d32
-#> 14       29ba
-#> # ... with 3 more variables: message <chr>, total_files_changed <int>,
-#> #   nested <list>
+#> # A tibble: 15 x 4
+#>    short_hash        short_message total_files_changed           nested
+#>         <chr>                <chr>               <int>           <list>
+#>  1       243f       initial commit                   7 <tibble [7 x 6]>
+#>  2       f8ee add log example data                   1 <tibble [1 x 6]>
+#>  3       6328          add parents                   3 <tibble [3 x 6]>
+#>  4       dfab         intermediate                   1 <tibble [1 x 6]>
+#>  5       7825          add licence                   1 <tibble [1 x 6]>
+#>  6       2ac3           add readme                   2 <tibble [2 x 6]>
+#>  7       7a2a    document log data                   1 <tibble [1 x 6]>
+#>  8       943c        add helpfiles                  10 <tibble [9 x 6]>
+#>  9       917e update infrastructur                   3 <tibble [3 x 6]>
+#> 10       4fc0       remove garbage                   6 <tibble [5 x 6]>
+#> 11       7be6       add md anyways                   5 <tibble [3 x 6]>
+#> 12       90df            fix regex                   4 <tibble [3 x 6]>
+#> 13       5d32  Update create_log()                   8 <tibble [5 x 6]>
+#> 14       29ba        Update README                   5 <tibble [2 x 6]>
+#> 15       fa55 Get rid of unnecessa                   5 <tibble [2 x 6]>
 ```
 
 ``` r
@@ -62,9 +62,10 @@ log %>%
 group_by(author_name) %>%
   count()
 #> # A tibble: 2 x 2
+#> # Groups:   author_name [2]
 #>       author_name     n
 #>             <chr> <int>
-#> 1      jonmcalder     2
+#> 1      jonmcalder     3
 #> 2 Lorenz Walthert    12
 ```
 

@@ -180,7 +180,11 @@ create_log <- function(path, file_name = ".log_stat.txt") {
   if (file.exists(path_to_file)) {
     message("file ", path_to_file, " exists already")
   }
-  error <- shell(paste('cd', path, '&&', 'git log --stat --parents >', file_name))
+  if (Sys.info()[1] == "Windows") {
+    error <- shell(paste('cd', path, '&&', 'git log --stat --parents >', file_name))
+  } else {
+    error <- system(paste('cd', path, '&&', 'git log --stat --parents >', file_name))
+  }
   if (error == 128) stop(path, " is not a git repository")
 
   # get list of commits

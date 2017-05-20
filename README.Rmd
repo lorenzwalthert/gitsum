@@ -30,7 +30,7 @@ library("forcats")
 
 ```{r}
 tbl <- get_log_regex() %>%
-  select(short_hash, message, total_files_changed, nested)
+  select(short_hash, short_message, total_files_changed, nested)
 tbl 
 ```
 
