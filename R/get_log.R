@@ -177,16 +177,15 @@ parse_log <- function(raw, fnc_list) {
 #'   otherwise, a file is read.
 #' @param remove whether a log should be deleted after read in.
 get_raw_log <- function(path, file_name = NULL, remove = is.null(file_name)) {
-  file_name_init <- file_name
-  file_name <- ifelse(is.null(file_name), ".log.txt", file_name)
-  path_to_file <- file.path(path, file_name) %>%
+  file_name_progr <- ifelse(is.null(file_name), ".log.txt", file_name)
+  path_to_file <- file.path(path, file_name_progr) %>%
     path.expand()
 
-  if (is.null(file_name_init)) {
+  if (is.null(file_name)) {
     if (file.exists(path_to_file)) {
       message("file ", path_to_file, " exists already")
     }
-    sys_call <- paste('cd', path, '&&', 'git log --stat --parents >', file_name)
+    sys_call <- paste('cd', path, '&&', 'git log --stat --parents >', file_name_progr)
     if (Sys.info()[1] == "Windows") {
       error <- shell(sys_call)
     } else {
