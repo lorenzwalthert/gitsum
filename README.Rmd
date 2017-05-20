@@ -22,7 +22,7 @@ To parse the git repo history, use `get_log_regex`.
 For each commit, the function also outputs information on which files were changed in a 
 nested tibble.
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library("gitsum")
 library("tidyverse")
 library("forcats")

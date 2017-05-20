@@ -10,10 +10,6 @@ This package parses a git repository history to collect comprehensive informatio
 ``` r
 library("gitsum")
 library("tidyverse")
-#> Warning: package 'tidyverse' was built under R version 3.3.3
-#> Warning: package 'tidyr' was built under R version 3.3.3
-#> Warning: package 'readr' was built under R version 3.3.3
-#> Warning: package 'purrr' was built under R version 3.3.3
 library("forcats")
 ```
 
@@ -21,7 +17,7 @@ library("forcats")
 tbl <- get_log_regex() %>%
   select(short_hash, message, total_files_changed, nested)
 tbl 
-#> # A tibble: 13 x 4
+#> # A tibble: 14 x 4
 #>    short_hash
 #>         <chr>
 #>  1       243f
@@ -37,6 +33,7 @@ tbl
 #> 11       7be6
 #> 12       90df
 #> 13       5d32
+#> 14       29ba
 #> # ... with 3 more variables: message <chr>, total_files_changed <int>,
 #> #   nested <list>
 ```
@@ -67,7 +64,7 @@ group_by(author_name) %>%
 #> # A tibble: 2 x 2
 #>       author_name     n
 #>             <chr> <int>
-#> 1      jonmcalder     1
+#> 1      jonmcalder     2
 #> 2 Lorenz Walthert    12
 ```
 
