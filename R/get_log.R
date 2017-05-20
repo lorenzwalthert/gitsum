@@ -4,7 +4,7 @@
 
 #' get the log from a git repo
 #'
-#' @inheritParams create_log
+#' @inheritParams get_raw_log
 #' @importFrom readr read_delim
 #' @importFrom tidyr separate_
 #' @importFrom dplyr mutate_ select_ if_else rowwise rename_
@@ -44,7 +44,7 @@ get_log_simple <- function(path = ".") {
 # in the advanced method, we use regex to extract patterns from a log file.
 # This is probably less safe, but allows us to catch much more information.
 #' get log of a github repo via regex
-#' @inheritParams create_log
+#' @inheritParams get_raw_log
 #' @importFrom readr read_lines
 #' @importFrom stats setNames
 #' @importFrom purrr map_df
@@ -56,9 +56,9 @@ get_log_simple <- function(path = ".") {
 #' @importFrom readr type_convert
 #' @inheritParams get_log_simple
 #' @export
-get_log_regex <- function(path = ".") {
+get_log_regex <- function(path = ".", file_name = NULL) {
   # create log
-  file_in <- create_log(path = path)
+  file_in <- get_raw_log(path = path, file_name = file_name)
   level <- cumsum(grepl("^commit\\s\\w+?\\s?\\w+?\\s?\\w+?$", file_in))
   all_raw <- split(file_in, level)
   # get regex-finder-functions
@@ -171,24 +171,34 @@ parse_log <- function(raw, fnc_list) {
   })
 }
 
-#' Create the log raw data and clean up
+#' Obtain the log raw data
 #' @param path the path to the git directory one wants to create summaries for.
-#' @param file_name the name of the temporary file.
-create_log <- function(path, file_name = ".log_stat.txt") {
+#' @param file_name the name of the temporary file. If `NULL`, a file is created,
+#'   otherwise, a file is read.
+#' @param remove whether a log should be deleted after read in.
+get_raw_log <- function(path, file_name = NULL, remove = is.null(file_name)) {
+  file_name_init <- file_name
+  file_name <- ifelse(is.null(file_name), ".log.txt", file_name)
   path_to_file <- file.path(path, file_name) %>%
     path.expand()
-  if (file.exists(path_to_file)) {
-    message("file ", path_to_file, " exists already")
+
+  if (is.null(file_name_init)) {
+    if (file.exists(path_to_file)) {
+      message("file ", path_to_file, " exists already")
+    }
+    sys_call <- paste('cd', path, '&&', 'git log --stat --parents >', file_name)
+    if (Sys.info()[1] == "Windows") {
+      error <- shell(sys_call)
+    } else {
+      error <- system(sys_call)
+    }
+    if (error == 128) stop(path, " is not a git repository")
   }
-  if (Sys.info()[1] == "Windows") {
-    error <- shell(paste('cd', path, '&&', 'git log --stat --parents >', file_name))
-  } else {
-    error <- system(paste('cd', path, '&&', 'git log --stat --parents >', file_name))
-  }
-  if (error == 128) stop(path, " is not a git repository")
 
   # get list of commits
   temp <- read_lines(path_to_file)
-  unlink(path_to_file)
+
+  if (remove) unlink(path_to_file)
+
   temp
 }

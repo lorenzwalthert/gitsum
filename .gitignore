@@ -4,3 +4,4 @@
 .Ruserdata
 commits.local.tsv.txt
 gitsum
+test/testthat/test_repos/

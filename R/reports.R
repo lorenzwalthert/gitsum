@@ -13,7 +13,7 @@
 #' @details Other packages can define templates. They must be store an .Rmd
 #'   template in inst/report_templates. The data passed to the report template
 #'   is log, the parsed log table.
-#' @inheritParams create_log
+#' @inheritParams get_raw_log
 #' @inheritParams rmarkdown::render
 #' @param file_out The path to the file the report should be created
 #' @importFrom stringi stri_split
