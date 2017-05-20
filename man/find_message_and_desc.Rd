@@ -13,5 +13,5 @@ find_message_and_desc(raw, target)
 }
 \description{
 For message and description extraction, a different approach is used and
-  one cannot rely on the approach with the simple extraction factory.
+one cannot rely on the approach with the simple extraction factory.
 }

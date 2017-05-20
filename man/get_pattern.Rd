@@ -8,7 +8,7 @@ get_pattern()
 }
 \value{
 returns a named vector with regex patterns to extract from a
-  git log.
+git log.
 }
 \description{
 regex patterns for extraction
