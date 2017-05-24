@@ -7,7 +7,8 @@
 parse_log(raw, fnc_list)
 }
 \arguments{
-\item{raw}{a character vector of one commit.}
+\item{raw}{a list of character vectors, each list element corresponding to
+one commit.}
 
 \item{fnc_list}{the list list of named functions that return the elements
 we want to extract from the log, i.e. author, hash etc.}

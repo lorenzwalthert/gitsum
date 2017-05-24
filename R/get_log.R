@@ -162,7 +162,8 @@ find_description <- function(raw) {
 
 #' parse a raw log
 #'
-#' @param raw a character vector of one commit.
+#' @param raw a list of character vectors, each list element corresponding to
+#'   one commit.
 #' @param fnc_list the list list of named functions that return the elements
 #'   we want to extract from the log, i.e. author, hash etc.
 parse_log <- function(raw, fnc_list) {
