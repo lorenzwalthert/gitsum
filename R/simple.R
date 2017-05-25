@@ -1,9 +1,11 @@
 #   ____________________________________________________________________________
 #   simple log                                                              ####
 
-#' get the log from a git repo
+#' Obtain a simple log for a git repo
 #'
+#' This function returns a git log in a tabular format.
 #' @inheritParams get_raw_log
+#' @seealso See [git_log_detailed] for a slower alternative with more information.
 #' @importFrom readr read_delim
 #' @importFrom tidyr separate_
 #' @importFrom dplyr mutate_ select_ if_else rowwise rename_
@@ -11,7 +13,7 @@
 #' @importFrom lubridate ymd_hms
 #' @import magrittr
 #' @export
-get_log_simple <- function(path = ".") {
+git_log_simple <- function(path = ".") {
   path <- file.path(path, "commits.local.tsv.txt")
   if (file.exists(path)) {
     message("file ", path, " exists already")

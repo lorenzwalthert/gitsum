@@ -2,7 +2,7 @@
 % Please edit documentation in R/detailed.R
 \name{git_log_detailed}
 \alias{git_log_detailed}
-\title{get log of a github repo via regex}
+\title{Obtain a detailed git log}
 \usage{
 git_log_detailed(path = ".", file_name = NULL)
 }
@@ -12,6 +12,29 @@ git_log_detailed(path = ".", file_name = NULL)
 \item{file_name}{the name of the temporary file. If \code{NULL}, a file is created,
 otherwise, a file is read.}
 }
+\value{
+A parsed git log as a nested tibble. Each line corresponds to a
+commit. The unnested column names are: \cr
+short_hash, author_name, date, short_message, hash, left_parent,
+right_parent, author_email, weekday, month, monthday, time, year, timezone,
+message, description, total_files_changed, total_insertions,
+total_deletions, short_description, is_merge \cr
+The nested columns contain more information on each commit. The column
+names are: \cr
+changed_file, edits, insertions, deletions.
+}
 \description{
-get log of a github repo via regex
+This function returns a git log in a tabular format.
+}
+\details{
+\itemize{
+\item Note that for merge commmits, the following columns are \code{NA}:
+total_files_changed, total_insertions, total_deletions, changed_file,
+edits, deletions, insertions
+\item Note that for binary files, the following columns are 0: edits, deletions,
+insertions
+}
+}
+\seealso{
+See \link{git_log_simple} for a fast alternative with less information.
 }

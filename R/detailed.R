@@ -1,8 +1,24 @@
 #   ____________________________________________________________________________
 #   advanced log                                                            ####
-# in the advanced method, we use regex to extract patterns from a log file.
-# This is probably less safe, but allows us to catch much more information.
-#' get log of a github repo via regex
+#' Obtain a detailed git log
+#'
+#' This function returns a git log in a tabular format.
+#' @details
+#' * Note that for merge commmits, the following columns are `NA`:
+#'   total_files_changed, total_insertions, total_deletions, changed_file,
+#'   edits, deletions, insertions
+#' * Note that for binary files, the following columns are 0: edits, deletions,
+#'   insertions
+#' @return A parsed git log as a nested tibble. Each line corresponds to a
+#'   commit. The unnested column names are: \cr
+#'   short_hash, author_name, date, short_message, hash, left_parent,
+#'   right_parent, author_email, weekday, month, monthday, time, year, timezone,
+#'   message, description, total_files_changed, total_insertions,
+#'   total_deletions, short_description, is_merge \cr
+#'   The nested columns contain more information on each commit. The column
+#'   names are: \cr
+#'   changed_file, edits, insertions, deletions.
+#' @seealso See [git_log_simple] for a fast alternative with less information.
 #' @inheritParams get_raw_log
 #' @importFrom stats setNames
 #' @importFrom dplyr mutate_ select_ everything group_by_ do_
@@ -10,7 +26,7 @@
 #' @importFrom tidyr unnest_ nest_
 #' @importFrom dplyr arrange_
 #' @importFrom readr type_convert cols col_integer col_time
-#' @inheritParams get_log_simple
+#' @inheritParams git_log_simple
 #' @export
 git_log_detailed <- function(path = ".", file_name = NULL) {
   # get regex-finder-functions
