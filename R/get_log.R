@@ -47,39 +47,60 @@ get_log_simple <- function(path = ".") {
 #' @inheritParams get_raw_log
 #' @importFrom readr read_lines
 #' @importFrom stats setNames
-#' @importFrom purrr map_df
-#' @importFrom dplyr mutate_ select_ everything
+#' @importFrom purrr map
+#' @importFrom dplyr mutate_ select_ everything group_by do
 #' @importFrom lubridate ymd_hms
-#' @importFrom tidyr nest_
-#' @importFrom tibble data_frame
+#' @importFrom tidyr unnest_ nest_
+#' @importFrom tibble data_frame as_tibble
 #' @importFrom dplyr arrange_
-#' @importFrom readr type_convert
+#' @importFrom readr type_convert cols col_character col_integer col_time
+#' @importFrom stringi stri_sub
 #' @inheritParams get_log_simple
 #' @export
 get_log_regex <- function(path = ".", file_name = NULL) {
-  # create log
-  file_in <- get_raw_log(path = path, file_name = file_name)
-  level <- cumsum(grepl("^commit\\s\\w+?\\s?\\w+?\\s?\\w+?$", file_in))
-  all_raw <- split(file_in, level)
   # get regex-finder-functions
   fnc_list <- setNames(c(lapply(get_pattern(), extract_factory),
                          find_message, find_description),
                        nm = c(names(get_pattern()),
                               "message", "description"))
-  # get list of extracted elements
-  to_convert <- parse_log(all_raw, fnc_list) %>%
-    # convert to data_frame
-    map_df(function(x) do.call("data_frame", args = x)) %>%
-    # some reformatting
+
+  # create log
+  tbl <- get_raw_log(path = path, file_name = file_name) %>%
+    mutate_(level = ~cumsum(grepl("^commit\\s\\w+?\\s?\\w+?\\s?\\w+?$", lines))) %>%
+    group_by(level)
+  message("parsing log with regex")
+  tbl %>%
+    do(nested = parse_log_one(.$lines, fnc_list)) %>%
+    unnest_(~nested) %>%
     mutate_(date = ~ymd_hms(paste(year, month, monthday, time)),
+            short_hash = ~stri_sub(hash, 1, 4),
             short_message = ~substr(message, 1, 20),
             short_description = ~substr(description, 1, 20),
             deletions_symbol = ~deletions,
             insertions_symbol = ~insertions,
             deletions = ~nchar(deletions),
-            insertions = ~nchar(insertions))
-  suppressMessages(type_convert(to_convert)) %>%
-    nest_("nested", c("changed_file", "edits", "deletions", "insertions",
+            insertions = ~nchar(insertions)) %>%
+    type_convert(col_types = cols(author_name = col_character(),
+                                  author_email = col_character(),
+                                  weekday = col_character(),
+                                  monthday = col_integer(),
+                                  time = col_time(),
+                                  timezone = col_integer(),
+                                  year = col_integer(),
+                                  total_files_changed = col_integer(),
+                                  total_insertions = col_integer(),
+                                  total_deletions = col_integer(),
+                                  changed_file = col_character(),
+                                  edits = col_integer(),
+                                  message = col_character(),
+                                  description =  col_character(),
+                                  short_hash = col_character(),
+                                  short_message = col_character(),
+                                  short_description = col_character(),
+                                  deletions_symbol = col_character(),
+                                  insertions_symbol = col_character()
+                                  )) %>%
+    nest_("nested", c("changed_file", "edits", "insertions", "deletions",
                       "deletions_symbol", "insertions_symbol")) %>%
     select_(~short_hash, ~author_name, ~date,
             ~short_message, ~short_description, ~everything()) %>%
@@ -92,6 +113,7 @@ get_log_regex <- function(path = ".", file_name = NULL) {
 #' @param pattern The pattern the function should be able to extract.
 extract_factory <- function(pattern) {
   function(raw) {
+    # stri_match_all_regex(raw, "^commit\\s(\\w+)?(\\s\\w+)?(\\s\\w+)?$", omit_no_match = FALSE)[[1]]
     ind <- grepl(pattern, raw, perl = TRUE)
     out <- gsub(pattern, "\\1", raw[ind], perl = TRUE)
     out <- trimws(out)
@@ -112,7 +134,6 @@ get_pattern <- function() {
   c(hash                = "^commit\\s(\\w+).*$",
     left_parent         = "^commit\\s\\w+\\s(\\w+).*$",
     right_parent        = "^commit\\s\\w+\\s\\w+\\s(\\w+)$",
-    short_hash          = "^commit\\s(\\w{4})\\w*.*$",
     author_name         = "^Author\\:\\s(.*)\\s<.*>$",
     author_email        = "^Author\\:\\s.*\\s<(.*)>$",
     weekday             = "^Date\\:\\s*(\\w+)\\s\\w+\\s+\\d+\\s\\d+:\\d+:\\d+\\s\\d+\\s.*",
@@ -162,15 +183,14 @@ find_description <- function(raw) {
 
 #' parse a raw log
 #'
-#' @param raw a list of character vectors, each list element corresponding to
-#'   one commit.
+#' @param raw a character vector corresponding to one commit.
 #' @param fnc_list the list list of named functions that return the elements
 #'   we want to extract from the log, i.e. author, hash etc.
-parse_log <- function(raw, fnc_list) {
-  lapply(raw, function(raw_one) {
-    as.list(lapply(fnc_list, function(fnc) fnc(raw = raw_one)))
-  })
+parse_log_one <- function(raw, fnc_list) {
+  map(fnc_list, function(fnc) fnc(raw = raw)) %>%
+    as_tibble()
 }
+
 
 #' Obtain the log raw data
 #' @param path the path to the git directory one wants to create summaries for.
@@ -178,6 +198,7 @@ parse_log <- function(raw, fnc_list) {
 #'   otherwise, a file is read.
 #' @param remove whether a log should be deleted after read in.
 get_raw_log <- function(path, file_name = NULL, remove = is.null(file_name)) {
+  message("reading in log")
   file_name_progr <- ifelse(is.null(file_name), ".log.txt", file_name)
   path_to_file <- file.path(path, file_name_progr) %>%
     path.expand()
@@ -196,9 +217,9 @@ get_raw_log <- function(path, file_name = NULL, remove = is.null(file_name)) {
   }
 
   # get list of commits
-  temp <- read_lines(path_to_file)
-
+  temp <- read_lines(path_to_file, progress = TRUE)
+  message("done reading in log")
   if (remove) unlink(path_to_file)
 
-  temp
+  data_frame(lines = temp)
 }
