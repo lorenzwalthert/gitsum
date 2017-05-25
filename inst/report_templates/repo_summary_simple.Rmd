@@ -21,7 +21,8 @@ Let us first have a look at who comitted to this repository:
 ```{r}
 log %>%
 group_by(author_name) %>%
-  count()
+  count() %>%
+  arrange(desc(n))
 ```
 
 Next, we want to see which files were contained in most commits:
