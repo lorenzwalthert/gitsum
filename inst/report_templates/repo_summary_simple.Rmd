@@ -1,0 +1,55 @@
+---
+title: "Repo Summary Simple"
+author: "Lorenz Walthert"
+date: "5/20/2017"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = cached)
+library("magrittr")
+library("dplyr")
+library("tibble")
+library("ggplot2")
+library("tidyr")
+library("forcats")
+```
+Let us first have a look at who comitted to this repository:
+```{r}
+log %>%
+group_by(author_name) %>%
+  count()
+```
+
+Next, we want to see which files were contained in most commits:
+```{r ggplot1}
+log %>%
+  unnest(nested) %>% # unnest the tibble
+  mutate(changed_file = fct_infreq(fct_lump(changed_file, n = 10))) %>%
+  filter(changed_file != "Other") %>%
+  ggplot(aes(x = changed_file)) + geom_bar() + coord_flip() + 
+  theme_minimal()
+```
+
+We can also easily get a visual overview of the number of insertions & deletions in commits over time:
+```{r ggplot2}
+commit.dat <- data.frame(
+    edits = rep(c("Insertions", "Deletions"), each = nrow(log)),
+    commit = rep(1:nrow(log), 2),
+    count = c(log$total_insertions, -log$total_deletions))
+    
+ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
+  geom_bar(stat = "identity", position = "identity") +
+  theme_minimal()
+```
+
+Or the number of commits broken down by day of the week:
+```{r ggplot3}
+log %>%
+  mutate(weekday = factor(weekday, c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))) %>% 
+  ggplot(aes(x = weekday)) + geom_bar() + 
+  theme_minimal()
+```

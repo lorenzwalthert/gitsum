@@ -1,0 +1,6 @@
+Alternatives
+
+* don't split into commit pieces first
+* use one grepl call per piece, not one per piece per extraction target
+* combine log_simple and get_log_regex() (simple is 6x faster)
+* each field needs to be own pattern anyways

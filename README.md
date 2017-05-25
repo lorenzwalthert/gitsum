@@ -7,7 +7,12 @@
 Introduction
 ============
 
-This package parses a git repository history to collect comprehensive information about the activity in the repo. The parsed data is made available to the user in a tabular format. To parse the git repo history, use `get_log_regex`. For each commit, the function also outputs information on which files were changed in a nested tibble.
+This package parses a git repository history to collect comprehensive information about the activity in the repo. The parsed data is made available to the user in a tabular format. The package can also generate reports based on the parse data.
+
+There are two main functions for parsing the history, both return tabular data:
+
+-   `git_log_simple` is a relatively fast parser and returns a tibble with one commit per row. There is no file-specific information.
+-   `git_log_detailed` outputs a nested tibble and for each commit, the names of the amended files, number of lines changed ect. available. This function is slower.
 
 ``` r
 library("gitsum")
@@ -16,38 +21,34 @@ library("forcats")
 ```
 
 ``` r
-tbl <- get_log_regex() %>%
+tbl <- git_log_detailed() %>%
+  arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
-tbl
-#> # A tibble: 15 x 4
+tbl 
+#> # A tibble: 27 × 4
 #>    short_hash        short_message total_files_changed           nested
 #>         <chr>                <chr>               <int>           <list>
-#>  1       243f       initial commit                   7 <tibble [7 x 6]>
-#>  2       f8ee add log example data                   1 <tibble [1 x 6]>
-#>  3       6328          add parents                   3 <tibble [3 x 6]>
-#>  4       dfab         intermediate                   1 <tibble [1 x 6]>
-#>  5       7825          add licence                   1 <tibble [1 x 6]>
-#>  6       2ac3           add readme                   2 <tibble [2 x 6]>
-#>  7       7a2a    document log data                   1 <tibble [1 x 6]>
-#>  8       943c        add helpfiles                  10 <tibble [9 x 6]>
-#>  9       917e update infrastructur                   3 <tibble [3 x 6]>
-#> 10       4fc0       remove garbage                   6 <tibble [5 x 6]>
-#> 11       7be6       add md anyways                   5 <tibble [3 x 6]>
-#> 12       90df            fix regex                   4 <tibble [3 x 6]>
-#> 13       5d32  Update create_log()                   8 <tibble [5 x 6]>
-#> 14       29ba        Update README                   5 <tibble [2 x 6]>
-#> 15       fa55 Get rid of unnecessa                   5 <tibble [2 x 6]>
+#> 1        243f       initial commit                   7 <tibble [7 × 4]>
+#> 2        f8ee add log example data                   1 <tibble [1 × 4]>
+#> 3        6328          add parents                   3 <tibble [3 × 4]>
+#> 4        dfab         intermediate                   1 <tibble [1 × 4]>
+#> 5        7825          add licence                   1 <tibble [1 × 4]>
+#> 6        2ac3           add readme                   2 <tibble [2 × 4]>
+#> 7        7a2a    document log data                   1 <tibble [1 × 4]>
+#> 8        943c        add helpfiles                  10 <tibble [9 × 4]>
+#> 9        917e update infrastructur                   3 <tibble [3 × 4]>
+#> 10       4fc0       remove garbage                   6 <tibble [5 × 4]>
+#> # ... with 17 more rows
 ```
 
 ``` r
 tbl$nested[[3]]
-#> # A tibble: 3 x 6
-#>   changed_file edits deletions insertions deletions_symbol
-#>          <chr> <int>     <int>      <int>            <chr>
-#> 1  DESCRIPTION     6         1          5                -
-#> 2    NAMESPACE     3         1          2                -
-#> 3  R/get_log.R    19         8         11         --------
-#> # ... with 1 more variables: insertions_symbol <chr>
+#> # A tibble: 3 × 4
+#>   changed_file edits insertions deletions
+#>          <chr> <int>      <dbl>     <dbl>
+#> 1  DESCRIPTION     6          5         1
+#> 2    NAMESPACE     3          2         1
+#> 3  R/get_log.R    19         11         8
 ```
 
 Since the data has such a high resolution, various graphs, tables etc can be produced from it to provide insights into the git history.
@@ -55,19 +56,19 @@ Since the data has such a high resolution, various graphs, tables etc can be pro
 Examples
 ========
 
-Since the output of `get_log_regex()` is a nested tibble, you can work on it as you work on any other tibble. Let us first have a look at who comitted to this repository:
+Since the output of `git_log_detailed()` is a nested tibble, you can work on it as you work on any other tibble. Let us first have a look at who comitted to this repository:
 
 ``` r
-log <- get_log_regex()
+log <- git_log_detailed()
 log %>%
 group_by(author_name) %>%
   count()
-#> # A tibble: 2 x 2
-#> # Groups:   author_name [2]
+#> # A tibble: 3 × 2
 #>       author_name     n
 #>             <chr> <int>
-#> 1      jonmcalder     3
-#> 2 Lorenz Walthert    12
+#> 1      Jon Calder     1
+#> 2      jonmcalder     4
+#> 3 Lorenz Walthert    22
 ```
 
 Next, we want to see which files were contained in most commits:
@@ -93,7 +94,7 @@ commit.dat <- data.frame(
 ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
   geom_bar(stat = "identity", position = "identity") +
   theme_minimal()
-#> Warning: Removed 8 rows containing missing values (geom_bar).
+#> Warning: Removed 10 rows containing missing values (geom_bar).
 ```
 
 ![](README-ggplot2-1.png)

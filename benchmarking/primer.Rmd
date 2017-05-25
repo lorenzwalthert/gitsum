@@ -1,0 +1,32 @@
+---
+title: "Benchmarking"
+author: "Lorenz Walthert"
+date: "5/20/2017"
+output: html_document
+---
+
+This report gives an overview of the performance on the refactor repo at commit
+`86acd4d319a755e0a05593f400ba636363630eba`.
+```{r}
+library("tidyverse")
+read_rds("../benchmarking/at_86acd")
+```
+Before any optimization, the mean was about 0.8 for read and 0.9 for read and 
+write.
+Changing the approach and use dplyr instead of nested lapplyr and some other
+modifications slightly slows down the performance. However, there is now a 
+progress bar.
+```{r}
+read_rds("../benchmarking/at_86acd")
+```
+
+Also, it was possible to use `stringr` for matching
+```{r}
+read_rds("../benchmarking/at_86acd_dplyr_parse_one2.rds")
+```
+
+Further more, multipel strings were matched with one regex call
+```{r}
+read_rds("../benchmarking/at_86acd_dplyr_parse_one2_extract_multiple.rds")
+```
+

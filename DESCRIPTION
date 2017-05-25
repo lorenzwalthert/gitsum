@@ -9,14 +9,18 @@ Description: This package parses a git repository history to collect
     data is made available to the user in a tabular format and can be used to 
     create various statistics on the repository. Graphs, figures or even 
     reports can be generated automatically.
+Roxygen: list(markdown = TRUE)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000
 Depends: R(>= 2.10)
 Imports: lubridate,
-    dplyr, magrittr, 
+    dplyr, 
+    magrittr, 
     readr, 
     tidyr,
     purrr,
-    tibble
+    tibble,
+    stringr,
+    rmarkdown
