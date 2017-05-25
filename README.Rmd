@@ -22,10 +22,16 @@ knitr::opts_chunk$set(
 # Introduction
 This package parses a git repository history to collect 
 comprehensive information about the activity in the repo. The parsed 
-data is made available to the user in a tabular format.
-To parse the git repo history, use `get_log_regex`.
-For each commit, the function also outputs information on which files were changed in a 
-nested tibble.
+data is made available to the user in a tabular format. The package can also 
+generate reports based on the parse data.
+
+There are two main functions for parsing the history, both return tabular data: 
+
+* `git_log_simple` is a relatively fast parser and returns a tibble with 
+  one commit per row. There is no file-specific information.
+* `git_log_detailed` outputs a nested tibble and for each commit, the names
+  of the amended files, number of lines changed ect. available. This function
+  is slower.
 
 ```{r, message=FALSE, warning=FALSE}
 library("gitsum")
@@ -34,7 +40,8 @@ library("forcats")
 ```
 
 ```{r}
-tbl <- get_log_regex() %>%
+tbl <- git_log_detailed() %>%
+  arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
 ```
@@ -47,11 +54,11 @@ Since the data has such a high resolution, various graphs, tables etc can be
 produced from it to provide insights into the git history.
 
 # Examples
-Since the output of `get_log_regex()` is a nested tibble, you can work on it 
+Since the output of `git_log_detailed()` is a nested tibble, you can work on it 
 as you work on any other tibble.
 Let us first have a look at who comitted to this repository:
 ```{r}
-log <- get_log_regex()
+log <- git_log_detailed()
 log %>%
 group_by(author_name) %>%
   count()

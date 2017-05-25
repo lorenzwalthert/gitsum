@@ -2,4 +2,7 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^README-.*\.png$
-^test/testthat/test_repos
+gitsum
+benchmarking
+.travis.yml
+tests/testthat/test_logs/

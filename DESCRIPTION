@@ -22,4 +22,5 @@ Imports: lubridate,
     tidyr,
     purrr,
     tibble,
-    stringi
+    stringr,
+    rmarkdown

@@ -5,3 +5,5 @@
 commits.local.tsv.txt
 gitsum
 tests/testthat/test_repos/
+
+benchmarking/*.html

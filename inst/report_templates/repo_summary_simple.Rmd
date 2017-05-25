@@ -30,7 +30,6 @@ log %>%
   unnest(nested) %>% # unnest the tibble
   mutate(changed_file = fct_infreq(fct_lump(changed_file, n = 10))) %>%
   filter(changed_file != "Other") %>%
-  na.omit() %>%
   ggplot(aes(x = changed_file)) + geom_bar() + coord_flip() + 
   theme_minimal()
 ```
