@@ -5,12 +5,15 @@
 #' @param raw A character vector corresponding to one commit.
 #' @param target either "message" or "description
 find_message_and_desc <- function(raw, target) {
-  ind <- which(raw == "    ")
-  if (length(ind) == 1) {
+  message_and_desc_sep <- which(raw == "")
+  message_start <- message_and_desc_sep[1] + 1
+  message_end <- message_and_desc_sep[2] -1
+  desc_sep <- which(raw == "    ")
+  if (length(desc_sep) == 1) {
     # if one line has just four spaces, we have both message and description
-    c(substring(raw[ind - 1], 5), substring(raw[ind + 1], 5))
+    c(paste(substring(raw[message_start:(desc_sep - 1)], 5), collapse = "\n"),
+      paste(substring(raw[(desc_sep + 1):message_end], 5), collapse = "\n"))
   } else {
-    ind <- which(raw == "")[1]
-    c(substring(raw[ind + 1], 5), NA)
+    c(paste(substring(raw[message_start:message_end], 5), collapse = "\n"), NA)
   }
 }
