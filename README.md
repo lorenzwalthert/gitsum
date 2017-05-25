@@ -13,6 +13,7 @@ There are two main functions for parsing the history, both return tabular data:
 
 -   `git_log_simple` is a relatively fast parser and returns a tibble with one commit per row. There is no file-specific information.
 -   `git_log_detailed` outputs a nested tibble and for each commit, the names of the amended files, number of lines changed ect. available. This function is slower.
+-   `git_report` creates a html, pdf, or word report with the parsed log data according to a template. Templates can be created by the user or a template from the `gitsum` package can be used.
 
 ``` r
 library("gitsum")
@@ -25,7 +26,7 @@ tbl <- git_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 27 × 4
+#> # A tibble: 31 × 4
 #>    short_hash        short_message total_files_changed           nested
 #>         <chr>                <chr>               <int>           <list>
 #> 1        243f       initial commit                   7 <tibble [7 × 4]>
@@ -38,7 +39,7 @@ tbl
 #> 8        943c        add helpfiles                  10 <tibble [9 × 4]>
 #> 9        917e update infrastructur                   3 <tibble [3 × 4]>
 #> 10       4fc0       remove garbage                   6 <tibble [5 × 4]>
-#> # ... with 17 more rows
+#> # ... with 21 more rows
 ```
 
 ``` r
@@ -68,7 +69,7 @@ group_by(author_name) %>%
 #>             <chr> <int>
 #> 1      Jon Calder     1
 #> 2      jonmcalder     4
-#> 3 Lorenz Walthert    22
+#> 3 Lorenz Walthert    26
 ```
 
 Next, we want to see which files were contained in most commits:
@@ -89,12 +90,12 @@ We can also easily get a visual overview of the number of insertions & deletions
 commit.dat <- data.frame(
     edits = rep(c("Insertions", "Deletions"), each = nrow(log)),
     commit = rep(1:nrow(log), 2),
-    count = c(log$total_insertions, -log$total_deletions))
+    count = c(rev(log$total_insertions), -rev(log$total_deletions)))
     
 ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
   geom_bar(stat = "identity", position = "identity") +
   theme_minimal()
-#> Warning: Removed 10 rows containing missing values (geom_bar).
+#> Warning: Removed 12 rows containing missing values (geom_bar).
 ```
 
 ![](README-ggplot2-1.png)

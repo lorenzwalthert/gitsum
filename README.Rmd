@@ -32,7 +32,10 @@ There are two main functions for parsing the history, both return tabular data:
 * `git_log_detailed` outputs a nested tibble and for each commit, the names
   of the amended files, number of lines changed ect. available. This function
   is slower.
-
+* `git_report` creates a html, pdf, or word report with the parsed log data 
+  according to a template. Templates can be created by the user or a template 
+  from the `gitsum` package can be used.
+  
 ```{r, message=FALSE, warning=FALSE}
 library("gitsum")
 library("tidyverse")
@@ -78,7 +81,7 @@ We can also easily get a visual overview of the number of insertions & deletions
 commit.dat <- data.frame(
     edits = rep(c("Insertions", "Deletions"), each = nrow(log)),
     commit = rep(1:nrow(log), 2),
-    count = c(log$total_insertions, -log$total_deletions))
+    count = c(rev(log$total_insertions), -rev(log$total_deletions)))
     
 ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
   geom_bar(stat = "identity", position = "identity") +
