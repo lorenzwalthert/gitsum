@@ -24,3 +24,5 @@ Imports: lubridate,
     tibble,
     stringr,
     rmarkdown
+Suggests: testthat
+

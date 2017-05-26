@@ -4,10 +4,13 @@
 \alias{git_log_simple}
 \title{Obtain a simple log for a git repo}
 \usage{
-git_log_simple(path = ".")
+git_log_simple(path = ".", file_name = NULL)
 }
 \arguments{
 \item{path}{the path to the git directory one wants to create summaries for.}
+
+\item{file_name}{the name of the temporary file. If \code{NULL}, a file is created,
+otherwise, a file is read.}
 }
 \description{
 This function returns a git log in a tabular format.

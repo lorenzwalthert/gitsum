@@ -13,14 +13,24 @@
 #' @importFrom lubridate ymd_hms
 #' @import magrittr
 #' @export
-git_log_simple <- function(path = ".") {
-  path <- file.path(path, "commits.local.tsv.txt")
-  if (file.exists(path)) {
-    message("file ", path, " exists already")
+git_log_simple <- function(path = ".", file_name = NULL) {
+  file_path <- file.path(path, "commits.local.tsv.txt")
+  if (file.exists(file_path)) {
+    message("file ", file_path, " exists already")
   }
-  system('git log --date=local --pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" > commits.local.tsv.txt')
+
+  if (is.null(file_name)) {
+    if (Sys.info()[1] == "Windows") {
+      shell(paste('cd', path, '&&', 'git log --date=local --pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" > commits.local.tsv.txt'))
+    } else {
+      system(paste('cd', path, '&&', 'git log --date=local --pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" > commits.local.tsv.txt'))
+    }
+  }
+  file_name_prog <- ifelse(is.null(file_name), "commits.local.tsv.txt", file_name)
+
   time <- c("weekday", "month", "monthday", "time", "year")
-  log <- read_delim("commits.local.tsv.txt", delim = "\t",
+  log <- read_delim(file.path(path, file_name_prog),
+                    delim = "\t",
                     col_names = c("commit",
                                   "author",
                                   "date",

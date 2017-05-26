@@ -26,25 +26,25 @@ tbl <- git_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 31 × 4
-#>    short_hash        short_message total_files_changed           nested
-#>         <chr>                <chr>               <int>           <list>
-#> 1        243f       initial commit                   7 <tibble [7 × 4]>
-#> 2        f8ee add log example data                   1 <tibble [1 × 4]>
-#> 3        6328          add parents                   3 <tibble [3 × 4]>
-#> 4        dfab         intermediate                   1 <tibble [1 × 4]>
-#> 5        7825          add licence                   1 <tibble [1 × 4]>
-#> 6        2ac3           add readme                   2 <tibble [2 × 4]>
-#> 7        7a2a    document log data                   1 <tibble [1 × 4]>
-#> 8        943c        add helpfiles                  10 <tibble [9 × 4]>
-#> 9        917e update infrastructur                   3 <tibble [3 × 4]>
-#> 10       4fc0       remove garbage                   6 <tibble [5 × 4]>
-#> # ... with 21 more rows
+#> # A tibble: 36 x 4
+#>    short_hash        short_message total_files_changed            nested
+#>         <chr>                <chr>               <int>            <list>
+#>  1       243f       initial commit                   7  <tibble [7 x 4]>
+#>  2       f8ee add log example data                   1  <tibble [1 x 4]>
+#>  3       6328          add parents                   3  <tibble [3 x 4]>
+#>  4       dfab         intermediate                   1  <tibble [1 x 4]>
+#>  5       7825          add licence                   1  <tibble [1 x 4]>
+#>  6       2ac3           add readme                   2  <tibble [2 x 4]>
+#>  7       7a2a    document log data                   1  <tibble [1 x 4]>
+#>  8       943c        add helpfiles                  10 <tibble [10 x 4]>
+#>  9       917e update infrastructur                   3  <tibble [3 x 4]>
+#> 10       4fc0       remove garbage                   6  <tibble [6 x 4]>
+#> # ... with 26 more rows
 ```
 
 ``` r
 tbl$nested[[3]]
-#> # A tibble: 3 × 4
+#> # A tibble: 3 x 4
 #>   changed_file edits insertions deletions
 #>          <chr> <int>      <dbl>     <dbl>
 #> 1  DESCRIPTION     6          5         1
@@ -64,12 +64,13 @@ log <- git_log_detailed()
 log %>%
 group_by(author_name) %>%
   count()
-#> # A tibble: 3 × 2
+#> # A tibble: 3 x 2
+#> # Groups:   author_name [3]
 #>       author_name     n
 #>             <chr> <int>
 #> 1      Jon Calder     1
 #> 2      jonmcalder     4
-#> 3 Lorenz Walthert    26
+#> 3 Lorenz Walthert    31
 ```
 
 Next, we want to see which files were contained in most commits:

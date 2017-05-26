@@ -24,7 +24,7 @@
 #' @importFrom dplyr mutate_ select_ everything group_by_ do_
 #' @importFrom lubridate ymd_hms
 #' @importFrom tidyr unnest_ nest_
-#' @importFrom dplyr arrange_
+#' @importFrom dplyr arrange_ ungroup
 #' @importFrom readr type_convert cols col_integer col_time
 #' @inheritParams git_log_simple
 #' @export
@@ -40,7 +40,7 @@ git_log_detailed <- function(path = ".", file_name = NULL) {
     mutate_(level = ~cumsum(grepl("^commit", lines)),
             has_merge = ~grepl("^Merge:", lines)) %>%
     group_by_(~level) %>%
-    do(nested = parse_log_one(.$lines, fnc_list, any(.$has_merge))) %>%
+    do_(nested = ~parse_log_one(.$lines, fnc_list, any(.$has_merge))) %>%
     ungroup() %>%
     unnest_(~nested) %>%
     mutate_(date = ~ymd_hms(paste(year, month, monthday, time)),
