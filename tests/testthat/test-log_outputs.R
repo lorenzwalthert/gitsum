@@ -23,9 +23,10 @@ git_simp <- git_log_simple(path = ".", file_name = path_simp)
 
 test_that("simple log output is correct", {
   expect_is(git_simp, "tbl_df")
-  expect_named(git_simp,c("author", "message_short", "date", "commit",
+  expect_named(git_simp, c("author", "message_short", "date", "commit",
                           "weekday", "month", "monthday", "time", "year",
                           "message", "left_parent", "right_parent", "n_parents"))
+
   expect_equal_to_reference(git_simp, log_simp)
 })
 
@@ -39,9 +40,10 @@ test_that("advanced log output is correct", {
                           "total_files_changed", "total_insertions",
                           "total_deletions", "short_description",
                           "is_merge", "nested"))
-  expect_equal_to_reference(unnest_(git_det, ~nested),log_det)
+  expect_equal_to_reference(unnest_(git_det, ~nested), log_det)
 })
 
+library("ggplot2")
 test_that("repo logs can be created", {
   expect_error(git_report(output_format = "all", input_file = path_det), NA)
   unlink(paste0(start, "gitsum"), recursive = TRUE)

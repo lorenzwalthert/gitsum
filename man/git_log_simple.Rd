@@ -9,12 +9,13 @@ git_log_simple(path = ".", file_name = NULL)
 \arguments{
 \item{path}{the path to the git directory one wants to create summaries for.}
 
-\item{file_name}{the name of the temporary file. If \code{NULL}, a file is created,
-otherwise, a file is read.}
+\item{file_name}{the name of the temporary file. If \code{NULL}, a file is
+created, otherwise, a file is read.}
 }
 \description{
 This function returns a git log in a tabular format.
 }
 \seealso{
-See \link{git_log_detailed} for a slower alternative with more information.
+See \link{git_log_detailed} for a slower alternative with more
+information.
 }

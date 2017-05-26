@@ -7,7 +7,7 @@
 find_message_and_desc <- function(raw, target) {
   message_and_desc_sep <- which(raw == "")
   message_start <- message_and_desc_sep[1] + 1
-  message_end <- message_and_desc_sep[2] -1
+  message_end <- message_and_desc_sep[2] - 1
   desc_sep <- which(raw == "    ")
   if (length(desc_sep) == 1) {
     # if one line has just four spaces, we have both message and description

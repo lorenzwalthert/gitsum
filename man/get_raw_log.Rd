@@ -9,8 +9,8 @@ get_raw_log(path, file_name = NULL, remove = is.null(file_name))
 \arguments{
 \item{path}{the path to the git directory one wants to create summaries for.}
 
-\item{file_name}{the name of the temporary file. If \code{NULL}, a file is created,
-otherwise, a file is read.}
+\item{file_name}{the name of the temporary file. If \code{NULL}, a file is
+created, otherwise, a file is read.}
 
 \item{remove}{whether a log should be deleted after read in.}
 }

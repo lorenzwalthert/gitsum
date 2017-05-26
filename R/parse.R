@@ -8,14 +8,13 @@
 #' @importFrom stringr str_split str_sub
 #' @importFrom tibble data_frame
 parse_log_one <- function(raw, fnc_list, has_merge) {
-  nr <- length(raw)
   if (has_merge) {
     count <- 3
   } else {
     count <- 2
   }
-  commit <- str_split(raw[1], " ", simplify = TRUE)
-  author <- str_split(raw[count], " ", simplify = TRUE)
+  commit <- str_split(raw[1],       " ", simplify = TRUE)
+  author <- str_split(raw[count],   " ", simplify = TRUE)
   date <- str_split(raw[count + 1], " ", simplify = TRUE)
   other <- raw[-c(1:(count + 1))]
   all_changes <- fnc_list$all_changes(other)
@@ -24,8 +23,8 @@ parse_log_one <- function(raw, fnc_list, has_merge) {
   data_frame(hash = commit[2],
              left_parent = commit[2],
              right_parent = commit[3],
-             author_name = paste(author[2:(length(author)-1)], collapse = " "),
-             author_email = str_sub(author[length(author)], 2, -1),
+             author_name = paste(author[2:(length(author) - 1)], collapse = " "),
+             author_email = str_sub(author[length(author)], 2, - 1),
              weekday = date[4],
              month = date[5],
              monthday = date[6],
@@ -43,5 +42,3 @@ parse_log_one <- function(raw, fnc_list, has_merge) {
              deletions = all_changes_file[, 4]
   )
 }
-
-

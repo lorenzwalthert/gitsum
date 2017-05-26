@@ -42,7 +42,7 @@ git_report <- function(path = ".", output_file = NULL,
 
   if (!file.exists(path_in)) stop("template ", path_in, " does not exist.")
 
-  if(!dir.exists(directory)) {
+  if (!dir.exists(directory)) {
     dir.create(directory)
     message("created directory ", directory)
   }

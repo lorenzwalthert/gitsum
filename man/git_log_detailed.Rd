@@ -9,8 +9,8 @@ git_log_detailed(path = ".", file_name = NULL)
 \arguments{
 \item{path}{the path to the git directory one wants to create summaries for.}
 
-\item{file_name}{the name of the temporary file. If \code{NULL}, a file is created,
-otherwise, a file is read.}
+\item{file_name}{the name of the temporary file. If \code{NULL}, a file is
+created, otherwise, a file is read.}
 }
 \value{
 A parsed git log as a nested tibble. Each line corresponds to a
