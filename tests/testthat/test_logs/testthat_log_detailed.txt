@@ -1,3 +1,14 @@
+commit 652913565c827985e37d5b8b7bc39fe7a58436fd eb79a4d52a855235e6245238075e16d616bb6d7b
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 26 17:22:16 2017 +0200
+
+    some tests
+
+ tests/testthat/test-log_outputs.R                  |   4 +-
+ tests/testthat/test_logs/testthat_log_detailed.txt | 472 +++++++++++++++++++++
+ tests/testthat/test_logs/testthat_log_simple.txt   |  39 ++
+ 3 files changed, 513 insertions(+), 2 deletions(-)
+
 commit eb79a4d52a855235e6245238075e16d616bb6d7b da5c68a831140598c7d906c550c495c3e9d3ecd0 f0109908463a7f73fdb970434fc68f0827ca1519
 Merge: da5c68a f010990
 Author: Lorenz Walthert <lorenz.walthert@icloud.com>
@@ -106,38 +117,41 @@ Date:   Thu May 25 15:06:41 2017 +0200
     * using stringr to extrac mutlipel
     * optimizing for speed. git_log_detailed is now twice as fast
 
- .Rbuildignore                                   |   5 +-
- .gitignore                                      |   2 +
- DESCRIPTION                                     |   3 +-
- NAMESPACE                                       |  16 +-
- R/detailed.R                                    |  47 +++++
- R/extract_factories.R                           |  19 ++
- R/get_log.R                                     | 225 ------------------------
- R/gitsum.R                                      |   9 +
- R/messages.R                                    |  16 ++
- R/parse.R                                       |  47 +++++
- R/patterns.R                                    |   9 +
- R/raw_log.R                                     |  25 +++
- R/reports.R                                     |  24 +--
- R/simple.R                                      |  40 +++++
- R/utils.R                                       |   6 -
- README-ggplot1-1.png                            | Bin 7944 -> 64231 bytes
- README-ggplot2-1.png                            | Bin 4844 -> 19375 bytes
- README-ggplot3-1.png                            | Bin 5323 -> 14629 bytes
- README.Rmd                                      |  21 ++-
- README.md                                       |  67 +++----
- inst/report_templates/repo_summary_simple.Rmd   |   1 -
- man/concentrate.Rd                              |  14 --
- man/extract_factory.Rd                          |  14 --
- man/extract_factory_multiple.Rd                 |  14 ++
- man/find_message_and_desc.Rd                    |   2 +-
- man/get_log_simple.Rd                           |   2 +-
- man/{get_pattern.Rd => get_pattern_multiple.Rd} |   8 +-
- man/get_raw_log.Rd                              |   2 +-
- man/{get_log_regex.Rd => git_log_detailed.Rd}   |   8 +-
- man/{rmd_simple.Rd => git_report.Rd}            |  26 ++-
- man/parse_log_one.Rd                            |   7 +-
- 31 files changed, 331 insertions(+), 348 deletions(-)
+ .Rbuildignore                                 |   5 +-
+ .gitignore                                    |   2 +
+ DESCRIPTION                                   |   3 +-
+ NAMESPACE                                     |  16 +-
+ R/detailed.R                                  |  47 ++++++
+ R/extract_factories.R                         |  19 +++
+ R/get_log.R                                   | 225 --------------------------
+ R/gitsum.R                                    |   9 ++
+ R/messages.R                                  |  16 ++
+ R/parse.R                                     |  47 ++++++
+ R/patterns.R                                  |   9 ++
+ R/raw_log.R                                   |  25 +++
+ R/reports.R                                   |  24 +--
+ R/simple.R                                    |  40 +++++
+ R/utils.R                                     |   6 -
+ README-ggplot1-1.png                          | Bin 7944 -> 64231 bytes
+ README-ggplot2-1.png                          | Bin 4844 -> 19375 bytes
+ README-ggplot3-1.png                          | Bin 5323 -> 14629 bytes
+ README.Rmd                                    |  21 ++-
+ README.md                                     |  67 ++++----
+ inst/report_templates/repo_summary_simple.Rmd |   1 -
+ man/concentrate.Rd                            |  14 --
+ man/extract_factory.Rd                        |  14 --
+ man/extract_factory_multiple.Rd               |  14 ++
+ man/find_message_and_desc.Rd                  |   2 +-
+ man/get_log_regex.Rd                          |  17 --
+ man/get_log_simple.Rd                         |   2 +-
+ man/get_pattern.Rd                            |  15 --
+ man/get_pattern_multiple.Rd                   |  15 ++
+ man/get_raw_log.Rd                            |   2 +-
+ man/git_log_detailed.Rd                       |  17 ++
+ man/git_report.Rd                             |  48 ++++++
+ man/parse_log_one.Rd                          |   7 +-
+ man/rmd_simple.Rd                             |  50 ------
+ 34 files changed, 391 insertions(+), 408 deletions(-)
 
 commit a5a23dc8bb6b59d5249da853745cda67c1c146d2 64135ef75d4f76ae74a4a9c1c807b5f28eefce34
 Author: Lorenz Walthert <lorenz.walthert@icloud.com>
@@ -145,10 +159,11 @@ Date:   Thu May 25 09:11:12 2017 +0200
 
     use dplyr::do approach rather than two nested lapply
 
- NAMESPACE                              | 11 ++++-
- R/get_log.R                            | 75 ++++++++++++++++++++++------------
- man/{parse_log.Rd => parse_log_one.Rd} |  9 ++--
- 3 files changed, 62 insertions(+), 33 deletions(-)
+ NAMESPACE            | 11 +++++++-
+ R/get_log.R          | 75 +++++++++++++++++++++++++++++++++-------------------
+ man/parse_log.Rd     | 18 -------------
+ man/parse_log_one.Rd | 17 ++++++++++++
+ 4 files changed, 75 insertions(+), 46 deletions(-)
 
 commit 64135ef75d4f76ae74a4a9c1c807b5f28eefce34 39936d200d96a0ddf51878eb5d13ec2dabec0f3b
 Author: Lorenz Walthert <lorenz.walthert@icloud.com>
@@ -387,17 +402,18 @@ Date:   Fri May 19 21:32:24 2017 +0200
 
     add helpfiles
 
- R/get_log.R                           | 198 +++++++++++++++++++++++-----------
- README-unnamed-chunk-6-1.png          | Bin 0 -> 24685 bytes
- man/create_log.Rd                     |  16 +++
- man/extract_factory.Rd                |  14 +++
- man/find_message_and_desc.Rd          |  17 +++
- man/get_log_regex.Rd                  |  14 +++
- man/{get_log.Rd => get_log_simple.Rd} |   8 +-
- man/get_pattern.Rd                    |  15 +++
- man/log.Rd                            |  13 +++
- man/parse_log.Rd                      |  17 +++
- 10 files changed, 243 insertions(+), 69 deletions(-)
+ R/get_log.R                  | 198 +++++++++++++++++++++++++++++--------------
+ README-unnamed-chunk-6-1.png | Bin 0 -> 24685 bytes
+ man/create_log.Rd            |  16 ++++
+ man/extract_factory.Rd       |  14 +++
+ man/find_message_and_desc.Rd |  17 ++++
+ man/get_log.Rd               |  14 ---
+ man/get_log_regex.Rd         |  14 +++
+ man/get_log_simple.Rd        |  14 +++
+ man/get_pattern.Rd           |  15 ++++
+ man/log.Rd                   |  13 +++
+ man/parse_log.Rd             |  17 ++++
+ 11 files changed, 253 insertions(+), 79 deletions(-)
 
 commit 7a2a008e60dc383252ab65ba3698bb63b90780a4 2ac3b0a38a723d052f21606b2e81e2b18f22ba70
 Author: Lorenz Walthert <lorenz.walthert@icloud.com>
