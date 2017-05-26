@@ -2,8 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-commits.local.tsv.txt
-gitsum
-tests/testthat/test_repos/
-
+gitsum/
 benchmarking/*.html

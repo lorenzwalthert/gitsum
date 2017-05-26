@@ -1,6 +1,9 @@
 #' Summarize a git repo
 #'
 #' Producing a summary report of a repo
+#' @param input_file the name of the temporary file that contains log data on
+#'   which the report is base on. If `NULL`, a log file is created according to
+#'   `path`, otherwise, a file is read.
 #' @param .libpath_index index of the Library according to [base::libPaths] in
 #'   which the template should be searched. The list with the available
 #'   directories is returned invisibly for situations in which `.libPaths()`
@@ -18,12 +21,15 @@
 #' @inheritParams get_raw_log
 #' @inheritParams rmarkdown::render
 #' @importFrom rmarkdown render
+#' @import ggplot2
 #' @export
-git_report <- function(path = ".", output_file = NULL, output_format = "html_document",
+git_report <- function(path = ".", output_file = NULL,
+                       output_format = "html_document",
                        template = "gitsum::repo_summary_simple",
+                       input_file = NULL,
                        directory = "gitsum", cached = FALSE,
                        .libpath_index = 1) {
-  log <- git_log_detailed(path = path)
+  log <- git_log_detailed(path = path, file_name = input_file)
   libpath <- .libPaths()[.libpath_index]
 
   template <- strsplit(template, "::", fixed = TRUE)[[1]]

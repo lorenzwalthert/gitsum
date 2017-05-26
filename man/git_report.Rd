@@ -6,7 +6,8 @@
 \usage{
 git_report(path = ".", output_file = NULL,
   output_format = "html_document", template = "gitsum::repo_summary_simple",
-  directory = "gitsum", cached = FALSE, .libpath_index = 1)
+  input_file = NULL, directory = "gitsum", cached = FALSE,
+  .libpath_index = 1)
 }
 \arguments{
 \item{path}{the path to the git directory one wants to create summaries for.}
@@ -27,6 +28,10 @@ git_report(path = ".", output_file = NULL,
 (e.g. \code{gitsum::repo_summary_simple}), or a user defined template,
 which is then indicated with a path to this file including extension, i.e.
 \code{/users/xzy/a_template.Rmd}.}
+
+\item{input_file}{the name of the temporary file that contains log data on
+which the report is base on. If \code{NULL}, a log file is created according to
+\code{path}, otherwise, a file is read.}
 
 \item{directory}{A directory to which the reports should be stored.}
 

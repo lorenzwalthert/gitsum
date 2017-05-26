@@ -22,7 +22,9 @@ Imports: lubridate,
     tidyr,
     purrr,
     tibble,
+    forcats,
     stringr,
-    rmarkdown
+    rmarkdown,
+    ggplot2
 Suggests: testthat
 

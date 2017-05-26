@@ -16,10 +16,10 @@
 git_log_simple <- function(path = ".", file_name = NULL) {
 
   file_name_prog <- ifelse(is.null(file_name), "commits.local.tsv.txt", file_name)
-  if (file.exists(file_name_prog)) {
-    message("file ", file_name_prog, " exists already")
-  }
   if (is.null(file_name)) {
+    if (file.exists(file_name_prog)) {
+      message("file ", file_name_prog, " overwritten")
+    }
     sys_call <- paste('cd', path, '&&', 'git log',
                       '--date=local',
                       '--pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" >',

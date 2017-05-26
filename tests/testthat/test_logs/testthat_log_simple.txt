@@ -1,4 +1,8 @@
-8a90cb4	Lorenz Walthert	Fri May 26 16:49:21 2017	merge @jonmcalder's PR manually	da5c68a831140598c7d906c550c495c3e9d3ecd0 f0109908463a7f73fdb970434fc68f0827ca1519
+5970123	Lorenz Walthert	Fri May 26 23:06:16 2017	fixing broken built and bugs	add203ad3b5186265c59d3bbeab57a5a1d612a1c
+add203a	Lorenz Walthert	Fri May 26 23:03:27 2017	Merge pull request #6 from jonmcalder/master	652913565c827985e37d5b8b7bc39fe7a58436fd aa546cf0e64775a109c86230c6099c5f6a1ed5a1
+aa546cf	Jon Calder	Fri May 26 18:01:16 2017	Fix failing tests	652913565c827985e37d5b8b7bc39fe7a58436fd
+6529135	Lorenz Walthert	Fri May 26 17:22:16 2017	some tests	eb79a4d52a855235e6245238075e16d616bb6d7b
+eb79a4d	Lorenz Walthert	Fri May 26 16:49:21 2017	merge @jonmcalder's PR manually	da5c68a831140598c7d906c550c495c3e9d3ecd0 f0109908463a7f73fdb970434fc68f0827ca1519
 da5c68a	Lorenz Walthert	Fri May 26 16:11:34 2017	ungroup to aviod error under tidyr 0.6.3.9000	424d749a1a1461d376c7beab74d09d0f02fb4a8b
 424d749	Lorenz Walthert	Thu May 25 23:25:31 2017	doc and report	f276274c8b30ece39f1f5dbd040fd2479c3b3a1f
 f276274	Lorenz Walthert	Thu May 25 23:25:31 2017	some more documentation	f33980165e1a216856634bc8cd76ebc27b0b2a1f

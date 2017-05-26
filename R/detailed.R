@@ -60,5 +60,6 @@ git_log_detailed <- function(path = ".", file_name = NULL) {
                                   edits = col_integer())) %>%
     nest_("nested", c("changed_file", "edits", "insertions", "deletions")) %>%
     select_(~short_hash, ~author_name, ~date,
-            ~short_message, ~everything(), ~-level)
+            ~short_message, ~everything(), ~-level) %>%
+    arrange_(~date)
 }

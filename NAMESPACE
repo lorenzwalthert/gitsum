@@ -3,6 +3,7 @@
 export(git_log_detailed)
 export(git_log_simple)
 export(git_report)
+import(ggplot2)
 import(magrittr)
 importFrom(dplyr,arrange_)
 importFrom(dplyr,do_)
