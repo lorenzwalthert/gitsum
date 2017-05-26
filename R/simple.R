@@ -14,19 +14,22 @@
 #' @import magrittr
 #' @export
 git_log_simple <- function(path = ".", file_name = NULL) {
-  file_path <- file.path(path, "commits.local.tsv.txt")
-  if (file.exists(file_path)) {
-    message("file ", file_path, " exists already")
-  }
 
+  file_name_prog <- ifelse(is.null(file_name), "commits.local.tsv.txt", file_name)
+  if (file.exists(file_name_prog)) {
+    message("file ", file_name_prog, " exists already")
+  }
   if (is.null(file_name)) {
+    sys_call <- paste('cd', path, '&&', 'git log',
+                      '--date=local',
+                      '--pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" >',
+                      file_name_prog)
     if (Sys.info()[1] == "Windows") {
-      shell(paste('cd', path, '&&', 'git log --date=local --pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" > commits.local.tsv.txt'))
+      shell(sys_call)
     } else {
-      system(paste('cd', path, '&&', 'git log --date=local --pretty=format:"%h%x09%an%x09%ad%x09%s%x09%P" > commits.local.tsv.txt'))
+      system(sys_call)
     }
   }
-  file_name_prog <- ifelse(is.null(file_name), "commits.local.tsv.txt", file_name)
 
   time <- c("weekday", "month", "monthday", "time", "year")
   log <- read_delim(file.path(path, file_name_prog),
@@ -46,7 +49,7 @@ git_log_simple <- function(path = ".", file_name = NULL) {
     rename_(date = ~final_date) %>%
     select_(~author, ~message_short, ~date, ~everything()) %>%
     arrange_(~date)
-  unlink(path)
+  if (is.null(file_name)) unlink(file.path(path, file_name_prog))
   log
 }
 

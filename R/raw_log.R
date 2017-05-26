@@ -8,14 +8,15 @@ get_raw_log <- function(path, file_name = NULL, remove = is.null(file_name)) {
   file_name_progr <- ifelse(is.null(file_name), ".log.txt", file_name)
   path_to_file <- file.path(path, file_name_progr)
 
-  sys_call <- paste('cd', path, '&&', 'git log --stat --parents >', file_name_progr)
-  if (Sys.info()[1] == "Windows") {
-    error <- shell(sys_call)
-  } else {
-    error <- system(sys_call)
+  if (is.null(file_name)) {
+    sys_call <- paste('cd', path, '&&', 'git log --stat --parents >', file_name_progr)
+    if (Sys.info()[1] == "Windows") {
+      error <- shell(sys_call)
+    } else {
+      error <- system(sys_call)
+    }
+    if (error == 128) stop(path, " is not a git repository")
   }
-  if (error == 128) stop(path, " is not a git repository")
-
 
   # get list of commits
   temp <- read_lines(path_to_file, progress = TRUE)

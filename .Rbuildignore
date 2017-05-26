@@ -5,4 +5,3 @@
 gitsum
 benchmarking
 .travis.yml
-tests/testthat/test_logs/
