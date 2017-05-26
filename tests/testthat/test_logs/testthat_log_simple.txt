@@ -1,0 +1,39 @@
+8a90cb4	Lorenz Walthert	Fri May 26 16:49:21 2017	merge @jonmcalder's PR manually	da5c68a831140598c7d906c550c495c3e9d3ecd0 f0109908463a7f73fdb970434fc68f0827ca1519
+da5c68a	Lorenz Walthert	Fri May 26 16:11:34 2017	ungroup to aviod error under tidyr 0.6.3.9000	424d749a1a1461d376c7beab74d09d0f02fb4a8b
+424d749	Lorenz Walthert	Thu May 25 23:25:31 2017	doc and report	f276274c8b30ece39f1f5dbd040fd2479c3b3a1f
+f276274	Lorenz Walthert	Thu May 25 23:25:31 2017	some more documentation	f33980165e1a216856634bc8cd76ebc27b0b2a1f
+f339801	Lorenz Walthert	Thu May 25 18:28:18 2017	fix bug for binary files	12bdfa391a77aeea4c3cf26dcea41ce5b32a571d
+12bdfa3	Lorenz Walthert	Thu May 25 18:27:51 2017	add section on report generation	367f4a993425bd265ac7f9a3b6d554b3a1086486
+367f4a9	Lorenz Walthert	Thu May 25 17:31:31 2017	bug fix with multiline messages	1c993ec09f501329e9dd987d4a7c011bf0f2b38b
+1c993ec	Lorenz Walthert	Thu May 25 16:35:24 2017	Merge pull request #5 from lorenzwalthert/speedup	2a5ad456b4e5866949fa1788658cae73920a386d 5506d070770dd6dff2673cb801412f3dd2e48a36
+5506d07	Lorenz Walthert	Thu May 25 16:28:27 2017	add benchmarking and data	da87db7057a02a929d3bffb45e99c10b2919cfe4
+da87db7	Lorenz Walthert	Thu May 25 15:06:41 2017	major update	a5a23dc8bb6b59d5249da853745cda67c1c146d2
+a5a23dc	Lorenz Walthert	Thu May 25 09:11:12 2017	use dplyr::do approach rather than two nested lapply	64135ef75d4f76ae74a4a9c1c807b5f28eefce34
+64135ef	Lorenz Walthert	Wed May 24 22:21:09 2017	correct function description	39936d200d96a0ddf51878eb5d13ec2dabec0f3b
+f010990	jonmcalder	Sat May 20 23:49:40 2017	Merge branch 'master' of https://github.com/jonmcalder/gitsum	03281483f725dce1b3369c508b2c04cf0dc2f1af 22a6bd3bf43875290e42eef748e230faa6210380
+0328148	jonmcalder	Sat May 20 23:48:35 2017	Add tests and fix get_simple_log()	458eda1338f0ffc981cbe3dd84bb1f745041e4f8
+39936d2	Lorenz Walthert	Sat May 20 22:50:31 2017	don't rebuilt test_repos	4591cb285cf8dfa684065415fa4fc04781201445
+4591cb2	Lorenz Walthert	Sat May 20 22:33:30 2017	add untracked test_repos	311d1286579f4c59429af0d09a38c54a060c61c2
+311d128	Lorenz Walthert	Sat May 20 22:18:26 2017	add get_raw_log and option to specify file to read log from.	03aea248dd1f57619cc27e5e3cc1e03b2e39e469
+03aea24	Lorenz Walthert	Sat May 20 20:41:07 2017	update doc	b2c5a55276bcba287625f920d7831892d82df415
+b2c5a55	Lorenz Walthert	Sat May 20 20:40:56 2017	add gitsum	a5d23dcc163cca66e62b499c601315fc2b6fd558
+a5d23dc	Lorenz Walthert	Sat May 20 20:38:05 2017	add report function	2a5ad456b4e5866949fa1788658cae73920a386d
+2a5ad45	Lorenz Walthert	Sat May 20 17:11:59 2017	Merge pull request #1 from jonmcalder/master	a0b11e22a64165b72886717e097e19744a9ed9ea 22a6bd3bf43875290e42eef748e230faa6210380
+22a6bd3	Jon Calder	Sat May 20 17:07:28 2017	Merge branch 'master' into master	458eda1338f0ffc981cbe3dd84bb1f745041e4f8 a0b11e22a64165b72886717e097e19744a9ed9ea
+458eda1	jonmcalder	Sat May 20 17:05:20 2017	Make get_log platform dependent & update README	fa5530ac2d5f89ea73af52a136f92d99389982c9
+a0b11e2	Lorenz Walthert	Sat May 20 15:18:13 2017	add travis / codecov badges	90df1d1c62409064c252fd080718fdd824c26d32
+fa5530a	jonmcalder	Sat May 20 02:05:11 2017	Get rid of unnecessary package warnings in README	29baa31982c529dc9cab9ba9448d6e3d7d3426ed
+29baa31	jonmcalder	Sat May 20 01:51:03 2017	Update README	5d3285ed873e9ca9095fe34d12576aed6633e13a
+5d3285e	jonmcalder	Sat May 20 01:39:43 2017	Update create_log() to make it work on Windows, fix LICENSE & update README	90df1d1c62409064c252fd080718fdd824c26d32
+90df1d1	Lorenz Walthert	Fri May 19 21:51:31 2017	fix regex	7be697a801711112b79cef2720c5fd46e3311e60
+7be697a	Lorenz Walthert	Fri May 19 21:42:58 2017	add md anyways	4fc09ed9b786de961fbf3e55743d80a7355bf697
+4fc09ed	Lorenz Walthert	Fri May 19 21:40:24 2017	remove garbage	917ed5cd77a5b0195e044287455a7e69e94fbab5
+917ed5c	Lorenz Walthert	Fri May 19 21:32:40 2017	update infrastructure	943ccc93435bd1bf8a4468f797d8326023d13c60
+943ccc9	Lorenz Walthert	Fri May 19 21:32:24 2017	add helpfiles	7a2a008e60dc383252ab65ba3698bb63b90780a4
+7a2a008	Lorenz Walthert	Fri May 19 21:31:54 2017	document log data	2ac3b0a38a723d052f21606b2e81e2b18f22ba70
+2ac3b0a	Lorenz Walthert	Fri May 19 21:31:43 2017	add readme	7825e7296a7a0e6e2d338422b63623b8bb548ac2
+7825e72	Lorenz Walthert	Fri May 19 21:31:03 2017	add licence	dfab201e440af4c357caac19730597a49b492d92
+dfab201	Lorenz Walthert	Fri May 19 17:00:40 2017	intermediate	63281c3cd551897f73d085dabf51eddbe7abb628
+63281c3	Lorenz Walthert	Fri May 19 14:26:53 2017	add parents	f8ee8fb7858f80f14ed90e8435507ce93f5a8fd7
+f8ee8fb	Lorenz Walthert	Fri May 19 14:26:32 2017	add log example data	243fcdb3275a6563b25d1909a6ab94066412a8d7
+243fcdb	Lorenz Walthert	Fri May 19 11:23:23 2017	initial commit	

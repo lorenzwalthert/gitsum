@@ -1,0 +1,472 @@
+commit eb79a4d52a855235e6245238075e16d616bb6d7b da5c68a831140598c7d906c550c495c3e9d3ecd0 f0109908463a7f73fdb970434fc68f0827ca1519
+Merge: da5c68a f010990
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 26 16:49:21 2017 +0200
+
+    merge @jonmcalder's PR manually
+
+commit da5c68a831140598c7d906c550c495c3e9d3ecd0 424d749a1a1461d376c7beab74d09d0f02fb4a8b
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 26 16:11:34 2017 +0200
+
+    ungroup to aviod error under tidyr 0.6.3.9000
+
+ R/detailed.R | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 424d749a1a1461d376c7beab74d09d0f02fb4a8b f276274c8b30ece39f1f5dbd040fd2479c3b3a1f
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Thu May 25 23:25:31 2017 +0200
+
+    doc and report
+
+ inst/report_templates/repo_summary_simple.Rmd | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit f276274c8b30ece39f1f5dbd040fd2479c3b3a1f f33980165e1a216856634bc8cd76ebc27b0b2a1f
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Thu May 25 23:25:31 2017 +0200
+
+    some more documentation
+
+ NAMESPACE               |  2 +-
+ R/detailed.R            | 24 ++++++++++++++++++++----
+ R/simple.R              |  6 ++++--
+ man/get_log_simple.Rd   | 14 --------------
+ man/git_log_detailed.Rd | 27 +++++++++++++++++++++++++--
+ man/git_log_simple.Rd   | 17 +++++++++++++++++
+ 6 files changed, 67 insertions(+), 23 deletions(-)
+
+commit f33980165e1a216856634bc8cd76ebc27b0b2a1f 12bdfa391a77aeea4c3cf26dcea41ce5b32a571d
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Thu May 25 18:28:18 2017 +0200
+
+    fix bug for binary files
+
+ R/patterns.R | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 12bdfa391a77aeea4c3cf26dcea41ce5b32a571d 367f4a993425bd265ac7f9a3b6d554b3a1086486
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Thu May 25 18:27:51 2017 +0200
+
+    add section on report generation
+
+ README.Rmd |  7 +++++--
+ README.md  | 11 ++++++-----
+ 2 files changed, 11 insertions(+), 7 deletions(-)
+
+commit 367f4a993425bd265ac7f9a3b6d554b3a1086486 1c993ec09f501329e9dd987d4a7c011bf0f2b38b
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Thu May 25 17:31:31 2017 +0200
+
+    bug fix with multiline messages
+
+ R/messages.R | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+commit 1c993ec09f501329e9dd987d4a7c011bf0f2b38b 2a5ad456b4e5866949fa1788658cae73920a386d 5506d070770dd6dff2673cb801412f3dd2e48a36
+Merge: 2a5ad45 5506d07
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Thu May 25 16:35:24 2017 +0200
+
+    Merge pull request #5 from lorenzwalthert/speedup
+    
+    Speedup
+
+commit 5506d070770dd6dff2673cb801412f3dd2e48a36 da87db7057a02a929d3bffb45e99c10b2919cfe4
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Thu May 25 16:28:27 2017 +0200
+
+    add benchmarking and data
+
+ benchmarking/alternatives                          |   6 ++++
+ benchmarking/at_86acd.rds                          | Bin 0 -> 417 bytes
+ benchmarking/at_86acd_dplyr.rds                    | Bin 0 -> 417 bytes
+ benchmarking/at_86acd_dplyr_parse_one2.rds         | Bin 0 -> 417 bytes
+ .../at_86acd_dplyr_parse_one2_extract_multiple.rds | Bin 0 -> 417 bytes
+ benchmarking/get_log_benchmarking.R                |  13 +++++++--
+ benchmarking/primer.Rmd                            |  32 +++++++++++++++++++++
+ data/log.rda                                       | Bin 2903 -> 3925 bytes
+ 8 files changed, 49 insertions(+), 2 deletions(-)
+
+commit da87db7057a02a929d3bffb45e99c10b2919cfe4 a5a23dc8bb6b59d5249da853745cda67c1c146d2
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Thu May 25 15:06:41 2017 +0200
+
+    major update
+    
+    The update includes
+    * use dplyr::group_by and dplyr::do instead of two nested lapply
+    * this implies progress bars
+    * therefore, a function parse_log_one was written which uses a completely new approach.
+    * extract_factories is extended to extract multiple () matches.
+    * renaming top level functions
+    * reorganizing code into multiple files
+    * using stringr to extrac mutlipel
+    * optimizing for speed. git_log_detailed is now twice as fast
+
+ .Rbuildignore                                   |   5 +-
+ .gitignore                                      |   2 +
+ DESCRIPTION                                     |   3 +-
+ NAMESPACE                                       |  16 +-
+ R/detailed.R                                    |  47 +++++
+ R/extract_factories.R                           |  19 ++
+ R/get_log.R                                     | 225 ------------------------
+ R/gitsum.R                                      |   9 +
+ R/messages.R                                    |  16 ++
+ R/parse.R                                       |  47 +++++
+ R/patterns.R                                    |   9 +
+ R/raw_log.R                                     |  25 +++
+ R/reports.R                                     |  24 +--
+ R/simple.R                                      |  40 +++++
+ R/utils.R                                       |   6 -
+ README-ggplot1-1.png                            | Bin 7944 -> 64231 bytes
+ README-ggplot2-1.png                            | Bin 4844 -> 19375 bytes
+ README-ggplot3-1.png                            | Bin 5323 -> 14629 bytes
+ README.Rmd                                      |  21 ++-
+ README.md                                       |  67 +++----
+ inst/report_templates/repo_summary_simple.Rmd   |   1 -
+ man/concentrate.Rd                              |  14 --
+ man/extract_factory.Rd                          |  14 --
+ man/extract_factory_multiple.Rd                 |  14 ++
+ man/find_message_and_desc.Rd                    |   2 +-
+ man/get_log_simple.Rd                           |   2 +-
+ man/{get_pattern.Rd => get_pattern_multiple.Rd} |   8 +-
+ man/get_raw_log.Rd                              |   2 +-
+ man/{get_log_regex.Rd => git_log_detailed.Rd}   |   8 +-
+ man/{rmd_simple.Rd => git_report.Rd}            |  26 ++-
+ man/parse_log_one.Rd                            |   7 +-
+ 31 files changed, 331 insertions(+), 348 deletions(-)
+
+commit a5a23dc8bb6b59d5249da853745cda67c1c146d2 64135ef75d4f76ae74a4a9c1c807b5f28eefce34
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Thu May 25 09:11:12 2017 +0200
+
+    use dplyr::do approach rather than two nested lapply
+
+ NAMESPACE                              | 11 ++++-
+ R/get_log.R                            | 75 ++++++++++++++++++++++------------
+ man/{parse_log.Rd => parse_log_one.Rd} |  9 ++--
+ 3 files changed, 62 insertions(+), 33 deletions(-)
+
+commit 64135ef75d4f76ae74a4a9c1c807b5f28eefce34 39936d200d96a0ddf51878eb5d13ec2dabec0f3b
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Wed May 24 22:21:09 2017 +0200
+
+    correct function description
+
+ R/get_log.R      | 3 ++-
+ man/parse_log.Rd | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+commit f0109908463a7f73fdb970434fc68f0827ca1519 03281483f725dce1b3369c508b2c04cf0dc2f1af 22a6bd3bf43875290e42eef748e230faa6210380
+Merge: 0328148 22a6bd3
+Author: jonmcalder <jonmcalder@gmail.com>
+Date:   Sat May 20 23:49:40 2017 +0200
+
+    Merge branch 'master' of https://github.com/jonmcalder/gitsum
+
+commit 03281483f725dce1b3369c508b2c04cf0dc2f1af 458eda1338f0ffc981cbe3dd84bb1f745041e4f8
+Author: jonmcalder <jonmcalder@gmail.com>
+Date:   Sat May 20 23:48:35 2017 +0200
+
+    Add tests and fix get_simple_log()
+
+ DESCRIPTION                       |  3 ++-
+ R/get_log.R                       | 16 ++++++++++------
+ tests/testthat.R                  |  4 ++++
+ tests/testthat/test-log_outputs.R | 16 ++++++++++++++++
+ 4 files changed, 32 insertions(+), 7 deletions(-)
+
+commit 39936d200d96a0ddf51878eb5d13ec2dabec0f3b 4591cb285cf8dfa684065415fa4fc04781201445
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Sat May 20 22:50:31 2017 +0200
+
+    don't rebuilt test_repos
+
+ .Rbuildignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 4591cb285cf8dfa684065415fa4fc04781201445 311d1286579f4c59429af0d09a38c54a060c61c2
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Sat May 20 22:33:30 2017 +0200
+
+    add untracked test_repos
+
+ .gitignore                                 |    2 +-
+ R/get_log.R                                |    9 +-
+ benchmarking/get_log_benchmarking.R        |    4 +
+ tests/testthat/test_logs/.log_refactor.txt | 2076 ++++++++++++++++++++++++++++
+ 4 files changed, 2085 insertions(+), 6 deletions(-)
+
+commit 311d1286579f4c59429af0d09a38c54a060c61c2 03aea248dd1f57619cc27e5e3cc1e03b2e39e469
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Sat May 20 22:18:26 2017 +0200
+
+    add get_raw_log and option to specify file to read log from.
+
+ .gitignore           |  1 +
+ R/get_log.R          | 42 ++++++++++++++++++++++++++----------------
+ R/reports.R          |  2 +-
+ man/create_log.Rd    | 16 ----------------
+ man/get_log_regex.Rd |  5 ++++-
+ man/get_raw_log.Rd   | 19 +++++++++++++++++++
+ 6 files changed, 51 insertions(+), 34 deletions(-)
+
+commit 03aea248dd1f57619cc27e5e3cc1e03b2e39e469 b2c5a55276bcba287625f920d7831892d82df415
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Sat May 20 20:41:07 2017 +0200
+
+    update doc
+
+ man/concentrate.Rd           | 14 ++++++++++++++
+ man/find_message_and_desc.Rd |  2 +-
+ man/get_pattern.Rd           |  2 +-
+ 3 files changed, 16 insertions(+), 2 deletions(-)
+
+commit b2c5a55276bcba287625f920d7831892d82df415 a5d23dcc163cca66e62b499c601315fc2b6fd558
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Sat May 20 20:40:56 2017 +0200
+
+    add gitsum
+
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit a5d23dcc163cca66e62b499c601315fc2b6fd558 2a5ad456b4e5866949fa1788658cae73920a386d
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Sat May 20 20:38:05 2017 +0200
+
+    add report function
+
+ DESCRIPTION                                   |  7 +++-
+ NAMESPACE                                     |  1 +
+ R/reports.R                                   | 49 +++++++++++++++++++++++
+ R/utils.R                                     |  6 +++
+ inst/report_templates/repo_summary_simple.Rmd | 56 +++++++++++++++++++++++++++
+ man/rmd_simple.Rd                             | 50 ++++++++++++++++++++++++
+ 6 files changed, 167 insertions(+), 2 deletions(-)
+
+commit 2a5ad456b4e5866949fa1788658cae73920a386d a0b11e22a64165b72886717e097e19744a9ed9ea 22a6bd3bf43875290e42eef748e230faa6210380
+Merge: a0b11e2 22a6bd3
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Sat May 20 17:11:59 2017 +0200
+
+    Merge pull request #1 from jonmcalder/master
+    
+    Update for Windows compatibility, plus update LICENSE & README
+
+commit 22a6bd3bf43875290e42eef748e230faa6210380 458eda1338f0ffc981cbe3dd84bb1f745041e4f8 a0b11e22a64165b72886717e097e19744a9ed9ea
+Merge: 458eda1 a0b11e2
+Author: Jon Calder <jonmcalder@gmail.com>
+Date:   Sat May 20 17:07:28 2017 +0200
+
+    Merge branch 'master' into master
+
+commit 458eda1338f0ffc981cbe3dd84bb1f745041e4f8 fa5530ac2d5f89ea73af52a136f92d99389982c9
+Author: jonmcalder <jonmcalder@gmail.com>
+Date:   Sat May 20 17:05:20 2017 +0200
+
+    Make get_log platform dependent & update README
+
+ R/get_log.R          |   6 +++++-
+ README-ggplot1-1.png | Bin 7937 -> 7944 bytes
+ README-ggplot2-1.png | Bin 4871 -> 4844 bytes
+ README-ggplot3-1.png | Bin 5341 -> 5323 bytes
+ README.Rmd           |   2 +-
+ README.md            |  43 ++++++++++++++++++++++---------------------
+ 6 files changed, 28 insertions(+), 23 deletions(-)
+
+commit a0b11e22a64165b72886717e097e19744a9ed9ea 90df1d1c62409064c252fd080718fdd824c26d32
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Sat May 20 15:18:13 2017 +0200
+
+    add travis / codecov badges
+
+ .travis.yml | 9 +++++++++
+ README.Rmd  | 5 +++++
+ README.md   | 4 +++-
+ 3 files changed, 17 insertions(+), 1 deletion(-)
+
+commit fa5530ac2d5f89ea73af52a136f92d99389982c9 29baa31982c529dc9cab9ba9448d6e3d7d3426ed
+Author: jonmcalder <jonmcalder@gmail.com>
+Date:   Sat May 20 02:05:11 2017 +0200
+
+    Get rid of unnecessary package warnings in README
+
+ README-ggplot1-1.png | Bin 7945 -> 7937 bytes
+ README-ggplot2-1.png | Bin 4527 -> 4871 bytes
+ README-ggplot3-1.png | Bin 5367 -> 5341 bytes
+ README.Rmd           |   2 +-
+ README.md            |   9 +++------
+ 5 files changed, 4 insertions(+), 7 deletions(-)
+
+commit 29baa31982c529dc9cab9ba9448d6e3d7d3426ed 5d3285ed873e9ca9095fe34d12576aed6633e13a
+Author: jonmcalder <jonmcalder@gmail.com>
+Date:   Sat May 20 01:51:03 2017 +0200
+
+    Update README
+
+ README-ggplot1-1.png | Bin 7947 -> 7945 bytes
+ README-ggplot2-1.png | Bin 5100 -> 4527 bytes
+ README-ggplot3-1.png | Bin 3116 -> 5367 bytes
+ README.Rmd           |   8 +++++---
+ README.md            |  48 ++++++++++++++++++++++++++++--------------------
+ 5 files changed, 33 insertions(+), 23 deletions(-)
+
+commit 5d3285ed873e9ca9095fe34d12576aed6633e13a 90df1d1c62409064c252fd080718fdd824c26d32
+Author: jonmcalder <jonmcalder@gmail.com>
+Date:   Sat May 20 01:39:43 2017 +0200
+
+    Update create_log() to make it work on Windows, fix LICENSE & update README
+
+ DESCRIPTION          |   2 +-
+ LICENSE              |   2 +-
+ R/get_log.R          |   2 +-
+ README-ggplot1-1.png | Bin 45999 -> 7947 bytes
+ README-ggplot2-1.png | Bin 0 -> 5100 bytes
+ README-ggplot3-1.png | Bin 0 -> 3116 bytes
+ README.Rmd           |  30 ++++++++++++++++++-----
+ README.md            |  66 ++++++++++++++++++++++++++++++++++++---------------
+ 8 files changed, 74 insertions(+), 28 deletions(-)
+
+commit 90df1d1c62409064c252fd080718fdd824c26d32 7be697a801711112b79cef2720c5fd46e3311e60
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 21:51:31 2017 +0200
+
+    fix regex
+
+ R/get_log.R          |   9 ++++-----
+ README-ggplot1-1.png | Bin 46788 -> 45999 bytes
+ README.Rmd           |  14 ++++++++------
+ README.md            |  39 ++++++++++++++++++++++-----------------
+ 4 files changed, 34 insertions(+), 28 deletions(-)
+
+commit 7be697a801711112b79cef2720c5fd46e3311e60 4fc09ed9b786de961fbf3e55743d80a7355bf697
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 21:42:58 2017 +0200
+
+    add md anyways
+
+ .gitignore                   |   1 -
+ README-ggplot1-1.png         | Bin 0 -> 46788 bytes
+ README-unnamed-chunk-5-1.png | Bin 0 -> 46788 bytes
+ README.Rmd                   |  13 +++-----
+ README.md                    |  70 +++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 74 insertions(+), 10 deletions(-)
+
+commit 4fc09ed9b786de961fbf3e55743d80a7355bf697 917ed5cd77a5b0195e044287455a7e69e94fbab5
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 21:40:24 2017 +0200
+
+    remove garbage
+
+ .gitignore                   |   1 +
+ NAMESPACE                    |   1 +
+ R/get_log.R                  |  15 +------
+ README-unnamed-chunk-6-1.png | Bin 24685 -> 0 bytes
+ README.Rmd                   |  32 +++++++--------
+ README.md                    |  92 -------------------------------------------
+ 6 files changed, 19 insertions(+), 122 deletions(-)
+
+commit 917ed5cd77a5b0195e044287455a7e69e94fbab5 943ccc93435bd1bf8a4468f797d8326023d13c60
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 21:32:40 2017 +0200
+
+    update infrastructure
+
+ .Rbuildignore |  2 ++
+ DESCRIPTION   | 22 ++++++++++++++--------
+ NAMESPACE     | 10 ++++++++++
+ 3 files changed, 26 insertions(+), 8 deletions(-)
+
+commit 943ccc93435bd1bf8a4468f797d8326023d13c60 7a2a008e60dc383252ab65ba3698bb63b90780a4
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 21:32:24 2017 +0200
+
+    add helpfiles
+
+ R/get_log.R                           | 198 +++++++++++++++++++++++-----------
+ README-unnamed-chunk-6-1.png          | Bin 0 -> 24685 bytes
+ man/create_log.Rd                     |  16 +++
+ man/extract_factory.Rd                |  14 +++
+ man/find_message_and_desc.Rd          |  17 +++
+ man/get_log_regex.Rd                  |  14 +++
+ man/{get_log.Rd => get_log_simple.Rd} |   8 +-
+ man/get_pattern.Rd                    |  15 +++
+ man/log.Rd                            |  13 +++
+ man/parse_log.Rd                      |  17 +++
+ 10 files changed, 243 insertions(+), 69 deletions(-)
+
+commit 7a2a008e60dc383252ab65ba3698bb63b90780a4 2ac3b0a38a723d052f21606b2e81e2b18f22ba70
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 21:31:54 2017 +0200
+
+    document log data
+
+ R/data.R | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+commit 2ac3b0a38a723d052f21606b2e81e2b18f22ba70 7825e7296a7a0e6e2d338422b63623b8bb548ac2
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 21:31:43 2017 +0200
+
+    add readme
+
+ README.Rmd | 65 ++++++++++++++++++++++++++++++++++++++++++++
+ README.md  | 92 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 157 insertions(+)
+
+commit 7825e7296a7a0e6e2d338422b63623b8bb548ac2 dfab201e440af4c357caac19730597a49b492d92
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 21:31:03 2017 +0200
+
+    add licence
+
+ LICENSE | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+commit dfab201e440af4c357caac19730597a49b492d92 63281c3cd551897f73d085dabf51eddbe7abb628
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 17:00:40 2017 +0200
+
+    intermediate
+
+ R/get_log.R | 113 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 109 insertions(+), 4 deletions(-)
+
+commit 63281c3cd551897f73d085dabf51eddbe7abb628 f8ee8fb7858f80f14ed90e8435507ce93f5a8fd7
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 14:26:53 2017 +0200
+
+    add parents
+
+ DESCRIPTION |  6 +++++-
+ NAMESPACE   |  3 ++-
+ R/get_log.R | 19 +++++++++++--------
+ 3 files changed, 18 insertions(+), 10 deletions(-)
+
+commit f8ee8fb7858f80f14ed90e8435507ce93f5a8fd7 243fcdb3275a6563b25d1909a6ab94066412a8d7
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 14:26:32 2017 +0200
+
+    add log example data
+
+ data/log.rda | Bin 0 -> 2903 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 243fcdb3275a6563b25d1909a6ab94066412a8d7
+Author: Lorenz Walthert <lorenz.walthert@icloud.com>
+Date:   Fri May 19 11:23:23 2017 +0200
+
+    initial commit
+
+ .Rbuildignore  |  2 ++
+ .gitignore     |  5 +++++
+ DESCRIPTION    | 12 ++++++++++++
+ NAMESPACE      |  9 +++++++++
+ R/get_log.R    | 28 ++++++++++++++++++++++++++++
+ gitsum.Rproj   | 21 +++++++++++++++++++++
+ man/get_log.Rd | 14 ++++++++++++++
+ 7 files changed, 91 insertions(+)
