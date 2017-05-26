@@ -40,7 +40,8 @@ git_log_detailed <- function(path = ".", file_name = NULL) {
     mutate_(level = ~cumsum(grepl("^commit", lines)),
             has_merge = ~grepl("^Merge:", lines)) %>%
     group_by_(~level) %>%
-    do_(nested = ~parse_log_one(.$lines, fnc_list, any(.$has_merge))) %>%
+    do(nested = parse_log_one(.$lines, fnc_list, any(.$has_merge))) %>%
+    ungroup() %>%
     unnest_(~nested) %>%
     mutate_(date = ~ymd_hms(paste(year, month, monthday, time)),
             short_hash = ~substr(hash, 1, 4),
