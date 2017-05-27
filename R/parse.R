@@ -21,8 +21,8 @@ parse_log_one <- function(raw, fnc_list, has_merge) {
   all_changes_file <- fnc_list$all_changes_file(other)
   ms <- fnc_list$message_and_description(other)
   data_frame(hash = commit[2],
-             left_parent = commit[2],
-             right_parent = commit[3],
+             left_parent = commit[3],
+             right_parent = commit[4],
              author_name = paste(author[2:(length(author) - 1)], collapse = " "),
              author_email = str_sub(author[length(author)], 2, - 1),
              weekday = date[4],

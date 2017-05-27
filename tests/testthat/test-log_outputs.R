@@ -15,8 +15,8 @@ git_simp <- git_log_simple(path = ".", file_name = path_simp)
 #   ____________________________________________________________________________
 #   create reference files                                                  ####
 
-# write_rds(unnest_(git_det, ~nested), "tests/testthat/test_logs/log_out_det.rds")
-# write_rds(git_det, "tests/testthat/test_logs/log_out_simp.rds")
+# readr::write_rds(unnest_(git_det, ~nested), "tests/testthat/test_logs/log_out_det.rds")
+# readr::write_rds(git_simp, "tests/testthat/test_logs/log_out_simp.rds")
 
 #   ____________________________________________________________________________
 #   actual tests                                                            ####
