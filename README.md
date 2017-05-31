@@ -2,7 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 *Package is work in progress!*
 
-[![Project Status: WIP ? Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![Build Status](https://travis-ci.org/lorenzwalthert/gitsum.svg?branch=master)](https://travis-ci.org/lorenzwalthert/gitsum) [![codecov](https://codecov.io/gh/lorenzwalthert/gitsum/branch/master/graph/badge.svg)](https://codecov.io/gh/lorenzwalthert/gitsum)
+[![Project Status: WIP ? Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![Build Status](https://travis-ci.org/lorenzwalthert/gitsum.svg?branch=master)](https://travis-ci.org/lorenzwalthert/gitsum) [![codecov](https://codecov.io/gh/lorenzwalthert/gitsum/branch/master/graph/badge.svg)](https://codecov.io/gh/lorenzwalthert/gitsum) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/lorenzwalthert/gitsum?branch=master&svg=true)](https://ci.appveyor.com/project/lorenzwalthert/gitsum)
 
 Introduction
 ============
@@ -26,7 +26,7 @@ tbl <- git_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 36 x 4
+#> # A tibble: 47 x 4
 #>    short_hash        short_message total_files_changed            nested
 #>         <chr>                <chr>               <int>            <list>
 #>  1       243f       initial commit                   7  <tibble [7 x 4]>
@@ -39,7 +39,7 @@ tbl
 #>  8       943c        add helpfiles                  10 <tibble [10 x 4]>
 #>  9       917e update infrastructur                   3  <tibble [3 x 4]>
 #> 10       4fc0       remove garbage                   6  <tibble [6 x 4]>
-#> # ... with 26 more rows
+#> # ... with 37 more rows
 ```
 
 ``` r
@@ -68,9 +68,9 @@ group_by(author_name) %>%
 #> # Groups:   author_name [3]
 #>       author_name     n
 #>             <chr> <int>
-#> 1      Jon Calder     1
-#> 2      jonmcalder     4
-#> 3 Lorenz Walthert    31
+#> 1      Jon Calder     2
+#> 2      jonmcalder     6
+#> 3 Lorenz Walthert    39
 ```
 
 Next, we want to see which files were contained in most commits:
@@ -78,7 +78,8 @@ Next, we want to see which files were contained in most commits:
 ``` r
 log %>%
   unnest(nested) %>% # unnest the tibble
-  mutate(changed_file = fct_infreq(changed_file)) %>%
+  mutate(changed_file = fct_lump(fct_infreq(changed_file), n = 10)) %>%
+  filter(changed_file != "Other") %>%
   ggplot(aes(x = changed_file)) + geom_bar() + coord_flip() + 
   theme_minimal()
 ```
@@ -91,12 +92,12 @@ We can also easily get a visual overview of the number of insertions & deletions
 commit.dat <- data.frame(
     edits = rep(c("Insertions", "Deletions"), each = nrow(log)),
     commit = rep(1:nrow(log), 2),
-    count = c(rev(log$total_insertions), -rev(log$total_deletions)))
+    count = c(log$total_insertions, -log$total_deletions))
     
 ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
-  geom_bar(stat = "identity", position = "identity") +
+  geom_bar(stat = "identity", position = "identity") +  
   theme_minimal()
-#> Warning: Removed 12 rows containing missing values (geom_bar).
+#> Warning: Removed 18 rows containing missing values (geom_bar).
 ```
 
 ![](README-ggplot2-1.png)

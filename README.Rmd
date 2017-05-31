@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 [![Project Status: WIP ? Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 [![Build Status](https://travis-ci.org/lorenzwalthert/gitsum.svg?branch=master)](https://travis-ci.org/lorenzwalthert/gitsum)
 [![codecov](https://codecov.io/gh/lorenzwalthert/gitsum/branch/master/graph/badge.svg)](https://codecov.io/gh/lorenzwalthert/gitsum)
-
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/lorenzwalthert/gitsum?branch=master&svg=true)](https://ci.appveyor.com/project/lorenzwalthert/gitsum)
 
 # Introduction
 This package parses a git repository history to collect 
@@ -71,7 +71,8 @@ Next, we want to see which files were contained in most commits:
 ```{r ggplot1}
 log %>%
   unnest(nested) %>% # unnest the tibble
-  mutate(changed_file = fct_infreq(changed_file)) %>%
+  mutate(changed_file = fct_lump(fct_infreq(changed_file), n = 10)) %>%
+  filter(changed_file != "Other") %>%
   ggplot(aes(x = changed_file)) + geom_bar() + coord_flip() + 
   theme_minimal()
 ```
@@ -81,10 +82,10 @@ We can also easily get a visual overview of the number of insertions & deletions
 commit.dat <- data.frame(
     edits = rep(c("Insertions", "Deletions"), each = nrow(log)),
     commit = rep(1:nrow(log), 2),
-    count = c(rev(log$total_insertions), -rev(log$total_deletions)))
+    count = c(log$total_insertions, -log$total_deletions))
     
 ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
-  geom_bar(stat = "identity", position = "identity") +
+  geom_bar(stat = "identity", position = "identity") +  
   theme_minimal()
 ```
 

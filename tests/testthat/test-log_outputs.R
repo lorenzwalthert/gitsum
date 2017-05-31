@@ -45,6 +45,7 @@ test_that("advanced log output is correct", {
 
 library("ggplot2")
 test_that("repo logs can be created", {
+  skip_on_appveyor()
   expect_error(git_report(output_format = "all", input_file = path_det), NA)
   unlink(paste0(start, "gitsum"), recursive = TRUE)
 })
