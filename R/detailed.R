@@ -21,10 +21,10 @@
 #' @seealso See [git_log_simple] for a fast alternative with less information.
 #' @inheritParams get_raw_log
 #' @importFrom stats setNames
-#' @importFrom dplyr mutate_ select_ everything group_by_ do_
+#' @importFrom dplyr mutate_ select_ everything group_by_ do_ last
 #' @importFrom lubridate ymd_hms
 #' @importFrom tidyr unnest_ nest_
-#' @importFrom dplyr arrange_ ungroup
+#' @importFrom dplyr arrange_ ungroup bind_rows
 #' @importFrom readr type_convert cols col_integer col_time
 #' @inheritParams git_log_simple
 #' @export
@@ -36,7 +36,11 @@ git_log_detailed <- function(path = ".", file_name = NULL) {
                   names(get_pattern_multiple())))
 
   # create log
-  get_raw_log(path = path, file_name = file_name) %>%
+  out <- get_raw_log(path = path, file_name = file_name)
+  if (last(out$lines) != "") {
+    out[nrow(out) + 1, 1] <- ""
+  }
+  out <- out %>%
     mutate_(level = ~cumsum(grepl("^commit", lines)),
             has_merge = ~grepl("^Merge:", lines)) %>%
     group_by_(~level) %>%
@@ -64,4 +68,8 @@ git_log_detailed <- function(path = ".", file_name = NULL) {
     select_(~short_hash, ~author_name, ~date,
             ~short_message, ~everything(), ~-level) %>%
     arrange_(~date)
+
+  class(out) <- append("commit_level_log", class(out))
+
+  out
 }
