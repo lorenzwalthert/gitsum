@@ -71,13 +71,7 @@ We can also investigate how the number of lines of each file in the R
 directory evolved.
 ```{r per_file, message=FALSE, warning=FALSE}
 lines <- log %>%
-  unnest() %>%
-  mutate(insertions = if_else(is.na(insertions), 0, insertions), 
-         deletions = if_else(is.na(deletions), 0, deletions), 
-         lines_added = insertions - deletions) %>%
-  group_by(changed_file) %>%
-  arrange(date) %>%
-  mutate(current_lines = cumsum(lines_added))
+  add_line_history()
 
 r_files <- grep("^R/", lines$changed_file, value = TRUE)
 
@@ -85,7 +79,7 @@ to_plot <- lines %>%
   filter(changed_file %in% r_files)
 ggplot(to_plot, aes(x = date, y = current_lines)) + 
   geom_step() + 
-  scale_y_continuous(name = "Number of Lines") + 
+  scale_y_continuous(name = "Number of Lines", limits = c(0, NA)) + 
   facet_wrap(~changed_file, scales = "free_y")
 ```
 
