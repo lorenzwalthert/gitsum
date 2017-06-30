@@ -4,11 +4,12 @@
 #'
 #' This function returns a git log in a tabular format.
 #' @details
-#' * Note that for merge commmits, the following columns are `NA`:
+#' * Note that for merge commmits, the following columns are `NA` if
+#'   the opotion `na_to_zero` is set to `FALSE`.:
 #'   total_files_changed, total_insertions, total_deletions, changed_file,
-#'   edits, deletions, insertions
+#'   edits, deletions, insertions.
 #' * Note that for binary files, the following columns are 0: edits, deletions,
-#'   insertions
+#'   insertions.
 #' @section Warning:
 #'   The number of edits, insertions, and deletions (on a file level) are based
 #'   on `git log --stat` and the number of `+` and `-` in this log. The number
@@ -39,7 +40,7 @@
 #' @importFrom readr type_convert cols col_integer col_time
 #' @inheritParams git_log_simple
 #' @export
-git_log_detailed <- function(path = ".", file_name = NULL) {
+git_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) {
   # get regex-finder-functions
   fnc_list <- setNames(c(find_message_and_desc,
                   lapply(get_pattern_multiple(), extract_factory_multiple)),
@@ -81,6 +82,7 @@ git_log_detailed <- function(path = ".", file_name = NULL) {
            deletions     = ~ round(multiplier * deletions),
            is_exact      = ~ if_else(
              (is.na(edits) | multiplier == 1), TRUE, FALSE)) %>%
+    set_na_to_zero(na_to_zero) %>%
     select_(~-multiplier, ~-total_approx) %>%
     nest_("nested",
           c("changed_file", "edits", "insertions", "deletions", "is_exact")) %>%
@@ -91,4 +93,21 @@ git_log_detailed <- function(path = ".", file_name = NULL) {
   class(out) <- append("commit_level_log", class(out))
 
   out
+}
+
+
+#' @importFrom purrr map_df
+set_na_to_zero <- function(log,
+                           na_to_zero = TRUE,
+                           columns = c( "edits", "insertions", "deletions",
+                                       "total_files_changed", "total_insertions",
+                                       "total_deletions")) {
+  if (!na_to_zero) return(log)
+  out <- log %>%
+    map_at(c("insertions", "deletions"), if_na_to_zero) %>%
+    as_data_frame()
+}
+
+if_na_to_zero <- function(vec) {
+  if_else(is.na(vec), 0, vec)
 }
