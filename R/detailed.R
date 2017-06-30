@@ -64,6 +64,10 @@ git_log_detailed <- function(path = ".", file_name = NULL) {
                                   total_insertions = col_integer(),
                                   total_deletions = col_integer(),
                                   edits = col_integer())) %>%
+    mutate(total_approx  = insertions + deletions,
+           multiplier    = edits / total_approx,
+           insertions    = round(multiplier * insertions),
+           deletions     = round(multiplier * deletions)) %>%
     nest_("nested", c("changed_file", "edits", "insertions", "deletions")) %>%
     select_(~short_hash, ~author_name, ~date,
             ~short_message, ~everything(), ~-level) %>%
