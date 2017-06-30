@@ -4,7 +4,7 @@
 \alias{git_log_detailed}
 \title{Obtain a detailed git log}
 \usage{
-git_log_detailed(path = ".", file_name = NULL)
+git_log_detailed(path = ".", na_to_zero = TRUE, file_name = NULL)
 }
 \arguments{
 \item{path}{the path to the git directory one wants to create summaries for.}
@@ -28,11 +28,12 @@ This function returns a git log in a tabular format.
 }
 \details{
 \itemize{
-\item Note that for merge commmits, the following columns are \code{NA}:
+\item Note that for merge commmits, the following columns are \code{NA} if
+the opotion \code{na_to_zero} is set to \code{FALSE}.:
 total_files_changed, total_insertions, total_deletions, changed_file,
-edits, deletions, insertions
+edits, deletions, insertions.
 \item Note that for binary files, the following columns are 0: edits, deletions,
-insertions
+insertions.
 }
 }
 \section{Warning}{
