@@ -26,30 +26,30 @@ tbl <- git_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 47 x 4
+#> # A tibble: 52 x 4
 #>    short_hash        short_message total_files_changed            nested
 #>         <chr>                <chr>               <int>            <list>
-#>  1       243f       initial commit                   7  <tibble [7 x 4]>
-#>  2       f8ee add log example data                   1  <tibble [1 x 4]>
-#>  3       6328          add parents                   3  <tibble [3 x 4]>
-#>  4       dfab         intermediate                   1  <tibble [1 x 4]>
-#>  5       7825          add licence                   1  <tibble [1 x 4]>
-#>  6       2ac3           add readme                   2  <tibble [2 x 4]>
-#>  7       7a2a    document log data                   1  <tibble [1 x 4]>
-#>  8       943c        add helpfiles                  10 <tibble [10 x 4]>
-#>  9       917e update infrastructur                   3  <tibble [3 x 4]>
-#> 10       4fc0       remove garbage                   6  <tibble [6 x 4]>
-#> # ... with 37 more rows
+#>  1       243f       initial commit                   7  <tibble [7 x 5]>
+#>  2       f8ee add log example data                   1  <tibble [1 x 5]>
+#>  3       6328          add parents                   3  <tibble [3 x 5]>
+#>  4       dfab         intermediate                   1  <tibble [1 x 5]>
+#>  5       7825          add licence                   1  <tibble [1 x 5]>
+#>  6       2ac3           add readme                   2  <tibble [2 x 5]>
+#>  7       7a2a    document log data                   1  <tibble [1 x 5]>
+#>  8       943c        add helpfiles                  10 <tibble [10 x 5]>
+#>  9       917e update infrastructur                   3  <tibble [3 x 5]>
+#> 10       4fc0       remove garbage                   6  <tibble [6 x 5]>
+#> # ... with 42 more rows
 ```
 
 ``` r
 tbl$nested[[3]]
-#> # A tibble: 3 x 4
-#>   changed_file edits insertions deletions
-#>          <chr> <int>      <dbl>     <dbl>
-#> 1  DESCRIPTION     6          5         1
-#> 2    NAMESPACE     3          2         1
-#> 3  R/get_log.R    19         11         8
+#> # A tibble: 3 x 5
+#>   changed_file edits insertions deletions is_exact
+#>          <chr> <int>      <dbl>     <dbl>    <lgl>
+#> 1  DESCRIPTION     6          5         1     TRUE
+#> 2    NAMESPACE     3          2         1     TRUE
+#> 3  R/get_log.R    19         11         8     TRUE
 ```
 
 Since the data has such a high resolution, various graphs, tables etc can be produced from it to provide insights into the git history.
@@ -70,8 +70,32 @@ group_by(author_name) %>%
 #>             <chr> <int>
 #> 1      Jon Calder     2
 #> 2      jonmcalder     6
-#> 3 Lorenz Walthert    39
+#> 3 Lorenz Walthert    44
 ```
+
+We can also investigate how the number of lines of each file in the R directory evolved.
+
+``` r
+lines <- log %>%
+  unnest() %>%
+  mutate(insertions = if_else(is.na(insertions), 0, insertions), 
+         deletions = if_else(is.na(deletions), 0, deletions), 
+         lines_added = insertions - deletions) %>%
+  group_by(changed_file) %>%
+  arrange(date) %>%
+  mutate(current_lines = cumsum(lines_added))
+
+r_files <- grep("^R/", lines$changed_file, value = TRUE)
+
+to_plot <- lines %>%
+  filter(changed_file %in% r_files)
+ggplot(to_plot, aes(x = date, y = current_lines)) + 
+  geom_step() + 
+  scale_y_continuous(name = "Number of Lines") + 
+  facet_wrap(~changed_file, scales = "free_y")
+```
+
+![](README-per_file-1.png)
 
 Next, we want to see which files were contained in most commits:
 
@@ -97,7 +121,7 @@ commit.dat <- data.frame(
 ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
   geom_bar(stat = "identity", position = "identity") +  
   theme_minimal()
-#> Warning: Removed 18 rows containing missing values (geom_bar).
+#> Warning: Removed 19 rows containing missing values (geom_bar).
 ```
 
 ![](README-ggplot2-1.png)

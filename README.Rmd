@@ -67,6 +67,29 @@ group_by(author_name) %>%
   count()
 ```
 
+We can also investigate how the number of lines of each file in the R 
+directory evolved.
+```{r per_file, message=FALSE, warning=FALSE}
+lines <- log %>%
+  unnest() %>%
+  mutate(insertions = if_else(is.na(insertions), 0, insertions), 
+         deletions = if_else(is.na(deletions), 0, deletions), 
+         lines_added = insertions - deletions) %>%
+  group_by(changed_file) %>%
+  arrange(date) %>%
+  mutate(current_lines = cumsum(lines_added))
+
+r_files <- grep("^R/", lines$changed_file, value = TRUE)
+
+to_plot <- lines %>%
+  filter(changed_file %in% r_files)
+ggplot(to_plot, aes(x = date, y = current_lines)) + 
+  geom_step() + 
+  scale_y_continuous(name = "Number of Lines") + 
+  facet_wrap(~changed_file, scales = "free_y")
+```
+
+
 Next, we want to see which files were contained in most commits:
 ```{r ggplot1}
 log %>%
