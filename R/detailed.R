@@ -9,6 +9,17 @@
 #'   edits, deletions, insertions
 #' * Note that for binary files, the following columns are 0: edits, deletions,
 #'   insertions
+#' @section Warning:
+#'   The number of edits, insertions, and deletions (on a file level) are based
+#'   on `git log --stat` and the number of `+` and `-` in this log. The number
+#'   of `+` and `-` may not sum up to the edits indicated as a scalar after "|"
+#'   for commits with very many changed lines since for those, the `+` and `-`
+#'   only indicate the relavite share of insertinos and edits. Therefore,
+#'   `git_log_detailed()` normalizes the insertions and deletions and rounds
+#'   these after the normalization to achieve more consistent results. However,
+#'   there is no guarantee that these numbers are always exact. The column
+#'   is_exact indicates for each changed file within a commit wether the result
+#'   is exact (which is the case if the normalizing constant was one).
 #' @return A parsed git log as a nested tibble. Each line corresponds to a
 #'   commit. The unnested column names are: \cr
 #'   short_hash, author_name, date, short_message, hash, left_parent,
@@ -64,11 +75,15 @@ git_log_detailed <- function(path = ".", file_name = NULL) {
                                   total_insertions = col_integer(),
                                   total_deletions = col_integer(),
                                   edits = col_integer())) %>%
-    mutate(total_approx  = insertions + deletions,
-           multiplier    = edits / total_approx,
-           insertions    = round(multiplier * insertions),
-           deletions     = round(multiplier * deletions)) %>%
-    nest_("nested", c("changed_file", "edits", "insertions", "deletions")) %>%
+    mutate_(total_approx  = ~ insertions + deletions,
+           multiplier    = ~ edits / total_approx,
+           insertions    = ~ round(multiplier * insertions),
+           deletions     = ~ round(multiplier * deletions),
+           is_exact      = ~ if_else(
+             (is.na(edits) | multiplier == 1), TRUE, FALSE)) %>%
+    select_(~-multiplier, ~-total_approx) %>%
+    nest_("nested",
+          c("changed_file", "edits", "insertions", "deletions", "is_exact")) %>%
     select_(~short_hash, ~author_name, ~date,
             ~short_message, ~everything(), ~-level) %>%
     arrange_(~date)

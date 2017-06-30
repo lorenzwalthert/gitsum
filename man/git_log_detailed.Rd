@@ -35,6 +35,20 @@ edits, deletions, insertions
 insertions
 }
 }
+\section{Warning}{
+
+The number of edits, insertions, and deletions (on a file level) are based
+on \code{git log --stat} and the number of \code{+} and \code{-} in this log. The number
+of \code{+} and \code{-} may not sum up to the edits indicated as a scalar after "|"
+for commits with very many changed lines since for those, the \code{+} and \code{-}
+only indicate the relavite share of insertinos and edits. Therefore,
+\code{git_log_detailed()} normalizes the insertions and deletions and rounds
+these after the normalization to achieve more consistent results. However,
+there is no guarantee that these numbers are always exact. The column
+is_exact indicates for each changed file within a commit wether the result
+is exact (which is the case if the normalizing constant was one).
+}
+
 \seealso{
 See \link{git_log_simple} for a fast alternative with less information.
 }
