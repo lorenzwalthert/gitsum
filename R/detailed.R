@@ -96,18 +96,19 @@ git_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) {
 }
 
 
-#' @importFrom purrr map_df
+#' @importFrom purrr map_at
+#' @importFrom dplyr as_data_frame
 set_na_to_zero <- function(log,
                            na_to_zero = TRUE,
-                           columns = c( "edits", "insertions", "deletions",
+                           columns = c("edits", "insertions", "deletions",
                                        "total_files_changed", "total_insertions",
                                        "total_deletions")) {
   if (!na_to_zero) return(log)
   out <- log %>%
-    map_at(c("insertions", "deletions"), if_na_to_zero) %>%
+    map_at(columns, if_na_to_zero) %>%
     as_data_frame()
 }
 
 if_na_to_zero <- function(vec) {
-  if_else(is.na(vec), 0, vec)
+  ifelse(is.na(vec), 0, vec)
 }

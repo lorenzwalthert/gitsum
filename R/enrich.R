@@ -4,6 +4,8 @@
 #'   number of total lines a file has according to past insertions and
 #'   deletions (via [base::cumsum()].
 #' @param log A log.
+#' @importFrom dplyr mutate group_by arrange
+#' @importFrom tidyr unnest
 #' @export
 add_line_history <- function(log) {
   log %>%
