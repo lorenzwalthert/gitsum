@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-*Package is work in progress!*
+*Package is work in progress! If you encounter errors / problems, please file an issue or make a PR.*
 
 [![Project Status: WIP ? Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![Build Status](https://travis-ci.org/lorenzwalthert/gitsum.svg?branch=master)](https://travis-ci.org/lorenzwalthert/gitsum) [![codecov](https://codecov.io/gh/lorenzwalthert/gitsum/branch/master/graph/badge.svg)](https://codecov.io/gh/lorenzwalthert/gitsum) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/lorenzwalthert/gitsum?branch=master&svg=true)](https://ci.appveyor.com/project/lorenzwalthert/gitsum)
 
@@ -26,9 +26,9 @@ tbl <- git_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 52 x 4
+#> # A tibble: 57 x 4
 #>    short_hash        short_message total_files_changed            nested
-#>         <chr>                <chr>               <int>            <list>
+#>         <chr>                <chr>               <dbl>            <list>
 #>  1       243f       initial commit                   7  <tibble [7 x 5]>
 #>  2       f8ee add log example data                   1  <tibble [1 x 5]>
 #>  3       6328          add parents                   3  <tibble [3 x 5]>
@@ -39,14 +39,14 @@ tbl
 #>  8       943c        add helpfiles                  10 <tibble [10 x 5]>
 #>  9       917e update infrastructur                   3  <tibble [3 x 5]>
 #> 10       4fc0       remove garbage                   6  <tibble [6 x 5]>
-#> # ... with 42 more rows
+#> # ... with 47 more rows
 ```
 
 ``` r
 tbl$nested[[3]]
 #> # A tibble: 3 x 5
 #>   changed_file edits insertions deletions is_exact
-#>          <chr> <int>      <dbl>     <dbl>    <lgl>
+#>          <chr> <dbl>      <dbl>     <dbl>    <lgl>
 #> 1  DESCRIPTION     6          5         1     TRUE
 #> 2    NAMESPACE     3          2         1     TRUE
 #> 3  R/get_log.R    19         11         8     TRUE
@@ -70,20 +70,14 @@ group_by(author_name) %>%
 #>             <chr> <int>
 #> 1      Jon Calder     2
 #> 2      jonmcalder     6
-#> 3 Lorenz Walthert    44
+#> 3 Lorenz Walthert    49
 ```
 
 We can also investigate how the number of lines of each file in the R directory evolved.
 
 ``` r
 lines <- log %>%
-  unnest() %>%
-  mutate(insertions = if_else(is.na(insertions), 0, insertions), 
-         deletions = if_else(is.na(deletions), 0, deletions), 
-         lines_added = insertions - deletions) %>%
-  group_by(changed_file) %>%
-  arrange(date) %>%
-  mutate(current_lines = cumsum(lines_added))
+  add_line_history()
 
 r_files <- grep("^R/", lines$changed_file, value = TRUE)
 
@@ -91,7 +85,7 @@ to_plot <- lines %>%
   filter(changed_file %in% r_files)
 ggplot(to_plot, aes(x = date, y = current_lines)) + 
   geom_step() + 
-  scale_y_continuous(name = "Number of Lines") + 
+  scale_y_continuous(name = "Number of Lines", limits = c(0, NA)) + 
   facet_wrap(~changed_file, scales = "free_y")
 ```
 
@@ -121,7 +115,6 @@ commit.dat <- data.frame(
 ggplot(commit.dat, aes(x = commit, y = count, fill = edits)) + 
   geom_bar(stat = "identity", position = "identity") +  
   theme_minimal()
-#> Warning: Removed 19 rows containing missing values (geom_bar).
 ```
 
 ![](README-ggplot2-1.png)
