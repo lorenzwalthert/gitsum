@@ -1,6 +1,6 @@
 Package: gitsum
 Type: Package
-Title: get extensive summaries of git repos
+Title: Parse and summarize git repositories
 Version: 0.0.9001
 Authors@R: person("Lorenz", "Walthert", 
     email = "lorenz.walthert@icloud.com", role = c("aut", "cre"))
@@ -27,4 +27,5 @@ Imports: lubridate,
     rmarkdown,
     ggplot2
 Suggests: testthat
+    
 

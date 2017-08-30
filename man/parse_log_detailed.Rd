@@ -7,10 +7,13 @@
 parse_log_detailed(path = ".", na_to_zero = TRUE, file_name = NULL)
 }
 \arguments{
-\item{path}{the path to the git directory one wants to create summaries for.}
+\item{path}{The path to the git directory one wants to create summaries for.}
 
-\item{file_name}{the name of the temporary file. If \code{NULL}, a file is
-created, otherwise, a file is read.}
+\item{na_to_zero}{Whether some \code{NA} values should be converted to zero.
+See 'Details'.}
+
+\item{file_name}{The path to a raw log. If \code{NULL}, a raw log is created and
+read in and deleted after read-in, otherwise, an existing log is read.}
 }
 \value{
 A parsed git log as a nested tibble. Each line corresponds to a
@@ -41,6 +44,7 @@ insertions.
 The number of edits, insertions, and deletions (on a file level) are based
 on \code{git log --stat} and the number of \code{+} and \code{-} in this log. The number
 of \code{+} and \code{-} may not sum up to the edits indicated as a scalar after "|"
+in \code{git log --stat}
 for commits with very many changed lines since for those, the \code{+} and \code{-}
 only indicate the relavite share of insertinos and edits. Therefore,
 \code{parse_log_detailed()} normalizes the insertions and deletions and rounds

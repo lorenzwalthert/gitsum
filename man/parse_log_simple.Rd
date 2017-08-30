@@ -7,10 +7,10 @@
 parse_log_simple(path = ".", file_name = NULL)
 }
 \arguments{
-\item{path}{the path to the git directory one wants to create summaries for.}
+\item{path}{The path to the git directory one wants to create summaries for.}
 
-\item{file_name}{the name of the temporary file. If \code{NULL}, a file is
-created, otherwise, a file is read.}
+\item{file_name}{The path to a raw log. If \code{NULL}, a raw log is created and
+read in and deleted after read-in, otherwise, an existing log is read.}
 }
 \description{
 This function returns a git log in a tabular format.

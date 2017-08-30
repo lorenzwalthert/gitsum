@@ -3,6 +3,10 @@
 #' Obtain a detailed git log
 #'
 #' This function returns a git log in a tabular format.
+#' @inheritParams parse_log_simple
+#' @inheritParams get_raw_log
+#' @param na_to_zero Whether some `NA` values should be converted to zero.
+#'   See 'Details'.
 #' @details
 #' * Note that for merge commmits, the following columns are `NA` if
 #'   the opotion `na_to_zero` is set to `FALSE`.:
@@ -14,6 +18,7 @@
 #'   The number of edits, insertions, and deletions (on a file level) are based
 #'   on `git log --stat` and the number of `+` and `-` in this log. The number
 #'   of `+` and `-` may not sum up to the edits indicated as a scalar after "|"
+#'   in `git log --stat`
 #'   for commits with very many changed lines since for those, the `+` and `-`
 #'   only indicate the relavite share of insertinos and edits. Therefore,
 #'   `parse_log_detailed()` normalizes the insertions and deletions and rounds
@@ -31,14 +36,12 @@
 #'   names are: \cr
 #'   changed_file, edits, insertions, deletions.
 #' @seealso See [parse_log_simple] for a fast alternative with less information.
-#' @inheritParams get_raw_log
 #' @importFrom stats setNames
 #' @importFrom dplyr mutate_ select_ everything group_by_ do_ last
 #' @importFrom lubridate ymd_hms
 #' @importFrom tidyr unnest_ nest_
 #' @importFrom dplyr arrange_ ungroup bind_rows
 #' @importFrom readr type_convert cols col_integer col_time
-#' @inheritParams parse_log_simple
 #' @export
 parse_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) {
   # get regex-finder-functions

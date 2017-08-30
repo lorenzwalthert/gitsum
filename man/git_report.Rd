@@ -10,7 +10,7 @@ git_report(path = ".", output_file = NULL,
   .libpath_index = 1)
 }
 \arguments{
-\item{path}{the path to the git directory one wants to create summaries for.}
+\item{path}{The path to the git directory one wants to create summaries for.}
 
 \item{output_file}{Output file. If \code{NULL} then a default based on
   the name of the input file is chosen.}

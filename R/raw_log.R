@@ -1,8 +1,8 @@
 #' Obtain the log raw data
-#' @param path the path to the git directory one wants to create summaries for.
-#' @param file_name the name of the temporary file. If `NULL`, a file is
+#' @param path The path to the git directory one wants to create summaries for.
+#' @param file_name The name of the temporary file. If `NULL`, a file is
 #'   created, otherwise, a file is read.
-#' @param remove whether a log should be deleted after read in.
+#' @param remove Whether a log should be deleted after read in.
 #' @importFrom readr read_lines
 get_raw_log <- function(path, file_name = NULL, remove = is.null(file_name)) {
   file_name_progr <- ifelse(is.null(file_name), ".log.txt", file_name)

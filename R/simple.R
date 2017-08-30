@@ -5,6 +5,8 @@
 #'
 #' This function returns a git log in a tabular format.
 #' @inheritParams get_raw_log
+#' @param file_name The path to a raw log. If `NULL`, a raw log is created and
+#'   read in and deleted after read-in, otherwise, an existing log is read.
 #' @seealso See [parse_log_detailed] for a slower alternative with more
 #'   information.
 #' @importFrom readr read_delim
