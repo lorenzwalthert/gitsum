@@ -28,9 +28,9 @@ generate reports based on the parse data.
 
 There are two main functions for parsing the history, both return tabular data: 
 
-* `git_log_simple` is a relatively fast parser and returns a tibble with 
+* `parse_log_simple` is a relatively fast parser and returns a tibble with 
   one commit per row. There is no file-specific information.
-* `git_log_detailed` outputs a nested tibble and for each commit, the names
+* `parse_log_detailed` outputs a nested tibble and for each commit, the names
   of the amended files, number of lines changed ect. available. This function
   is slower.
 * `git_report` creates a html, pdf, or word report with the parsed log data 
@@ -44,7 +44,7 @@ library("forcats")
 ```
 
 ```{r}
-tbl <- git_log_detailed() %>%
+tbl <- parse_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
@@ -62,7 +62,7 @@ Since the output of `git_log_detailed()` is a nested tibble, you can work on it
 as you work on any other tibble.
 Let us first have a look at who comitted to this repository:
 ```{r}
-log <- git_log_detailed()
+log <- parse_log_detailed()
 log %>%
 group_by(author_name) %>%
   count()

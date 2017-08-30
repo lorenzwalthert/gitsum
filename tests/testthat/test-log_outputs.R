@@ -9,8 +9,8 @@ path_simp <- paste0(start, "test_logs/testthat_log_simple.txt")
 log_simp <- paste0(start, "test_logs/log_out_simp.rds")
 log_det <- paste0(start, "test_logs/log_out_det.rds")
 
-git_det <- git_log_detailed(path = ".", file_name = path_det)
-git_simp <- git_log_simple(path = ".", file_name = path_simp)
+git_det <- parse_log_detailed(path = ".", file_name = path_det)
+git_simp <- parse_log_simple(path = ".", file_name = path_simp)
 
 #   ____________________________________________________________________________
 #   create reference files                                                  ####

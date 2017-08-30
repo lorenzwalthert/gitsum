@@ -5,7 +5,7 @@
 \alias{gitsum}
 \alias{gitsum-package}
 \alias{gitsum-package}
-\title{gitsum}
+\title{Parse and summarize a git repository}
 \description{
 \code{gitsum} provides tools to parse a git repository history and
 can create automated markdown reports from the parsed history.

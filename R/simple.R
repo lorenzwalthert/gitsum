@@ -5,7 +5,7 @@
 #'
 #' This function returns a git log in a tabular format.
 #' @inheritParams get_raw_log
-#' @seealso See [git_log_detailed] for a slower alternative with more
+#' @seealso See [parse_log_detailed] for a slower alternative with more
 #'   information.
 #' @importFrom readr read_delim
 #' @importFrom tidyr separate_
@@ -14,7 +14,7 @@
 #' @importFrom lubridate ymd_hms
 #' @import magrittr
 #' @export
-git_log_simple <- function(path = ".", file_name = NULL) {
+parse_log_simple <- function(path = ".", file_name = NULL) {
 
   file_name_prog <- ifelse(is.null(file_name),
                            "commits.local.tsv.txt", file_name)

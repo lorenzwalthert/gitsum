@@ -29,7 +29,7 @@ git_report <- function(path = ".", output_file = NULL,
                        input_file = NULL,
                        directory = "gitsum", cached = FALSE,
                        .libpath_index = 1) {
-  log <- git_log_detailed(path = path, file_name = input_file)
+  log <- parse_log_detailed(path = path, file_name = input_file)
   libpath <- .libPaths()[.libpath_index]
 
   template <- strsplit(template, "::", fixed = TRUE)[[1]]

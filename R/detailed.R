@@ -16,7 +16,7 @@
 #'   of `+` and `-` may not sum up to the edits indicated as a scalar after "|"
 #'   for commits with very many changed lines since for those, the `+` and `-`
 #'   only indicate the relavite share of insertinos and edits. Therefore,
-#'   `git_log_detailed()` normalizes the insertions and deletions and rounds
+#'   `parse_log_detailed()` normalizes the insertions and deletions and rounds
 #'   these after the normalization to achieve more consistent results. However,
 #'   there is no guarantee that these numbers are always exact. The column
 #'   is_exact indicates for each changed file within a commit wether the result
@@ -30,7 +30,7 @@
 #'   The nested columns contain more information on each commit. The column
 #'   names are: \cr
 #'   changed_file, edits, insertions, deletions.
-#' @seealso See [git_log_simple] for a fast alternative with less information.
+#' @seealso See [parse_log_simple] for a fast alternative with less information.
 #' @inheritParams get_raw_log
 #' @importFrom stats setNames
 #' @importFrom dplyr mutate_ select_ everything group_by_ do_ last
@@ -38,9 +38,9 @@
 #' @importFrom tidyr unnest_ nest_
 #' @importFrom dplyr arrange_ ungroup bind_rows
 #' @importFrom readr type_convert cols col_integer col_time
-#' @inheritParams git_log_simple
+#' @inheritParams parse_log_simple
 #' @export
-git_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) {
+parse_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) {
   # get regex-finder-functions
   fnc_list <- setNames(c(find_message_and_desc,
                   lapply(get_pattern_multiple(), extract_factory_multiple)),
