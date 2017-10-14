@@ -12,7 +12,10 @@ dump_parsed_log <- function(log, path = ".", over_write = FALSE) {
 }
 
 write_last_commit <- function(log, gitsum_path) {
-  write_rds(log[1, ], file.path(gitsum_path, "last_commit.rds"))
+  last <- log %>%
+    arrange(desc(date)) %>%
+    slice(1)
+  write_rds(last, file.path(gitsum_path, "last_commit.rds"))
 }
 
 
@@ -49,15 +52,15 @@ combine_logs_detailed <- function(path) {
 
 }
 
-parse_log_detailed_quickly <- function() {
-
+parse_log_detailed <- function(path = ".") {
+  last_hash <- read_last_hash(path)
+  read_parsed_log(path) %>%
+    bind_rows(
+      parse_log_detailed_full_run(path, commit_range = paste0(last_hash, "..HEAD"))
+    )
 }
 udpate_gistum_data <- function(path = ".") {
-  last_hash <- read_last_hash(path)
-  new_log <- read_parsed_log(path) %>%
-    bind_rows(
-  parse_log_detailed(path, commit_range = paste0(last_hash, "..HEAD"))
-    ) %>%
+  parse_log_detailed(path) %>%
     write_rds(gitsum_path(path, "log.rds"))
   write_last_commit(log, gitsum_path(path))
 }
