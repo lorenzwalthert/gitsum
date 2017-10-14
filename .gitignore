@@ -4,3 +4,4 @@
 .Ruserdata
 gitsum/
 benchmarking/*.html
+inst/doc

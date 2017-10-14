@@ -26,6 +26,8 @@ Imports: lubridate,
     stringr,
     rmarkdown,
     ggplot2
-Suggests: testthat
-    
-
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
