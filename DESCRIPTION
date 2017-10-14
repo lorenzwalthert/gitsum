@@ -25,6 +25,7 @@ Imports: lubridate,
     forcats,
     stringr,
     rmarkdown,
+    rprojroot,
     ggplot2
 Suggests: 
     testthat,

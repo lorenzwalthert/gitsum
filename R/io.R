@@ -20,7 +20,7 @@ init_gitsum <- function(path = ".", over_write = FALSE) {
 #' @describeIn manage_gitsum Removes the gitsum repository, i.e just the folder
 #' .gitsum and its contents.
 #' @export
-remove_gitsum <- function(path) {
+remove_gitsum <- function(path = ".") {
   was_gitsum_repo <- is_gitsum_repo(path)
   unlink(gitsum_path(path), recursive = TRUE)
   if (was_gitsum_repo) message(".gitsum removed.")
@@ -31,6 +31,8 @@ remove_gitsum <- function(path) {
 #' Store a parsed git log in a gitsum repository.
 #' @param log A parsed log as a tibble
 #' @param path The path to the root directory of the gitsum repository.
+#' @param verbose Whether or not to send informative messages to the console.
+#' @inheritParams check_overwriting_clearance
 #' @importFrom readr write_rds
 dump_parsed_log <- function(log, path = ".", over_write = FALSE, verbose = TRUE) {
   gitsum_path <- ensure_gitsum_repo(path)
@@ -43,6 +45,7 @@ dump_parsed_log <- function(log, path = ".", over_write = FALSE, verbose = TRUE)
 
 #' @describeIn dump_parsed_log Dumps the last commit into .gitsum
 #' @importFrom readr write_rds
+#' @importFrom dplyr slice arrange desc
 dump_last_commit <- function(log, path, verbose = TRUE) {
   gitsum_path_last_commit <- gitsum_path(path, "last_commit.rds")
   last <- log %>%
@@ -64,6 +67,8 @@ ensure_gitsum_repo <- function(path = ".") {
 #' Check whether a file / path exists and return an error when it cannot be
 #' overwritten.
 #' @inheritParams dump_parsed_log
+#' @param over_write Whether or not existing files / directories should be
+#'   overwritten.
 #' @param fun The function to apply to the path, either file.exists, or
 #'   dir.exists.
 check_overwriting_clearance <- function(path, over_write, fun = file.exists) {
@@ -83,7 +88,7 @@ NULL
 #' @describeIn read_gitsum Reads a parsed log.
 #' @export
 read_log <- function(path = ".") {
-  read_gitsum_data(".", "log.rds")
+  read_gitsum_data(path, "log.rds")
 }
 
 #' @describeIn read_gitsum Reads the last parsed commit.
@@ -108,7 +113,7 @@ update_dump_from_log <- function(log, path) {
   dump_last_commit(log, path, verbose = FALSE)
 }
 
-#' @importFrom readr write_rds
+#' @importFrom readr read_rds
 read_gitsum_data <- function(path, ...) {
   assert_gitsum_repo(path)
   read_rds(gitsum_path(path, ...))

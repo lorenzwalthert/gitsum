@@ -8,6 +8,8 @@
 #' @inheritParams get_raw_log
 #' @param na_to_zero Whether some `NA` values should be converted to zero.
 #'   See 'Details'.
+#' @param update_dump Whether or not to update the dump in .gitsum after
+#'   parsing.
 #' @details
 #' * Note that for merge commmits, the following columns are `NA` if
 #'   the opotion `na_to_zero` is set to `FALSE`.:
@@ -42,7 +44,7 @@
 #' @importFrom lubridate ymd_hms
 #' @importFrom tidyr unnest_ nest_
 #' @importFrom dplyr arrange_ ungroup bind_rows
-#' @importFrom readr type_convert cols col_integer col_time
+#' @importFrom readr type_convert cols col_integer col_time col_character
 #' @export
 parse_log_detailed <- function(path = ".", update_dump = TRUE) {
   last_hash <- read_last_hash(path)
@@ -51,7 +53,7 @@ parse_log_detailed <- function(path = ".", update_dump = TRUE) {
       parse_log_detailed_full_run(path, commit_range = paste0(last_hash, "..HEAD"))
     )
   if (update_dump) {
-    dump_parsed_log(new_log, path)
+    update_dump_from_log(new_log, path)
   }
   new_log
 }
@@ -77,7 +79,7 @@ parse_log_detailed_full_run <- function(path = ".",
 
   # create log
   out <- get_raw_log(path, file_name, commit_range = commit_range)
-  if (nrow(out) < 1) return(tibble())
+  if (nrow(out) < 1) return(data_frame())
   if (last(out$lines) != "") {
     out[nrow(out) + 1, 1] <- ""
   }
@@ -111,7 +113,8 @@ parse_log_detailed_full_run <- function(path = ".",
       total_files_changed = col_integer(),
       total_insertions = col_integer(),
       total_deletions = col_integer(),
-      edits = col_integer()
+      edits = col_integer(),
+      short_hash = col_character()
     )) %>%
     mutate_(
       total_approx = ~ insertions + deletions,

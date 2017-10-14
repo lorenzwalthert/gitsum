@@ -30,6 +30,7 @@ git_report <- function(path = ".", output_file = NULL,
                        directory = "gitsum", cached = TRUE,
                        .libpath_index = 1) {
   if (cached) {
+    ensure_gitsum_repo(path)
     log <- parse_log_detailed(path = path)
   } else {
     log <- parse_log_detailed_full_run(path = path, file_name = input_file)

@@ -10,7 +10,7 @@
 \usage{
 init_gitsum(path = ".", over_write = FALSE)
 
-remove_gitsum(path)
+remove_gitsum(path = ".")
 }
 \arguments{
 \item{path}{The path to the repository to initialize.}

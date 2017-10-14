@@ -10,6 +10,9 @@ check_overwriting_clearance(path, over_write, fun = file.exists)
 \arguments{
 \item{path}{The path to the root directory of the gitsum repository.}
 
+\item{over_write}{Whether or not existing files / directories should be
+overwritten.}
+
 \item{fun}{The function to apply to the path, either file.exists, or
 dir.exists.}
 }

@@ -13,6 +13,11 @@ dump_last_commit(log, path, verbose = TRUE)
 \item{log}{A parsed log as a tibble}
 
 \item{path}{The path to the root directory of the gitsum repository.}
+
+\item{over_write}{Whether or not existing files / directories should be
+overwritten.}
+
+\item{verbose}{Whether or not to send informative messages to the console.}
 }
 \description{
 Store a parsed git log in a gitsum repository.

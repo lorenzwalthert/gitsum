@@ -13,6 +13,9 @@ parse_log_detailed_full_run(path = ".", na_to_zero = TRUE,
 \arguments{
 \item{path}{The path to the git directory one wants to create summaries for.}
 
+\item{update_dump}{Whether or not to update the dump in .gitsum after
+parsing.}
+
 \item{na_to_zero}{Whether some \code{NA} values should be converted to zero.
 See 'Details'.}
 
