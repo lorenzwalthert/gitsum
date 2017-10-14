@@ -17,18 +17,20 @@
 #' @import magrittr
 #' @export
 parse_log_simple <- function(path = ".", file_name = NULL) {
-
   file_name_prog <- ifelse(is.null(file_name),
-                           "commits.local.tsv.txt", file_name)
+    "commits.local.tsv.txt", file_name
+  )
 
   if (is.null(file_name)) {
     if (file.exists(file_name_prog)) {
       message("file ", file_name_prog, " overwritten")
     }
-    sys_call <- paste("cd", path, "&&", "git log",
-                      "--date=local",
-                      "--pretty=format:'%h%x09%an%x09%ad%x09%s%x09%P' >",
-                      file_name_prog)
+    sys_call <- paste(
+      "cd", path, "&&", "git log",
+      "--date=local",
+      "--pretty=format:'%h%x09%an%x09%ad%x09%s%x09%P' >",
+      file_name_prog
+    )
     if (Sys.info()[1] == "Windows") {
       shell(sys_call)
     } else {
@@ -37,18 +39,26 @@ parse_log_simple <- function(path = ".", file_name = NULL) {
   }
 
   time <- c("weekday", "month", "monthday", "time", "year")
-  log <- read_delim(file.path(path, file_name_prog),
-                    delim = "\t",
-                    col_names = c("commit",
-                                  "author",
-                                  "date",
-                                  "message", "parents"),
-                    col_types = "ccccc") %>%
+  log <- read_delim(
+    file.path(path, file_name_prog),
+    delim = "\t",
+    col_names = c(
+      "commit",
+      "author",
+      "date",
+      "message", "parents"
+    ),
+    col_types = "ccccc"
+  ) %>%
     separate_("date", into = time, sep = " ") %>%
-    separate_("parents", into = c("left_parent", "right_parent"), sep = " ",
-              fill = "right") %>%
-    mutate_(final_date = ~ymd_hms(paste(year, weekday, month, monthday, time)),
-            message_short = ~substr(message, 1, 20)) %>%
+    separate_(
+      "parents", into = c("left_parent", "right_parent"), sep = " ",
+      fill = "right"
+    ) %>%
+    mutate_(
+      final_date = ~ymd_hms(paste(year, weekday, month, monthday, time)),
+      message_short = ~substr(message, 1, 20)
+    ) %>%
     rowwise() %>%
     mutate_(n_parents = ~sum(!is.na(left_parent), !is.na(right_parent))) %>%
     rename_(date = ~final_date) %>%

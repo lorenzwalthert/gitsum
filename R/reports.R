@@ -34,8 +34,10 @@ git_report <- function(path = ".", output_file = NULL,
 
   template <- strsplit(template, "::", fixed = TRUE)[[1]]
   if (length(template) == 2) {
-    path_in <- paste0(file.path(libpath, template[1], "report_templates",
-                                     template[2]), ".Rmd", collapse = "")
+    path_in <- paste0(file.path(
+      libpath, template[1], "report_templates",
+      template[2]
+    ), ".Rmd", collapse = "")
   } else {
     path_in <- path.expand(template)
   }
@@ -47,10 +49,12 @@ git_report <- function(path = ".", output_file = NULL,
     message("created directory ", directory)
   }
 
-  rmarkdown::render(input = path_in,  # file 2
-                    output_format = output_format,
-                    output_file =  output_file,
-                    output_dir = "./gitsum", quiet = TRUE)
+  rmarkdown::render(
+    input = path_in, # file 2
+    output_format = output_format,
+    output_file = output_file,
+    output_dir = "./gitsum", quiet = TRUE
+  )
 
   message("reports saved in ", directory)
   invisible(libpath)

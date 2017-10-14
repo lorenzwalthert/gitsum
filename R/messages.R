@@ -13,7 +13,9 @@ find_message_and_desc <- function(raw, target) {
     c(paste(substring(raw[message_start:message_end], 5), collapse = "\n"), NA)
   } else {
     # if one line has just four spaces, we have both message and description
-    c(paste(substring(raw[message_start:(desc_sep - 1)], 5), collapse = "\n"),
-      paste(substring(raw[(desc_sep + 1):message_end], 5), collapse = "\n"))
+    c(
+      paste(substring(raw[message_start:(desc_sep - 1)], 5), collapse = "\n"),
+      paste(substring(raw[(desc_sep + 1):message_end], 5), collapse = "\n")
+    )
   }
 }

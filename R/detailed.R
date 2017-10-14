@@ -45,10 +45,16 @@
 #' @export
 parse_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) {
   # get regex-finder-functions
-  fnc_list <- setNames(c(find_message_and_desc,
-                  lapply(get_pattern_multiple(), extract_factory_multiple)),
-                nm = c("message_and_description",
-                  names(get_pattern_multiple())))
+  fnc_list <- setNames(
+    c(
+      find_message_and_desc,
+      lapply(get_pattern_multiple(), extract_factory_multiple)
+    ),
+    nm = c(
+      "message_and_description",
+      names(get_pattern_multiple())
+    )
+  )
 
   # create log
   out <- get_raw_log(path = path, file_name = file_name)
@@ -56,41 +62,54 @@ parse_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) 
     out[nrow(out) + 1, 1] <- ""
   }
   out <- out %>%
-    mutate_(level = ~cumsum(grepl("^commit", lines)),
-            has_merge = ~grepl("^Merge:", lines)) %>%
+    mutate_(
+      level = ~cumsum(grepl("^commit", lines)),
+      has_merge = ~grepl("^Merge:", lines)
+    ) %>%
     group_by_(~level) %>%
     do_(nested = ~parse_log_one(.$lines, fnc_list, any(.$has_merge))) %>%
     ungroup() %>%
     unnest_(~nested) %>%
-    mutate_(date = ~ymd_hms(paste(year, month, monthday, time)),
-            short_hash = ~substr(hash, 1, 4),
-            short_message = ~substr(message, 1, 20),
-            short_description = ~ifelse(!is.na(message),
-                                        substr(description, 1, 20), NA),
-            deletions = ~ifelse(!deletions == "", nchar(deletions), 0),
-            insertions = ~ifelse(!insertions == "", nchar(insertions), 0),
-            is_merge = ~ifelse(!is.na(left_parent) & !is.na(right_parent),
-                               TRUE, FALSE)) %>%
-    type_convert(col_types = cols(monthday = col_integer(),
-                                  time = col_time(),
-                                  timezone = col_integer(),
-                                  year = col_integer(),
-                                  total_files_changed = col_integer(),
-                                  total_insertions = col_integer(),
-                                  total_deletions = col_integer(),
-                                  edits = col_integer())) %>%
-    mutate_(total_approx  = ~ insertions + deletions,
-           multiplier    = ~ edits / total_approx,
-           insertions    = ~ round(multiplier * insertions),
-           deletions     = ~ round(multiplier * deletions),
-           is_exact      = ~ if_else(
-             (is.na(edits) | multiplier == 1), TRUE, FALSE)) %>%
+    mutate_(
+      date = ~ymd_hms(paste(year, month, monthday, time)),
+      short_hash = ~substr(hash, 1, 4),
+      short_message = ~substr(message, 1, 20),
+      short_description = ~ifelse(!is.na(message),
+        substr(description, 1, 20), NA
+      ),
+      deletions = ~ifelse(!deletions == "", nchar(deletions), 0),
+      insertions = ~ifelse(!insertions == "", nchar(insertions), 0),
+      is_merge = ~ifelse(!is.na(left_parent) & !is.na(right_parent),
+        TRUE, FALSE
+      )
+    ) %>%
+    type_convert(col_types = cols(
+      monthday = col_integer(),
+      time = col_time(),
+      timezone = col_integer(),
+      year = col_integer(),
+      total_files_changed = col_integer(),
+      total_insertions = col_integer(),
+      total_deletions = col_integer(),
+      edits = col_integer()
+    )) %>%
+    mutate_(
+      total_approx = ~ insertions + deletions,
+      multiplier = ~ edits / total_approx,
+      insertions = ~ round(multiplier * insertions),
+      deletions = ~ round(multiplier * deletions),
+      is_exact = ~ if_else((is.na(edits) | multiplier == 1), TRUE, FALSE)
+    ) %>%
     set_na_to_zero(na_to_zero) %>%
     select_(~-multiplier, ~-total_approx) %>%
-    nest_("nested",
-          c("changed_file", "edits", "insertions", "deletions", "is_exact")) %>%
-    select_(~short_hash, ~author_name, ~date,
-            ~short_message, ~everything(), ~-level) %>%
+    nest_(
+      "nested",
+      c("changed_file", "edits", "insertions", "deletions", "is_exact")
+    ) %>%
+    select_(
+      ~short_hash, ~author_name, ~date,
+      ~short_message, ~everything(), ~-level
+    ) %>%
     arrange_(~date)
 
   class(out) <- append("commit_level_log", class(out))
@@ -103,9 +122,11 @@ parse_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) 
 #' @importFrom dplyr as_data_frame
 set_na_to_zero <- function(log,
                            na_to_zero = TRUE,
-                           columns = c("edits", "insertions", "deletions",
-                                       "total_files_changed", "total_insertions",
-                                       "total_deletions")) {
+                           columns = c(
+                             "edits", "insertions", "deletions",
+                             "total_files_changed", "total_insertions",
+                             "total_deletions"
+                           )) {
   if (!na_to_zero) return(log)
   out <- log %>%
     map_at(columns, if_na_to_zero) %>%
