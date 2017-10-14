@@ -1,3 +1,9 @@
+init_gitsum <- function(path = ".", over_write = FALSE) {
+  check_overwriting_clearance(gitsum_path(path), over_write, dir.exists)
+  parse_log_detailed_full_run(path) %>%
+    dump_parsed_log(path = ".", over_write)
+}
+
 #' Dump a parsed log
 #'
 #' @param log A parsed log as a tibble
@@ -7,7 +13,7 @@ dump_parsed_log <- function(log, path = ".", over_write = FALSE) {
   gitsum_path_log <- file.path(gitsum_path, "log.rds")
   check_overwriting_clearance(gitsum_path_log, over_write)
   write_rds(log, gitsum_path_log)
-  message("Log created at ", gitsum_path_log)
+  message("\nLog created at ", gitsum_path_log)
   write_last_commit(log, gitsum_path)
 }
 
@@ -26,10 +32,10 @@ ensure_gitusm_repo <- function(path = ".") {
   gitsum_path(path)
 }
 
-check_overwriting_clearance <- function(path, over_write) {
-  if (file.exists(path)) {
+check_overwriting_clearance <- function(path, over_write, fun = file.exists) {
+  if (fun(path)) {
    if (!over_write) stop(
-     "Canno't overwrite file ", path,
+     "Cannot overwrite file / path ", path,
      " since argument overwrite was set to FALSE"
     )
   }
