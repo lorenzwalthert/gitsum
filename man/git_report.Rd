@@ -6,7 +6,7 @@
 \usage{
 git_report(path = ".", output_file = NULL,
   output_format = "html_document", template = "gitsum::repo_summary_simple",
-  input_file = NULL, directory = "gitsum", cached = FALSE,
+  input_file = NULL, directory = "gitsum", cached = TRUE,
   .libpath_index = 1)
 }
 \arguments{

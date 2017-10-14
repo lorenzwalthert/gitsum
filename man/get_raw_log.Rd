@@ -4,7 +4,8 @@
 \alias{get_raw_log}
 \title{Obtain the log raw data}
 \usage{
-get_raw_log(path, file_name = NULL, remove = is.null(file_name))
+get_raw_log(path, file_name = NULL, remove = is.null(file_name),
+  commit_range = NULL)
 }
 \arguments{
 \item{path}{The path to the git directory one wants to create summaries for.}

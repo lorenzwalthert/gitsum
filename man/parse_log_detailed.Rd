@@ -2,9 +2,13 @@
 % Please edit documentation in R/detailed.R
 \name{parse_log_detailed}
 \alias{parse_log_detailed}
+\alias{parse_log_detailed_full_run}
 \title{Obtain a detailed git log}
 \usage{
-parse_log_detailed(path = ".", na_to_zero = TRUE, file_name = NULL)
+parse_log_detailed(path = ".")
+
+parse_log_detailed_full_run(path = ".", na_to_zero = TRUE,
+  file_name = NULL, commit_range = NULL)
 }
 \arguments{
 \item{path}{The path to the git directory one wants to create summaries for.}
@@ -39,6 +43,12 @@ edits, deletions, insertions.
 insertions.
 }
 }
+\section{Functions}{
+\itemize{
+\item \code{parse_log_detailed_full_run}: In contrast to parse_log_detailed, this function
+does not read any history from the .gitum directory.
+}}
+
 \section{Warning}{
 
 The number of edits, insertions, and deletions (on a file level) are based
@@ -47,7 +57,7 @@ of \code{+} and \code{-} may not sum up to the edits indicated as a scalar after
 in \code{git log --stat}
 for commits with very many changed lines since for those, the \code{+} and \code{-}
 only indicate the relavite share of insertinos and edits. Therefore,
-\code{parse_log_detailed()} normalizes the insertions and deletions and rounds
+\code{parse_log_detailed_full_run()} normalizes the insertions and deletions and rounds
 these after the normalization to achieve more consistent results. However,
 there is no guarantee that these numbers are always exact. The column
 is_exact indicates for each changed file within a commit wether the result

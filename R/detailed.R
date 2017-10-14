@@ -1,5 +1,6 @@
 #   ____________________________________________________________________________
 #   advanced log                                                            ####
+
 #' Obtain a detailed git log
 #'
 #' This function returns a git log in a tabular format.
@@ -21,7 +22,7 @@
 #'   in `git log --stat`
 #'   for commits with very many changed lines since for those, the `+` and `-`
 #'   only indicate the relavite share of insertinos and edits. Therefore,
-#'   `parse_log_detailed()` normalizes the insertions and deletions and rounds
+#'   `parse_log_detailed_full_run()` normalizes the insertions and deletions and rounds
 #'   these after the normalization to achieve more consistent results. However,
 #'   there is no guarantee that these numbers are always exact. The column
 #'   is_exact indicates for each changed file within a commit wether the result
@@ -43,7 +44,25 @@
 #' @importFrom dplyr arrange_ ungroup bind_rows
 #' @importFrom readr type_convert cols col_integer col_time
 #' @export
-parse_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) {
+parse_log_detailed <- function(path = ".", update_dump = TRUE) {
+  last_hash <- read_last_hash(path)
+  new_log <- read_log(path) %>%
+    bind_rows(
+      parse_log_detailed_full_run(path, commit_range = paste0(last_hash, "..HEAD"))
+    )
+  if (update_dump) {
+    dump_parsed_log(new_log, path)
+  }
+  new_log
+}
+
+#' @describeIn parse_log_detailed In contrast to parse_log_detailed, this function
+#'   does not read any history from the .gitum directory.
+#' @export
+parse_log_detailed_full_run <- function(path = ".",
+                               na_to_zero = TRUE,
+                               file_name = NULL,
+                               commit_range = NULL) {
   # get regex-finder-functions
   fnc_list <- setNames(
     c(
@@ -57,7 +76,8 @@ parse_log_detailed <- function(path = ".", na_to_zero = TRUE, file_name = NULL) 
   )
 
   # create log
-  out <- get_raw_log(path = path, file_name = file_name)
+  out <- get_raw_log(path, file_name, commit_range = commit_range)
+  if (nrow(out) < 1) return(tibble())
   if (last(out$lines) != "") {
     out[nrow(out) + 1, 1] <- ""
   }

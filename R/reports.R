@@ -27,9 +27,14 @@ git_report <- function(path = ".", output_file = NULL,
                        output_format = "html_document",
                        template = "gitsum::repo_summary_simple",
                        input_file = NULL,
-                       directory = "gitsum", cached = FALSE,
+                       directory = "gitsum", cached = TRUE,
                        .libpath_index = 1) {
-  log <- parse_log_detailed(path = path, file_name = input_file)
+  if (cached) {
+    log <- parse_log_detailed(path = path)
+  } else {
+    log <- parse_log_detailed_full_run(path = path, file_name = input_file)
+  }
+
   libpath <- .libPaths()[.libpath_index]
 
   template <- strsplit(template, "::", fixed = TRUE)[[1]]
