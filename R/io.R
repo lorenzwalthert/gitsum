@@ -97,10 +97,9 @@ read_last_hash <- function(path = ".") {
 
 
 
-udpate_gistum_data <- function(path = ".") {
-  parse_log_detailed(path) %>%
-    write_rds(gitsum_path(path, "log.rds"))
-  dump_last_commit(log, gitsum_path(path))
+udpate_gitsum_data <- function(path = ".") {
+  parse_log_detailed(path, update_dump = TRUE)
+  invisible()
 }
 
 #' @importFrom readr write_rds
@@ -117,5 +116,5 @@ gitsum_path <- function(path = ".", ...) {
   file.path(path, ".gitsum", ...)
 }
 assert_gitsum_repo <- function(path = ".") {
-  if (!is_gitsum_repo(path)) stop(path, " is not a gistum repo")
+  if (!is_gitsum_repo(path)) stop(path, " is not a gitsum repo")
 }
