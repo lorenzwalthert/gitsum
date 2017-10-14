@@ -5,9 +5,9 @@
 \alias{dump_last_commit}
 \title{Dump a parsed log into .gitsum}
 \usage{
-dump_parsed_log(log, path = ".", over_write = FALSE)
+dump_parsed_log(log, path = ".", over_write = FALSE, verbose = TRUE)
 
-dump_last_commit(log, path)
+dump_last_commit(log, path, verbose = TRUE)
 }
 \arguments{
 \item{log}{A parsed log as a tibble}

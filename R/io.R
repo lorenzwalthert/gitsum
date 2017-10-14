@@ -14,7 +14,7 @@ NULL
 init_gitsum <- function(path = ".", over_write = FALSE) {
   check_overwriting_clearance(gitsum_path(path), over_write, dir.exists)
   parse_log_detailed_full_run(path) %>%
-    dump_parsed_log(path = ".", over_write)
+    update_dump_from_log(path)
 }
 
 #' @describeIn manage_gitsum Removes the gitsum repository, i.e just the folder
@@ -32,28 +32,29 @@ remove_gitsum <- function(path) {
 #' @param log A parsed log as a tibble
 #' @param path The path to the root directory of the gitsum repository.
 #' @importFrom readr write_rds
-dump_parsed_log <- function(log, path = ".", over_write = FALSE) {
-  gitsum_path <- ensure_gitusm_repo(path)
+dump_parsed_log <- function(log, path = ".", over_write = FALSE, verbose = TRUE) {
+  gitsum_path <- ensure_gitsum_repo(path)
   gitsum_path_log <- file.path(gitsum_path, "log.rds")
   check_overwriting_clearance(gitsum_path_log, over_write)
   write_rds(log, gitsum_path_log)
-  message("\nLog created at ", gitsum_path_log)
-  dump_last_commit(log, path)
+  if (verbose) message("\nLog created at ", gitsum_path_log)
 }
 
 
 #' @describeIn dump_parsed_log Dumps the last commit into .gitsum
 #' @importFrom readr write_rds
-dump_last_commit <- function(log, path) {
+dump_last_commit <- function(log, path, verbose = TRUE) {
+  gitsum_path_last_commit <- gitsum_path(path, "last_commit.rds")
   last <- log %>%
     arrange(desc(date)) %>%
     slice(1)
-  write_rds(last, gitsum_path(path, "last_commit.rds"))
+  write_rds(last, gitsum_path_last_commit)
+  if (verbose) message("\nlast_commit saved at ", gitsum_path_last_commit)
 }
 
 #' Make sure the repository is a gitsum repository and create one if it is not
 #' @inheritParams dump_parsed_log
-ensure_gitusm_repo <- function(path = ".") {
+ensure_gitsum_repo <- function(path = ".") {
   if (!is_gitsum_repo(path)) {
     dir.create(gitsum_path(path))
   }
@@ -80,6 +81,7 @@ check_overwriting_clearance <- function(path, over_write, fun = file.exists) {
 NULL
 
 #' @describeIn read_gitsum Reads a parsed log.
+#' @export
 read_log <- function(path = ".") {
   read_gitsum_data(".", "log.rds")
 }
@@ -97,9 +99,13 @@ read_last_hash <- function(path = ".") {
 
 
 
-udpate_gitsum_data <- function(path = ".") {
+udpate_dump <- function(path = ".") {
   parse_log_detailed(path, update_dump = TRUE)
   invisible()
+}
+update_dump_from_log <- function(log, path) {
+  dump_parsed_log(log, path, over_write = TRUE, verbose = FALSE)
+  dump_last_commit(log, path, verbose = FALSE)
 }
 
 #' @importFrom readr write_rds

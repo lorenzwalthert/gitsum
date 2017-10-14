@@ -5,7 +5,7 @@
 \alias{parse_log_detailed_full_run}
 \title{Obtain a detailed git log}
 \usage{
-parse_log_detailed(path = ".")
+parse_log_detailed(path = ".", update_dump = TRUE)
 
 parse_log_detailed_full_run(path = ".", na_to_zero = TRUE,
   file_name = NULL, commit_range = NULL)
@@ -18,6 +18,9 @@ See 'Details'.}
 
 \item{file_name}{The path to a raw log. If \code{NULL}, a raw log is created and
 read in and deleted after read-in, otherwise, an existing log is read.}
+
+\item{commit_range}{A string of the form "hash1..hash2" indicating the commit
+range to parse. \code{NULL} means all commits.}
 }
 \value{
 A parsed git log as a nested tibble. Each line corresponds to a
