@@ -22,7 +22,6 @@ Imports: lubridate,
     tidyr,
     purrr,
     tibble,
-    forcats,
     stringr,
     rmarkdown,
     rprojroot,
@@ -30,5 +29,6 @@ Imports: lubridate,
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown, 
+    forcats
 VignetteBuilder: knitr
