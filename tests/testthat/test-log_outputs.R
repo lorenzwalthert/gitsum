@@ -45,12 +45,3 @@ test_that("advanced log output is correct", {
   ))
   expect_equal_to_reference(unnest_(git_det, ~nested), log_det)
 })
-
-library("ggplot2")
-test_that("repo logs can be created", {
-  expect_error(git_report(
-    path = "/",
-    cached = FALSE,
-    input_file = path_det,
-    output_format = "all"), NA)
-})
