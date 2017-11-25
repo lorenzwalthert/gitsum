@@ -1,7 +1,7 @@
 context("test backend")
 test_that("repo can be created", {
   remove_gitsum()
-  expect_error(init_gitsum(path = testthat_file("")), NA)
+  expect_error(init_gitsum("."), NA)
   expect_true(dir.exists(".gitsum"))
 })
 
