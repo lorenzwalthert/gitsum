@@ -23,7 +23,6 @@ Imports: lubridate,
     purrr,
     tibble,
     stringr,
-    rmarkdown,
     rprojroot,
     ggplot2
 Suggests: 
