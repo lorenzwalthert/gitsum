@@ -18,7 +18,8 @@ Depends: R(>= 2.10)
 Imports: lubridate,
     dplyr, 
     magrittr, 
-    readr, 
+    readr,
+    rmarkdown,
     tidyr,
     purrr,
     tibble,
@@ -27,7 +28,6 @@ Imports: lubridate,
     ggplot2
 Suggests: 
     testthat,
-    knitr,
-    rmarkdown, 
+    knitr, 
     forcats
 VignetteBuilder: knitr
