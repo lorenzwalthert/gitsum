@@ -11,7 +11,6 @@ get_raw_log <- function(path,
                         remove = is.null(file_name),
                         commit_range = NULL) {
   file_name_progr <- ifelse(is.null(file_name), ".log.txt", file_name)
-  path_to_file <- file.path(path, file_name_progr)
 
   if (is.null(file_name)) {
     sys_call <- paste(
@@ -27,6 +26,7 @@ get_raw_log <- function(path,
   }
 
   # get list of commits
+  path_to_file <- normalizePath(file.path(path, file_name_progr))
   temp <- read_lines(path_to_file, progress = TRUE)
   if (remove) unlink(path_to_file)
 
