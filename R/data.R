@@ -1,6 +1,6 @@
 #' Sample log data from git repository
 #'
-#' @name log
+#' @name gitsumlog
 #' @docType data
 #' @author Lorenz Walthert
 #' @keywords data
