@@ -42,7 +42,7 @@ This function returns a git log in a tabular format.
 \details{
 \itemize{
 \item Note that for merge commmits, the following columns are \code{NA} if
-the opotion \code{na_to_zero} is set to \code{FALSE}.:
+the option \code{na_to_zero} is set to \code{FALSE}.:
 total_files_changed, total_insertions, total_deletions, changed_file,
 edits, deletions, insertions.
 \item Note that for binary files, the following columns are 0: edits, deletions,
@@ -62,11 +62,11 @@ on \code{git log --stat} and the number of \code{+} and \code{-} in this log. Th
 of \code{+} and \code{-} may not sum up to the edits indicated as a scalar after "|"
 in \code{git log --stat}
 for commits with very many changed lines since for those, the \code{+} and \code{-}
-only indicate the relavite share of insertinos and edits. Therefore,
+only indicate the relative share of insertions and edits. Therefore,
 \code{parse_log_detailed_full_run()} normalizes the insertions and deletions and rounds
 these after the normalization to achieve more consistent results. However,
 there is no guarantee that these numbers are always exact. The column
-is_exact indicates for each changed file within a commit wether the result
+is_exact indicates for each changed file within a commit whether the result
 is exact (which is the case if the normalizing constant was one).
 }
 

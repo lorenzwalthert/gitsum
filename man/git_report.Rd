@@ -36,7 +36,7 @@ which the report is base on. If \code{NULL}, a log file is created according to
 \item{directory}{A directory to which the reports should be stored.}
 
 \item{cached}{Whether or not the report should be cached with rmarkdown, so
-the graphs are writen to a file.}
+the graphs are written to a file.}
 
 \item{.libpath_index}{index of the Library according to \link[base:libPaths]{base::libPaths} in
 which the template should be searched. The list with the available

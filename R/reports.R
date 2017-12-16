@@ -14,7 +14,7 @@
 #'   `/users/xzy/a_template.Rmd`.
 #' @param directory A directory to which the reports should be stored.
 #' @param cached Whether or not the report should be cached with rmarkdown, so
-#'   the graphs are writen to a file.
+#'   the graphs are written to a file.
 #' @details Other packages can define templates. They must be store an .Rmd
 #'   template in inst/report_templates. The data passed to the report template
 #'   is log, the parsed log table.

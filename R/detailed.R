@@ -12,7 +12,7 @@
 #'   parsing.
 #' @details
 #' * Note that for merge commmits, the following columns are `NA` if
-#'   the opotion `na_to_zero` is set to `FALSE`.:
+#'   the option `na_to_zero` is set to `FALSE`.:
 #'   total_files_changed, total_insertions, total_deletions, changed_file,
 #'   edits, deletions, insertions.
 #' * Note that for binary files, the following columns are 0: edits, deletions,
@@ -23,11 +23,11 @@
 #'   of `+` and `-` may not sum up to the edits indicated as a scalar after "|"
 #'   in `git log --stat`
 #'   for commits with very many changed lines since for those, the `+` and `-`
-#'   only indicate the relavite share of insertinos and edits. Therefore,
+#'   only indicate the relative share of insertions and edits. Therefore,
 #'   `parse_log_detailed_full_run()` normalizes the insertions and deletions and rounds
 #'   these after the normalization to achieve more consistent results. However,
 #'   there is no guarantee that these numbers are always exact. The column
-#'   is_exact indicates for each changed file within a commit wether the result
+#'   is_exact indicates for each changed file within a commit whether the result
 #'   is exact (which is the case if the normalizing constant was one).
 #' @return A parsed git log as a nested tibble. Each line corresponds to a
 #'   commit. The unnested column names are: \cr
