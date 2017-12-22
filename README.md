@@ -2,14 +2,13 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 *Package is work in progress\! If you encounter errors / problems,
-please file an issue or make a PR.*
+please file an issue or make a
+PR.*
 
-[![Project Status: WIP ? Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+[![stability-unstable](https://img.shields.io/badge/stability-unstable-yellow.svg)](https://github.com/joethorley/stability-badges#unstable)
+[![codecov](https://codecov.io/gh/lorenzwalthert/gitsum/branch/master/graph/badge.svg)](https://codecov.io/gh/lorenzwalthert/gitsum)
 [![Build
 Status](https://travis-ci.org/lorenzwalthert/gitsum.svg?branch=master)](https://travis-ci.org/lorenzwalthert/gitsum)
-[![codecov](https://codecov.io/gh/lorenzwalthert/gitsum/branch/master/graph/badge.svg)](https://codecov.io/gh/lorenzwalthert/gitsum)
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/lorenzwalthert/gitsum?branch=master&svg=true)](https://ci.appveyor.com/project/lorenzwalthert/gitsum)
 
@@ -33,18 +32,22 @@ tabular data:
 data according to a template. Templates can be created by the user or a
 template from the `gitsum` package can be used.
 
+Let’s see the package in action.
+
 ``` r
 library("gitsum")
 library("tidyverse")
 library("forcats")
 ```
 
+We can obtain a parsed log like this:
+
 ``` r
 tbl <- parse_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 87 x 4
+#> # A tibble: 96 x 4
 #>    short_hash        short_message total_files_changed            nested
 #>         <chr>                <chr>               <dbl>            <list>
 #>  1       243f       initial commit                   7  <tibble [7 x 5]>
@@ -57,8 +60,11 @@ tbl
 #>  8       943c        add helpfiles                  10 <tibble [10 x 5]>
 #>  9       917e update infrastructur                   3  <tibble [3 x 5]>
 #> 10       4fc0       remove garbage                   6  <tibble [6 x 5]>
-#> # ... with 77 more rows
+#> # ... with 86 more rows
 ```
+
+Since we used `parse_log_detailed()`, there is detailed file-specific
+information available for every commit:
 
 ``` r
 tbl$nested[[3]]
@@ -70,7 +76,7 @@ tbl$nested[[3]]
 #> 3  R/get_log.R    19         11         8     TRUE
 ```
 
-Since the data has such a high resolution, various graphs, tables etc
+Since the data has such a high resolution, various graphs, tables etc.
 can be produced from it to provide insights into the git history.
 
 # Examples
@@ -89,7 +95,7 @@ group_by(author_name) %>%
 #>             <chr> <int>
 #> 1      Jon Calder     2
 #> 2      jonmcalder     6
-#> 3 Lorenz Walthert    79
+#> 3 Lorenz Walthert    88
 ```
 
 We can also investigate how the number of lines of each file in the R
