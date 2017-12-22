@@ -28,13 +28,13 @@ generate reports based on the parse data.
 
 There are two main functions for parsing the history, both return tabular data: 
 
-* `parse_log_simple` is a relatively fast parser and returns a tibble with 
+* `parse_log_simple()` is a relatively fast parser and returns a tibble with 
   one commit per row. There is no file-specific information.
-* `parse_log_detailed` outputs a nested tibble and for each commit, the names
+* `parse_log_detailed()` outputs a nested tibble and for each commit, the names
   of the amended files, number of lines changed ect. available. This function
   is slower.
 
-`git_report` creates a html, pdf, or word report with the parsed log data 
+`git_report()` creates a html, pdf, or word report with the parsed log data 
 according to a template. Templates can be created by the user or a template 
 from the `gitsum` package can be used.
 

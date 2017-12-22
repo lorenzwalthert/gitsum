@@ -22,13 +22,14 @@ reports based on the parse data.
 There are two main functions for parsing the history, both return
 tabular data:
 
-  - `parse_log_simple` is a relatively fast parser and returns a tibble
-    with one commit per row. There is no file-specific information.
-  - `parse_log_detailed` outputs a nested tibble and for each commit,
+  - `parse_log_simple()` is a relatively fast parser and returns a
+    tibble with one commit per row. There is no file-specific
+    information.
+  - `parse_log_detailed()` outputs a nested tibble and for each commit,
     the names of the amended files, number of lines changed ect.
     available. This function is slower.
 
-`git_report` creates a html, pdf, or word report with the parsed log
+`git_report()` creates a html, pdf, or word report with the parsed log
 data according to a template. Templates can be created by the user or a
 template from the `gitsum` package can be used.
 
@@ -47,7 +48,7 @@ tbl <- parse_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 96 x 4
+#> # A tibble: 99 x 4
 #>    short_hash        short_message total_files_changed            nested
 #>         <chr>                <chr>               <dbl>            <list>
 #>  1       243f       initial commit                   7  <tibble [7 x 5]>
@@ -60,7 +61,7 @@ tbl
 #>  8       943c        add helpfiles                  10 <tibble [10 x 5]>
 #>  9       917e update infrastructur                   3  <tibble [3 x 5]>
 #> 10       4fc0       remove garbage                   6  <tibble [6 x 5]>
-#> # ... with 86 more rows
+#> # ... with 89 more rows
 ```
 
 Since we used `parse_log_detailed()`, there is detailed file-specific
@@ -95,7 +96,7 @@ group_by(author_name) %>%
 #>             <chr> <int>
 #> 1      Jon Calder     2
 #> 2      jonmcalder     6
-#> 3 Lorenz Walthert    88
+#> 3 Lorenz Walthert    91
 ```
 
 We can also investigate how the number of lines of each file in the R
