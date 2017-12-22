@@ -1,6 +1,6 @@
-#' Summarize a git repo
+#' Create a summary report of a git repository
 #'
-#' Producing a summary report of a repo
+#' Producing a summary report of a repo.
 #' @param input_file the name of the temporary file that contains log data on
 #'   which the report is base on. If `NULL`, a log file is created according to
 #'   `path`, otherwise, a file is read.
@@ -23,7 +23,7 @@
 #' @importFrom rmarkdown render
 #' @import ggplot2
 #' @export
-git_report <- function(path = ".", output_file = NULL,
+report_git <- function(path = ".", output_file = NULL,
                        output_format = "html_document",
                        template = "gitsum::repo_summary_simple",
                        input_file = NULL,

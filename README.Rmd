@@ -34,7 +34,7 @@ There are two main functions for parsing the history, both return tabular data:
   of the amended files, number of lines changed ect. available. This function
   is slower.
 
-`git_report()` creates a html, pdf, or word report with the parsed log data 
+`report_git()` creates a html, pdf, or word report with the parsed log data 
 according to a template. Templates can be created by the user or a template 
 from the `gitsum` package can be used.
 
