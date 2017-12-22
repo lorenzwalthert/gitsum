@@ -4,7 +4,8 @@
 \alias{get_raw_log}
 \title{Obtain the log raw data}
 \usage{
-get_raw_log(path, file_name = NULL, remove = is.null(file_name))
+get_raw_log(path, file_name = NULL, remove = is.null(file_name),
+  commit_range = NULL)
 }
 \arguments{
 \item{path}{The path to the git directory one wants to create summaries for.}
@@ -13,6 +14,9 @@ get_raw_log(path, file_name = NULL, remove = is.null(file_name))
 created, otherwise, a file is read.}
 
 \item{remove}{Whether a log should be deleted after read in.}
+
+\item{commit_range}{A string of the form "hash1..hash2" indicating the commit
+range to parse. \code{NULL} means all commits.}
 }
 \description{
 Obtain the log raw data

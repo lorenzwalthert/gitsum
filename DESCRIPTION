@@ -18,16 +18,16 @@ Depends: R(>= 2.10)
 Imports: lubridate,
     dplyr, 
     magrittr, 
-    readr, 
+    readr,
+    rmarkdown,
     tidyr,
     purrr,
     tibble,
-    forcats,
     stringr,
-    rmarkdown,
+    rprojroot,
     ggplot2
 Suggests: 
     testthat,
-    knitr,
-    rmarkdown
+    knitr, 
+    forcats
 VignetteBuilder: knitr

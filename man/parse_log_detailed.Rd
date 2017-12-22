@@ -2,18 +2,28 @@
 % Please edit documentation in R/detailed.R
 \name{parse_log_detailed}
 \alias{parse_log_detailed}
+\alias{parse_log_detailed_full_run}
 \title{Obtain a detailed git log}
 \usage{
-parse_log_detailed(path = ".", na_to_zero = TRUE, file_name = NULL)
+parse_log_detailed(path = ".", update_dump = TRUE)
+
+parse_log_detailed_full_run(path = ".", na_to_zero = TRUE,
+  file_name = NULL, commit_range = NULL)
 }
 \arguments{
 \item{path}{The path to the git directory one wants to create summaries for.}
+
+\item{update_dump}{Whether or not to update the dump in .gitsum after
+parsing.}
 
 \item{na_to_zero}{Whether some \code{NA} values should be converted to zero.
 See 'Details'.}
 
 \item{file_name}{The path to a raw log. If \code{NULL}, a raw log is created and
 read in and deleted after read-in, otherwise, an existing log is read.}
+
+\item{commit_range}{A string of the form "hash1..hash2" indicating the commit
+range to parse. \code{NULL} means all commits.}
 }
 \value{
 A parsed git log as a nested tibble. Each line corresponds to a
@@ -32,13 +42,19 @@ This function returns a git log in a tabular format.
 \details{
 \itemize{
 \item Note that for merge commmits, the following columns are \code{NA} if
-the opotion \code{na_to_zero} is set to \code{FALSE}.:
+the option \code{na_to_zero} is set to \code{FALSE}.:
 total_files_changed, total_insertions, total_deletions, changed_file,
 edits, deletions, insertions.
 \item Note that for binary files, the following columns are 0: edits, deletions,
 insertions.
 }
 }
+\section{Functions}{
+\itemize{
+\item \code{parse_log_detailed_full_run}: In contrast to parse_log_detailed, this function
+does not read any history from the .gitum directory.
+}}
+
 \section{Warning}{
 
 The number of edits, insertions, and deletions (on a file level) are based
@@ -46,11 +62,11 @@ on \code{git log --stat} and the number of \code{+} and \code{-} in this log. Th
 of \code{+} and \code{-} may not sum up to the edits indicated as a scalar after "|"
 in \code{git log --stat}
 for commits with very many changed lines since for those, the \code{+} and \code{-}
-only indicate the relavite share of insertinos and edits. Therefore,
-\code{parse_log_detailed()} normalizes the insertions and deletions and rounds
+only indicate the relative share of insertions and edits. Therefore,
+\code{parse_log_detailed_full_run()} normalizes the insertions and deletions and rounds
 these after the normalization to achieve more consistent results. However,
 there is no guarantee that these numbers are always exact. The column
-is_exact indicates for each changed file within a commit wether the result
+is_exact indicates for each changed file within a commit whether the result
 is exact (which is the case if the normalizing constant was one).
 }
 

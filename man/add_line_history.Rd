@@ -7,10 +7,10 @@
 add_line_history(log)
 }
 \arguments{
-\item{log}{A log.}
+\item{log}{An nested gitsum log, for example obtained through \code{\link[=parse_log_detailed]{parse_log_detailed()}}.}
 }
 \description{
-Add amount of lines added by commits (insertions - deletions) plus
-number of total lines a file has according to past insertions and
-deletions (via \code{\link[base:cumsum]{base::cumsum()}}.
+Add amount of lines added by commits (insertions - deletions) plus number of
+total lines a file has according to past insertions and deletions
+(via \code{\link[base:cumsum]{base::cumsum()}}.
 }

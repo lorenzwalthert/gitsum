@@ -33,9 +33,10 @@ There are two main functions for parsing the history, both return tabular data:
 * `parse_log_detailed` outputs a nested tibble and for each commit, the names
   of the amended files, number of lines changed ect. available. This function
   is slower.
-* `git_report` creates a html, pdf, or word report with the parsed log data 
-  according to a template. Templates can be created by the user or a template 
-  from the `gitsum` package can be used.
+
+`git_report` creates a html, pdf, or word report with the parsed log data 
+according to a template. Templates can be created by the user or a template 
+from the `gitsum` package can be used.
   
 ```{r, message=FALSE, warning=FALSE}
 library("gitsum")
@@ -65,7 +66,7 @@ Let us first have a look at who comitted to this repository:
 log <- parse_log_detailed()
 log %>%
 group_by(author_name) %>%
-  count()
+  summarize(n = n())
 ```
 
 We can also investigate how the number of lines of each file in the R 

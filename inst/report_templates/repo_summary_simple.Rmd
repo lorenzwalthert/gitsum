@@ -6,10 +6,12 @@ output:
   word_document: default
   pdf_document: default
   html_document: default
+params:
+  log:placeholder
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = cached)
+knitr::opts_chunk$set(echo = TRUE)
 library("magrittr")
 library("dplyr")
 library("tibble")
