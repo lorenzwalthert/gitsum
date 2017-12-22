@@ -9,7 +9,7 @@ Description: This package parses a git repository history to collect
     data is made available to the user in a tabular format and can be used to 
     create various statistics on the repository. Graphs, figures or even 
     reports can be generated automatically.
-Roxygen: list(markdown = TRUE)
+Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate", "pkgapi::api_roclet"))
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

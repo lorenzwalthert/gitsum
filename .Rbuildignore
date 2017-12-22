@@ -7,3 +7,4 @@ benchmarking
 .travis.yml
 ^appveyor\.yml$
 ^docs$
+^API$
