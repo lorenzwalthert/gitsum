@@ -3,10 +3,10 @@ context("check high-level function outputs")
 #   ____________________________________________________________________________
 #   parameter                                                               ####
 
-path_det <- testthat_file("test_logs/testthat_log_detailed.txt")
-path_simp <- testthat_file("test_logs/testthat_log_simple.txt")
-log_simp <- testthat_file("test_logs/log_out_simp.rds")
-log_det <- testthat_file("test_logs/log_out_det.rds")
+path_det <- ("test_logs/testthat_log_detailed.txt")
+path_simp <- ("test_logs/testthat_log_simple.txt")
+log_simp <- ("test_logs/log_out_simp.rds")
+log_det <- ("test_logs/log_out_det.rds")
 
 git_det <- parse_log_detailed_full_run(path = "/", file_name = path_det)
 git_simp <- parse_log_simple(path = "/", file_name = path_simp)
