@@ -3,5 +3,6 @@
 .RData
 .Ruserdata
 gitsum/
+.gitsum/
 benchmarking/*.html
 inst/doc
