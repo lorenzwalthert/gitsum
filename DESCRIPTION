@@ -17,8 +17,10 @@ RoxygenNote: 6.0.1
 Depends: R(>= 2.10)
 Imports: lubridate,
     dplyr, 
+    forcats,
     magrittr, 
     readr,
+    rlang,
     rmarkdown,
     tidyr,
     purrr,
@@ -28,6 +30,5 @@ Imports: lubridate,
     ggplot2
 Suggests: 
     testthat,
-    knitr, 
-    forcats
+    knitr
 VignetteBuilder: knitr
