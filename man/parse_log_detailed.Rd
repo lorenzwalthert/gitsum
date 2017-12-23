@@ -41,7 +41,7 @@ This function returns a git log in a tabular format.
 }
 \details{
 \itemize{
-\item Note that for merge commmits, the following columns are \code{NA} if
+\item Note that for merge commits, the following columns are \code{NA} if
 the option \code{na_to_zero} is set to \code{FALSE}.:
 total_files_changed, total_insertions, total_deletions, changed_file,
 edits, deletions, insertions.

@@ -11,7 +11,7 @@
 #' @param update_dump Whether or not to update the dump in .gitsum after
 #'   parsing.
 #' @details
-#' * Note that for merge commmits, the following columns are `NA` if
+#' * Note that for merge commits, the following columns are `NA` if
 #'   the option `na_to_zero` is set to `FALSE`.:
 #'   total_files_changed, total_insertions, total_deletions, changed_file,
 #'   edits, deletions, insertions.
