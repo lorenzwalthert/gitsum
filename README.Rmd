@@ -85,6 +85,7 @@ We can also investigate how the number of lines of each file in the R
 directory evolved.
 ```{r per_file, message=FALSE, warning=FALSE}
 lines <- log %>%
+  unnest()
   add_line_history()
 
 r_files <- grep("^R/", lines$changed_file, value = TRUE)
