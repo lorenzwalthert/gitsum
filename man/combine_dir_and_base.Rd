@@ -16,5 +16,5 @@ element and the new base name as the second.}
 Derive full paths
 }
 \examples{
-combine_dir_and_base("R", list(c("a", "b")), 1)
+gitsum:::combine_dir_and_base("R", list(c("a", "b")), 1)
 }

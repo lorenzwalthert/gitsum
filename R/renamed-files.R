@@ -33,7 +33,7 @@ set_changed_file_to_latest_name <- function(log) {
 #'   to renaming.
 #' @importFrom stringr str_locate
 #' @examples
-#' is_name_change("R/{gitsum.R => gitsum-package.R}")
+#' gitsum:::is_name_change("R/{gitsum.R => gitsum-package.R}")
 is_name_change <- function(changed_file,
                            reassignment_pattern = "\\{.+\\s\\=\\>.+\\}$") {
   regex_position_matrix <- str_locate(changed_file, reassignment_pattern)
@@ -49,7 +49,7 @@ is_name_change <- function(changed_file,
 #' @param reassignment_index Integer vector indicating the position of the
 #'   re-assignment in the original unnested detailed log.
 #' @examples
-#' parse_reassignment(rep("R/{a => b}", 2), c(1, 2))
+#' gitsum:::parse_reassignment(rep("R/{a => b}", 2), c(1, 2))
 parse_reassignment <- function(raw_reassignment, reassignment_index) {
   separated <- separate_dir_and_reassignment(raw_reassignment)
   paths <- separated %>% map(~.x[1])
@@ -63,7 +63,7 @@ parse_reassignment <- function(raw_reassignment, reassignment_index) {
 #' @importFrom purrr map
 #' @importFrom stringr str_split fixed str_sub
 #' @examples
-#' separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}")
+#' gitsum:::separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}")
 separate_dir_and_reassignment <- function(raw_reassignment) {
   str_split(raw_reassignment, fixed("{")) %>%
     map(~str_sub(.x, end = -2L))
@@ -82,7 +82,7 @@ separate_old_and_new_name <- function(reassignment) {
 #' @param base_names List of pairs containing the old base name as the first
 #'   element and the new base name as the second.
 #' @examples
-#' combine_dir_and_base("R", list(c("a", "b")), 1)
+#' gitsum:::combine_dir_and_base("R", list(c("a", "b")), 1)
 #' @importFrom purrr pmap
 combine_dir_and_base <- function(dirs, base_names, reassignment_index) {
   pmap(list(dirs, base_names, reassignment_index),

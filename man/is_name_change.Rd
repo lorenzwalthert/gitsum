@@ -18,5 +18,5 @@ to renaming.}
 Detetct whether a \code{changed_file}-entry is a renaming
 }
 \examples{
-is_name_change("R/{gitsum.R => gitsum-package.R}")
+gitsum:::is_name_change("R/{gitsum.R => gitsum-package.R}")
 }
