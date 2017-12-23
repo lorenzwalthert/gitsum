@@ -7,6 +7,11 @@ not update}
 \usage{
 group_reassignment(log, transition)
 }
+\arguments{
+\item{log}{An unnested detailed log.}
+
+\item{transition}{A named list with one entry from the transition model.}
+}
 \description{
 Create indices for splitting \code{log} into a group to update and a group to
 not update
