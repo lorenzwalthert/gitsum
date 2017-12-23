@@ -7,6 +7,8 @@
 #'   [parse_log_detailed()].
 #' @importFrom dplyr mutate group_by arrange
 #' @importFrom tidyr unnest
+#' @examples
+#' add_line_history(tidyr::unnest(gitsumlog))
 #' @export
 add_line_history <- function(log) {
   log %>%
