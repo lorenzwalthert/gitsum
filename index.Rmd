@@ -104,6 +104,7 @@ directory evolved.
 
 ``` r
 lines <- log %>%
+  unnest() %>%
   add_line_history()
 
 r_files <- grep("^R/", lines$changed_file, value = TRUE)
