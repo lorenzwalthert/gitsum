@@ -18,5 +18,5 @@ Every element contains the old path, the new path and the index of the
 reassignment.
 }
 \examples{
-parse_reassignment(rep("R/{a => b}", 2), c(1, 2))
+gitsum:::parse_reassignment(rep("R/{a => b}", 2), c(1, 2))
 }
