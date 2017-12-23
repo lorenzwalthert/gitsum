@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>closure to extract multiple regex pattern from vector — extract_factory_multiple • gitsum</title>
+<title>Check whether a file / path exists and return an error when it cannot be
+overwritten. — check_overwriting_clearance • gitsum</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,21 +76,33 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>closure to extract multiple regex pattern from vector</h1>
+    <h1>Check whether a file / path exists and return an error when it cannot be
+overwritten.</h1>
     </div>
 
     
-    <p>closure to extract multiple regex pattern from vector</p>
+    <p>Check whether a file / path exists and return an error when it cannot be
+overwritten.</p>
     
 
-    <pre class="usage"><span class='fu'>extract_factory_multiple</span>(<span class='no'>pattern</span>)</pre>
+    <pre class="usage"><span class='fu'>check_overwriting_clearance</span>(<span class='no'>path</span>, <span class='no'>over_write</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>file.exists</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pattern</th>
-      <td><p>The pattern the function should be able to extract.</p></td>
+      <th>path</th>
+      <td><p>The path to the root directory of the gitsum repository.</p></td>
+    </tr>
+    <tr>
+      <th>over_write</th>
+      <td><p>Whether or not existing files / directories should be
+overwritten.</p></td>
+    </tr>
+    <tr>
+      <th>fun</th>
+      <td><p>The function to apply to the path, either file.exists, or
+dir.exists.</p></td>
     </tr>
     </table>
     

@@ -8,3 +8,5 @@ benchmarking
 ^appveyor\.yml$
 ^docs$
 ^API$
+^_pkgdown\.yml$
+^doc$

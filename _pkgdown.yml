@@ -1,0 +1,11 @@
+reference:
+  - title: Parse and summarize a git repo
+    desc:
+    contents:
+    - parse_log_detailed
+    - parse_log_simple
+    - report_git
+
+template:
+  params:
+    bootswatch: cerulean

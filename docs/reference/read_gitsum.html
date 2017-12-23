@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>closure to extract multiple regex pattern from vector — extract_factory_multiple • gitsum</title>
+<title>Read gitsum data into R — read_gitsum • gitsum</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,23 +75,35 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>closure to extract multiple regex pattern from vector</h1>
+    <h1>Read gitsum data into R</h1>
     </div>
 
     
-    <p>closure to extract multiple regex pattern from vector</p>
+    <p>Read gitsum data into R</p>
     
 
-    <pre class="usage"><span class='fu'>extract_factory_multiple</span>(<span class='no'>pattern</span>)</pre>
+    <pre class="usage"><span class='fu'>read_log</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>)
+
+<span class='fu'>read_last_commit</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>)
+
+<span class='fu'>read_last_hash</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pattern</th>
-      <td><p>The pattern the function should be able to extract.</p></td>
+      <th>path</th>
+      <td><p>The path to the root directory of the gitsum repository.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    <ul>
+<li><p><code>read_log</code>: Reads a parsed log.</p></li>
+<li><p><code>read_last_commit</code>: Reads the last parsed commit.</p></li>
+<li><p><code>read_last_hash</code>: Reads the last parsed hash.</p></li>
+</ul>
     
 
   </div>
@@ -99,7 +111,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#functions">Functions</a></li>
+          </ul>
 
   </div>
 </div>

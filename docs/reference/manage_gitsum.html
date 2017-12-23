@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>closure to extract multiple regex pattern from vector — extract_factory_multiple • gitsum</title>
+<title>Manage a gitsum repository — manage_gitsum • gitsum</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,23 +75,39 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>closure to extract multiple regex pattern from vector</h1>
+    <h1>Manage a gitsum repository</h1>
     </div>
 
     
-    <p>closure to extract multiple regex pattern from vector</p>
+    <p>A gitsum repository is a git repository with an additional .gitsum folder in
+the root directory that is mainly used to store a parsed git log as a tibble.</p>
     
 
-    <pre class="usage"><span class='fu'>extract_factory_multiple</span>(<span class='no'>pattern</span>)</pre>
+    <pre class="usage"><span class='fu'>init_gitsum</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>over_write</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>remove_gitsum</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pattern</th>
-      <td><p>The pattern the function should be able to extract.</p></td>
+      <th>path</th>
+      <td><p>The path to the repository to initialize.</p></td>
+    </tr>
+    <tr>
+      <th>over_write</th>
+      <td><p>Whether or not an existing directory should be overwritten.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    <ul>
+<li><p><code>init_gitsum</code>: Calling this function will parse the available git
+history and dump it into the directory .gitsum.</p></li>
+<li><p><code>remove_gitsum</code>: Removes the gitsum repository, i.e just the folder
+.gitsum and its contents.</p></li>
+</ul>
     
 
   </div>
@@ -99,7 +115,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#functions">Functions</a></li>
+          </ul>
 
   </div>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Obtain the log raw data — get_raw_log • gitsum</title>
+<title>Create a summary report of a git repository — report_git • gitsum</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,15 +75,17 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Obtain the log raw data</h1>
+    <h1>Create a summary report of a git repository</h1>
     </div>
 
     
-    <p>Obtain the log raw data</p>
+    <p>Producing a summary report of a repo.</p>
     
 
-    <pre class="usage"><span class='fu'>get_raw_log</span>(<span class='no'>path</span>, <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>remove</span> <span class='kw'>=</span> <span class='fu'>is.null</span>(<span class='no'>file_name</span>),
-  <span class='kw'>commit_range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>report_git</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>output_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"html_document"</span>, <span class='kw'>template</span> <span class='kw'>=</span> <span class='st'>"gitsum::repo_summary_simple"</span>,
+  <span class='kw'>input_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>directory</span> <span class='kw'>=</span> <span class='st'>"gitsum"</span>, <span class='kw'>cached</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>.libpath_index</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -93,20 +95,57 @@
       <td><p>The path to the git directory one wants to create summaries for.</p></td>
     </tr>
     <tr>
-      <th>file_name</th>
-      <td><p>The name of the temporary file. If <code>NULL</code>, a file is
-created, otherwise, a file is read.</p></td>
+      <th>output_file</th>
+      <td><p>Output file. If <code>NULL</code> then a default based on
+  the name of the input file is chosen.</p></td>
     </tr>
     <tr>
-      <th>remove</th>
-      <td><p>Whether a log should be deleted after read in.</p></td>
+      <th>output_format</th>
+      <td><p>R Markdown output format to convert to. Pass
+  <code>"all"</code> to render all formats defined within the file. Pass
+  the name of a format (e.g. <code>"html_document"</code>) to render a single
+  format or pass a vector of format names to render multiple formats.
+  Alternatively you can pass an output format object;
+  e.g. <code>html_document()</code>. If <code>NULL</code> is passed then the
+  output format is the first one defined in the YAML metadata of the
+  input file (defaulting to HTML if none is specified).</p></td>
     </tr>
     <tr>
-      <th>commit_range</th>
-      <td><p>A string of the form "hash1..hash2" indicating the commit
-range to parse. <code>NULL</code> means all commits.</p></td>
+      <th>template</th>
+      <td><p>the template file to be used. Either one from a package
+(e.g. <code>gitsum::repo_summary_simple</code>), or a user defined template,
+which is then indicated with a path to this file including extension, i.e.
+<code>/users/xzy/a_template.Rmd</code>.</p></td>
+    </tr>
+    <tr>
+      <th>input_file</th>
+      <td><p>the name of the temporary file that contains log data on
+which the report is base on. If <code>NULL</code>, a log file is created according to
+<code>path</code>, otherwise, a file is read.</p></td>
+    </tr>
+    <tr>
+      <th>directory</th>
+      <td><p>A directory to which the reports should be stored.</p></td>
+    </tr>
+    <tr>
+      <th>cached</th>
+      <td><p>Whether or not the report should be cached with rmarkdown, so
+the graphs are written to a file.</p></td>
+    </tr>
+    <tr>
+      <th>.libpath_index</th>
+      <td><p>index of the Library according to base::libPaths in
+which the template should be searched. The list with the available
+directories is returned invisibly for situations in which <code>.libPaths()</code>
+cannot be emulated.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Other packages can define templates. They must be store an .Rmd
+template in inst/report_templates. The data passed to the report template
+is log, the parsed log table.</p>
     
 
   </div>
@@ -114,7 +153,9 @@ range to parse. <code>NULL</code> means all commits.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>
