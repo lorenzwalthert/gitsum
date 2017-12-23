@@ -6,6 +6,11 @@
 \usage{
 update_changed_file(log, transition)
 }
+\arguments{
+\item{log}{An unnested detailed log.}
+
+\item{transition}{A named list with one entry from the transition model.}
+}
 \description{
 Apply one file name update to a log
 }

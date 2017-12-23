@@ -7,10 +7,10 @@
 parse_reassignment(raw_reassignment, reassignment_index)
 }
 \arguments{
+\item{raw_reassignment}{Character vector with raw re-assignments.}
+
 \item{reassignment_index}{Integer vector indicating the position of the
 re-assignment in the original unnested detailed log.}
-
-\item{raw_reasignment}{Character vector with raw re-assignments.}
 }
 \description{
 Takes a vector of raw reassignments and turns them into a list of elements.

@@ -11,16 +11,15 @@ set_changed_file_to_latest_name(log)
 }
 \description{
 \code{\link[=parse_log_detailed]{parse_log_detailed()}} parses a git log. However, changed file names
-are not corrected retroactive. Hence, if one want's to process file-specific
+are not corrected retroactively. Hence, if one want's to process file-specific
 commit data for one file accross different names for that file, the column
 \code{changed_files} has to be unified. This is done with this function by
-updating the file names recursively and setting them to the latest name of
-all files.
+updating the file names recursively and setting them to the latest name used.
 }
 \examples{
 library("magrittr")
 gitsumlog \%>\%
-unnest() \%>\%
+  tidyr::unnest() \%>\%
   set_changed_file_to_latest_name() \%>\%
   add_line_history()
 }

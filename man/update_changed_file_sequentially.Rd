@@ -7,6 +7,8 @@
 update_changed_file_sequentially(log, transition_model)
 }
 \arguments{
+\item{log}{An unnested detailed log.}
+
 \item{transition_model}{A transition model obtained from
 \code{\link[=parse_reassignment]{parse_reassignment()}}.}
 }

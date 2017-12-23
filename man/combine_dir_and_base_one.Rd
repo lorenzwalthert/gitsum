@@ -4,8 +4,16 @@
 \alias{combine_dir_and_base_one}
 \title{Combine dir with old and new basename}
 \usage{
-combine_dir_and_base_one(dirname, basename, reassignment_index)
+combine_dir_and_base_one(dirname, base_name, reassignment_index)
+}
+\arguments{
+\item{dirname}{A directory name.}
+
+\item{base_name}{The base name of a file.}
+
+\item{reassignment_index}{Integer vector indicating the position of the
+re-assignment in the original unnested detailed log.}
 }
 \description{
-Takes a dir and the new
+Combine dir with old and new basename
 }

@@ -8,6 +8,11 @@ is the transition itself.}
 \usage{
 update_changed_file_one(log, transition)
 }
+\arguments{
+\item{log}{An unnested detailed log.}
+
+\item{transition}{A named list with one entry from the transition model.}
+}
 \description{
 Apply one file name update to an unnested log that contains commits
 up to that name change. Also needs to update the last entry in log, which

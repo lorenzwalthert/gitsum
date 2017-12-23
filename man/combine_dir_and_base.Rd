@@ -11,6 +11,9 @@ combine_dir_and_base(dirs, base_names, reassignment_index)
 
 \item{base_names}{List of pairs containing the old base name as the first
 element and the new base name as the second.}
+
+\item{reassignment_index}{Integer vector indicating the position of the
+re-assignment in the original unnested detailed log.}
 }
 \description{
 Derive full paths
