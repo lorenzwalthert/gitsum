@@ -17,4 +17,3 @@ test_that("repo can be removed", {
   skip_on_os("windows")
   expect_error(remove_gitsum(), NA)
 })
-

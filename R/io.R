@@ -73,10 +73,12 @@ ensure_gitsum_repo <- function(path = ".") {
 #'   dir.exists.
 check_overwriting_clearance <- function(path, over_write, fun = file.exists) {
   if (fun(path)) {
-   if (!over_write) stop(
-     "Cannot overwrite file / path ", path,
-     " since argument overwrite was set to FALSE"
-    )
+    if (!over_write) {
+      stop(
+        "Cannot overwrite file / path ", path,
+        " since argument overwrite was set to FALSE"
+      )
+    }
   }
 }
 

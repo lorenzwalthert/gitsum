@@ -62,9 +62,9 @@ parse_log_detailed <- function(path = ".", update_dump = TRUE) {
 #'   does not read any history from the .gitum directory.
 #' @export
 parse_log_detailed_full_run <- function(path = ".",
-                               na_to_zero = TRUE,
-                               file_name = NULL,
-                               commit_range = NULL) {
+                                        na_to_zero = TRUE,
+                                        file_name = NULL,
+                                        commit_range = NULL) {
   # get regex-finder-functions
   fnc_list <- setNames(
     c(

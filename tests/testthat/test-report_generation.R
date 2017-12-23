@@ -8,5 +8,6 @@ test_that("repo reports can be created", {
     path = dirname(path_det),
     cached = FALSE,
     input_file = basename(path_det),
-    output_format = "all"), NA)
+    output_format = "all"
+  ), NA)
 })
