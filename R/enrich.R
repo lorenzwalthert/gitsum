@@ -6,6 +6,7 @@
 #' @param log An unested gitsum log, for example obtained through
 #'   [parse_log_detailed()].
 #' @importFrom dplyr mutate group_by arrange
+#' @importFrom rlang .data
 #' @importFrom tidyr unnest
 #' @examples
 #' add_line_history(tidyr::unnest(gitsumlog))
@@ -13,10 +14,10 @@
 add_line_history <- function(log) {
   log %>%
     mutate(
-      lines_added = insertions - deletions,
-      lines_added = ifelse(is.na(lines_added), 0, lines_added)
+      lines_added = .data$insertions - .data$deletions,
+      lines_added = ifelse(is.na(.data$lines_added), 0, .data$lines_added)
     ) %>%
-    group_by(changed_file) %>%
-    arrange(date) %>%
-    mutate(current_lines = cumsum(lines_added))
+    group_by(.data$changed_file) %>%
+    arrange(.data$date) %>%
+    mutate(current_lines = cumsum(.data$lines_added))
 }
