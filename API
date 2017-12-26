@@ -3,6 +3,7 @@
 ## Exported functions
 
 add_line_history(log)
+find_last_commit(path = ".", update_dump = FALSE)
 init_gitsum(path = ".", over_write = FALSE)
 parse_log_detailed(path = ".", update_dump = TRUE)
 parse_log_detailed_full_run(path = ".", na_to_zero = TRUE, file_name = NULL, commit_range = NULL)

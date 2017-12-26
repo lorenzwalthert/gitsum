@@ -96,6 +96,18 @@ read_last_commit <- function(path = ".") {
   read_gitsum_data(path, "last_commit.rds")
 }
 
+#' Find the last commit in a repo
+#'
+#' Finds the last commit in a repo and optionally updates the dump.
+#' @inheritParams parse_log_detailed
+#' @export
+#' @importFrom dplyr arrange desc slice
+find_last_commit <- function(path = ".", update_dump = FALSE) {
+  parse_log_detailed(path, update_dump) %>%
+    arrange(desc(date)) %>%
+    slice(1)
+}
+
 #' @describeIn read_gitsum Reads the last parsed hash.
 read_last_hash <- function(path = ".") {
   last_commit <- read_last_commit(path)
