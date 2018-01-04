@@ -2,7 +2,7 @@
 % Please edit documentation in R/renamed-files.R
 \name{is_name_change}
 \alias{is_name_change}
-\title{Detetct whether a \code{changed_file}-entry is a renaming}
+\title{Detect whether a \code{changed_file}-entry is a renaming}
 \usage{
 is_name_change(changed_file,
   reassignment_pattern = "\\\\{.+\\\\s\\\\=\\\\>.+\\\\}$")
@@ -15,7 +15,7 @@ detailed log.}
 to renaming.}
 }
 \description{
-Detetct whether a \code{changed_file}-entry is a renaming
+Detect whether a \code{changed_file}-entry is a renaming
 }
 \examples{
 gitsum:::is_name_change("R/{gitsum.R => gitsum-package.R}")
