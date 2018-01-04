@@ -1,8 +1,8 @@
 #' Set the column  `changed_files` of a `log` to the latest name of the file
 #'
 #' [parse_log_detailed()] parses a git log. However, changed file names
-#' are not corrected retroactively. Hence, if one want's to process file-specific
-#' commit data for one file accross different names for that file, the column
+#' are not corrected retroactively. Hence, if one wants to process file-specific
+#' commit data for one file across different names for that file, the column
 #' `changed_files` has to be unified. This is done with this function by
 #' updating the file names recursively and setting them to the latest name used.
 #' @param log An unnested detailed log.
@@ -24,7 +24,7 @@ set_changed_file_to_latest_name <- function(log) {
 }
 
 
-#' Detetct whether a `changed_file`-entry is a renaming
+#' Detect whether a `changed_file`-entry is a renaming
 #'
 #' @param changed_file The column `changed_file` from a parsed unnested
 #'   detailed log.
