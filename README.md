@@ -17,7 +17,12 @@ Status](https://ci.appveyor.com/api/projects/status/github/lorenzwalthert/gitsum
 This package parses a git repository history to collect comprehensive
 information about the activity in the repo. The parsed data is made
 available to the user in a tabular format. The package can also generate
-reports based on the parse data.
+reports based on the parse data. You can install the development version
+from GitHub.
+
+``` r
+remotes::install_github("lorenzwalthert/gitsum")
+```
 
 There are two main functions for parsing the history, both return
 tabular data:
@@ -48,20 +53,20 @@ tbl <- parse_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 101 x 4
-#>    short_hash        short_message total_files_changed            nested
-#>         <chr>                <chr>               <dbl>            <list>
-#>  1       243f       initial commit                   7  <tibble [7 x 5]>
-#>  2       f8ee add log example data                   1  <tibble [1 x 5]>
-#>  3       6328          add parents                   3  <tibble [3 x 5]>
-#>  4       dfab         intermediate                   1  <tibble [1 x 5]>
-#>  5       7825          add licence                   1  <tibble [1 x 5]>
-#>  6       2ac3           add readme                   2  <tibble [2 x 5]>
-#>  7       7a2a    document log data                   1  <tibble [1 x 5]>
-#>  8       943c        add helpfiles                  10 <tibble [10 x 5]>
-#>  9       917e update infrastructur                   3  <tibble [3 x 5]>
-#> 10       4fc0       remove garbage                   6  <tibble [6 x 5]>
-#> # ... with 91 more rows
+#> # A tibble: 107 x 4
+#>    short_hash short_message        total_files_changed nested           
+#>    <chr>      <chr>                              <dbl> <list>           
+#>  1 243f       initial commit                      7.00 <tibble [7 × 5]> 
+#>  2 f8ee       add log example data                1.00 <tibble [1 × 5]> 
+#>  3 6328       add parents                         3.00 <tibble [3 × 5]> 
+#>  4 dfab       intermediate                        1.00 <tibble [1 × 5]> 
+#>  5 7825       add licence                         1.00 <tibble [1 × 5]> 
+#>  6 2ac3       add readme                          2.00 <tibble [2 × 5]> 
+#>  7 7a2a       document log data                   1.00 <tibble [1 × 5]> 
+#>  8 943c       add helpfiles                      10.0  <tibble [10 × 5]>
+#>  9 917e       update infrastructur                3.00 <tibble [3 × 5]> 
+#> 10 4fc0       remove garbage                      6.00 <tibble [6 × 5]> 
+#> # ... with 97 more rows
 ```
 
 Since we used `parse_log_detailed()`, there is detailed file-specific
@@ -71,10 +76,10 @@ information available for every commit:
 tbl$nested[[3]]
 #> # A tibble: 3 x 5
 #>   changed_file edits insertions deletions is_exact
-#>          <chr> <dbl>      <dbl>     <dbl>    <lgl>
-#> 1  DESCRIPTION     6          5         1     TRUE
-#> 2    NAMESPACE     3          2         1     TRUE
-#> 3  R/get_log.R    19         11         8     TRUE
+#>   <chr>        <dbl>      <dbl>     <dbl> <lgl>   
+#> 1 DESCRIPTION   6.00       5.00      1.00 T       
+#> 2 NAMESPACE     3.00       2.00      1.00 T       
+#> 3 R/get_log.R  19.0       11.0       8.00 T
 ```
 
 Since the data has such a high resolution, various graphs, tables etc.
@@ -92,11 +97,11 @@ log %>%
 group_by(author_name) %>%
   summarize(n = n())
 #> # A tibble: 3 x 2
-#>       author_name     n
-#>             <chr> <int>
-#> 1      Jon Calder     2
-#> 2      jonmcalder     6
-#> 3 Lorenz Walthert    93
+#>   author_name         n
+#>   <chr>           <int>
+#> 1 Jon Calder          2
+#> 2 jonmcalder          6
+#> 3 Lorenz Walthert    99
 ```
 
 We can also investigate how the number of lines of each file in the R

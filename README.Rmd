@@ -24,7 +24,12 @@ problems, please file an issue or make a PR.*
 This package parses a git repository history to collect 
 comprehensive information about the activity in the repo. The parsed 
 data is made available to the user in a tabular format. The package can also 
-generate reports based on the parse data.
+generate reports based on the parse data. You can install the development 
+version from GitHub.
+
+```{r, eval=FALSE}
+remotes::install_github("lorenzwalthert/gitsum")
+```
 
 There are two main functions for parsing the history, both return tabular data: 
 
