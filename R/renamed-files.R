@@ -5,6 +5,10 @@
 #' commit data for one file across different names for that file, the column
 #' `changed_files` has to be unified. This is done with this function by
 #' updating the file names recursively and setting them to the latest name used.
+#' Filenames containing the sequence ` => ` are viewed as renamed files, so
+#' there will likely be problems when you apply this function to a git
+#' repository that contains (or contained) files with such files names. You
+#' may have to update the column `changed_file` manually.
 #' @param log An unnested detailed log.
 #' @examples
 #' library("magrittr")
@@ -12,9 +16,13 @@
 #'   tidyr::unnest() %>%
 #'   set_changed_file_to_latest_name() %>%
 #'   add_line_history()
+#' @importFrom purrr walk
 #' @export
 set_changed_file_to_latest_name <- function(log) {
   is_renaming <- is_name_change(log$changed_file)
+  cat(paste0("The following name changes were identified (", sum(is_renaming), " in total):\n"))
+  cli::cat_bullet(log$changed_file[is_renaming])
+
   contains_renaming <- log[is_renaming, ]
   contains_no_renaming <- log[!is_renaming,]
   transition_model <- parse_reassignment(
@@ -26,15 +34,21 @@ set_changed_file_to_latest_name <- function(log) {
 
 #' Detect whether a `changed_file`-entry is a renaming
 #'
+#' Filenames in `$ git log` containing the sequence ` => ` are viewed as renamed
+#' files. There seems no other way around that, so this function will indicate
+#' a file is a name change even if it may not be the case.
 #' @param changed_file The column `changed_file` from a parsed unnested
-#'   detailed log.
+#'   detailed log as a vector.
 #' @param reassignment_pattern The regular expression pattern that corresponds
 #'   to renaming.
 #' @importFrom stringr str_locate
 #' @examples
-#' gitsum:::is_name_change("R/{gitsum.R => gitsum-package.R}")
+#' gitsum:::is_name_change(c(
+#'   "R/{gitsum.R => gitsum-package.R}", "API => API2",
+#'   "this is jus a file with => in it, it's not a name change"
+#' ))
 is_name_change <- function(changed_file,
-                           reassignment_pattern = "\\{.+\\s\\=\\>.+\\}$") {
+                           reassignment_pattern = ".+\\s\\=\\>.+$") {
   regex_position_matrix <- str_locate(changed_file, reassignment_pattern)
   apply(regex_position_matrix, 1, function(x) !all(is.na(x)))
 }
@@ -66,7 +80,20 @@ parse_reassignment <- function(raw_reassignment, reassignment_index) {
 #' gitsum:::separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}")
 separate_dir_and_reassignment <- function(raw_reassignment) {
   str_split(raw_reassignment, fixed("{")) %>%
+    correct_base_dir_for_toplevel_reassignments() %>%
     map(~str_sub(.x, end = -2L))
+}
+
+#'
+correct_base_dir_for_toplevel_reassignments <- function(reassignments) {
+  cleaned <- reassignments %>%
+    map(complete_reassignment_if_necessary)
+  cleaned
+}
+
+complete_reassignment_if_necessary <- function(reassignment) {
+  if (length(reassignment) > 1L) return(reassignment)
+  else c("", reassignment)
 }
 
 #' @importFrom purrr map flatten_chr
