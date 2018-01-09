@@ -3,6 +3,7 @@
 ## Exported functions
 
 add_line_history(log)
+add_n_times_changed_file(log)
 find_last_commit(path = ".", update_dump = FALSE)
 init_gitsum(path = ".", over_write = FALSE)
 nest_log(log)
