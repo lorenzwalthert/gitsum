@@ -15,6 +15,10 @@ are not corrected retroactively. Hence, if one wants to process file-specific
 commit data for one file across different names for that file, the column
 \code{changed_files} has to be unified. This is done with this function by
 updating the file names recursively and setting them to the latest name used.
+Filenames containing the sequence \code{=>} are viewed as renamed files, so
+there will likely be problems when you apply this function to a git
+repository that contains (or contained) files with such files names. You
+may have to update the column \code{changed_file} manually.
 }
 \examples{
 library("magrittr")

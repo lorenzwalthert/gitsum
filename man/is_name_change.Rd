@@ -4,19 +4,23 @@
 \alias{is_name_change}
 \title{Detect whether a \code{changed_file}-entry is a renaming}
 \usage{
-is_name_change(changed_file,
-  reassignment_pattern = "\\\\{.+\\\\s\\\\=\\\\>.+\\\\}$")
+is_name_change(changed_file, reassignment_pattern = ".+\\\\s\\\\=\\\\>.+$")
 }
 \arguments{
 \item{changed_file}{The column \code{changed_file} from a parsed unnested
-detailed log.}
+detailed log as a vector.}
 
 \item{reassignment_pattern}{The regular expression pattern that corresponds
 to renaming.}
 }
 \description{
-Detect whether a \code{changed_file}-entry is a renaming
+Filenames in \code{$ git log} containing the sequence \code{=>} are viewed as renamed
+files. There seems no other way around that, so this function will indicate
+a file is a name change even if it may not be the case.
 }
 \examples{
-gitsum:::is_name_change("R/{gitsum.R => gitsum-package.R}")
+gitsum:::is_name_change(c(
+  "R/{gitsum.R => gitsum-package.R}", "API => API2",
+  "this is jus a file with => in it, it's not a name change"
+))
 }
