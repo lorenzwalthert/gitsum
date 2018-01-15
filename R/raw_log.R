@@ -14,6 +14,7 @@ get_raw_log <- function(path,
 
   if (is.null(file_name)) {
     sys_call <- paste(
+      "export COLUMNS=999 &&",
       "cd", path, "&&",
       "git log ", commit_range, " --stat --parents ", " >", file_name_progr
     )
