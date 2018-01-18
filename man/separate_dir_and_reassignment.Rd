@@ -13,5 +13,5 @@ separate_dir_and_reassignment(raw_reassignment)
 Separate the directory from the reassignment
 }
 \examples{
-gitsum:::separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}")
+gitsum:::separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}/")
 }

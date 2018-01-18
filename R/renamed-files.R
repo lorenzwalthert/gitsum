@@ -62,14 +62,61 @@ is_name_change <- function(changed_file,
 #' @param reassignment_index Integer vector indicating the position of the
 #'   re-assignment in the original unnested detailed log.
 #' @examples
-#' gitsum:::parse_reassignment(rep("R/{a => b}", 2), c(1, 2))
+#' gitsum:::parse_reassignment(c("R/{a => b}", "API => api2", "{src => inst/include}/dplyr_types.h"), c(1, 2, 33))
 parse_reassignment <- function(raw_reassignment, reassignment_index) {
-  separated <- separate_dir_and_reassignment(raw_reassignment)
+  separated <- ensure_curly_enclosing(raw_reassignment) %>%
+    ensure_dash_enclosing() %>%
+    separate_dir_and_reassignment()
   paths <- separated %>% map(~.x[1])
+  extensions <- separated %>% map(~.x[3])
   base_names <- separate_old_and_new_name(separated)
-  combine_dir_and_base(paths, base_names, reassignment_index)
+  combine_dir_and_base(paths, base_names, extensions, reassignment_index)
 }
 
+#' @examples
+#' gitsum:::ensure_curly_enclosing(c("API => api", "R/{a => b}"))
+ensure_curly_enclosing <- function(raw_reassignment) {
+  is_enclosed <- is_enclosed(raw_reassignment, c("{", "}"))
+  raw_reassignment[!is_enclosed] <- enclose_string(
+    raw_reassignment[!is_enclosed], c("{", "}")
+  )
+  raw_reassignment
+}
+
+#' @examples
+#' gitsum:::ensure_leading_dash(
+#'   c("{API = api}", "R/{a => b}", "vignettes/{ => notes}/mysql-setup.Rmd")
+#' )
+ensure_dash_enclosing <- function(raw_reassignment) {
+  raw_reassignment %>%
+    ensure_leading_dash() %>%
+    ensure_trailing_dash()
+}
+
+#' @importFrom stringr str_locate fixed
+ensure_leading_dash <- function(string) {
+  starts_with_brace <- str_locate(string, fixed("{"))[, 1] == 1L
+  string[starts_with_brace] <- paste0("/", string[starts_with_brace])
+  string
+}
+
+#' @importFrom stringr str_locate fixed str_length
+ensure_trailing_dash <- function(string) {
+  ends_with_brace <- str_locate(string, fixed("}"))[, 2] == str_length(string)
+  string[ends_with_brace] <- paste0(string[ends_with_brace], "/")
+  string
+}
+
+#' @importFrom stringr str_locate fixed
+is_enclosed <- function(string, pattern) {
+  is_enclosed <- str_locate(string, fixed(pattern[1]))[, 2] <=
+    str_locate(string, fixed(pattern[2]))[, 1]
+  ifelse(is.na(is_enclosed), FALSE, TRUE)
+}
+
+enclose_string <- function(string, enclosement) {
+  paste0(enclosement[1], string, enclosement[2])
+}
 
 #' Separate the directory from the reassignment
 #'
@@ -77,11 +124,9 @@ parse_reassignment <- function(raw_reassignment, reassignment_index) {
 #' @importFrom stringr str_split fixed str_sub
 #' @inheritParams parse_reassignment
 #' @examples
-#' gitsum:::separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}")
+#' gitsum:::separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}/")
 separate_dir_and_reassignment <- function(raw_reassignment) {
-  str_split(raw_reassignment, fixed("{")) %>%
-    correct_base_dir_for_toplevel_reassignments() %>%
-    map(~str_sub(.x, end = -2L))
+  str_split(raw_reassignment, "/\\{|\\}/")
 }
 
 #'
@@ -112,8 +157,8 @@ separate_old_and_new_name <- function(reassignment) {
 #' @examples
 #' gitsum:::combine_dir_and_base("R", list(c("a", "b")), 1)
 #' @importFrom purrr pmap
-combine_dir_and_base <- function(dirs, base_names, reassignment_index) {
-  pmap(list(dirs, base_names, reassignment_index),
+combine_dir_and_base <- function(dirs, base_names, extensions, reassignment_index) {
+  pmap(list(dirs, base_names, extensions, reassignment_index),
        combine_dir_and_base_one)
 }
 
@@ -122,11 +167,29 @@ combine_dir_and_base <- function(dirs, base_names, reassignment_index) {
 #' @param dirname A directory name.
 #' @param base_name The base name of a file.
 #' @inheritParams parse_reassignment
-#' @importFrom rlang ll !!!
-combine_dir_and_base_one <- function(dirname, base_name, reassignment_index) {
-  out <- ll(!!!as.list(file.path(dirname, base_name)), reassignment_index) %>%
+#' @importFrom purrr pmap
+combine_dir_and_base_one <- function(dirname, base_name, extensions, reassignment_index) {
+  old_new_reassignment <- pmap(list(dirname, base_name, extensions), file_path) %>%
+    append(reassignment_index) %>%
     set_names(c("old_path", "new_path", "reassignment_index"))
-  out
+  old_new_reassignment
+}
+
+#' Like [base::file.path()], but sorts our `character(1)` first
+#' @importFrom purrr compact flatten_chr
+#' @importFrom rlang set_names
+file_path <- function(..., fsep = .Platform$file.sep) {
+  compact_vars <- map(list(...), function(x) {
+    if (x == "") {
+      NULL
+    } else {
+      x
+    }
+  }) %>%
+    compact() %>%
+    flatten_chr() %>%
+    append(c(fsep = fsep))
+  do.call("file.path", as.list(compact_vars))
 }
 
 

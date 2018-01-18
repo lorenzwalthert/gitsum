@@ -4,7 +4,7 @@
 \alias{combine_dir_and_base}
 \title{Derive full paths}
 \usage{
-combine_dir_and_base(dirs, base_names, reassignment_index)
+combine_dir_and_base(dirs, base_names, extensions, reassignment_index)
 }
 \arguments{
 \item{dirs}{Character vector with directories.}
