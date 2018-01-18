@@ -19,5 +19,9 @@ re-assignment in the original unnested detailed log.}
 Derive full paths
 }
 \examples{
-gitsum:::combine_dir_and_base("R", list(c("a", "b")), 1)
+gitsum:::combine_dir_and_base(
+  "R",
+  list(c("a", "b"), c("API", "api2"), c("scr", "inst/include")),
+  list("", "", "dplyr_types.h"), 1
+)
 }
