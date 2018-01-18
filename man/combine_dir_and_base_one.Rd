@@ -4,7 +4,7 @@
 \alias{combine_dir_and_base_one}
 \title{Combine dir with old and new basename}
 \usage{
-combine_dir_and_base_one(dirname, base_name, reassignment_index)
+combine_dir_and_base_one(dirname, base_name, extensions, reassignment_index)
 }
 \arguments{
 \item{dirname}{A directory name.}

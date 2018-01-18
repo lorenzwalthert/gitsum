@@ -18,5 +18,5 @@ Every element contains the old path, the new path and the index of the
 reassignment.
 }
 \examples{
-gitsum:::parse_reassignment(rep("R/{a => b}", 2), c(1, 2))
+gitsum:::parse_reassignment(c("R/{a => b}", "API => api2", "{src => inst/include}/dplyr_types.h"), c(1, 2, 33))
 }
