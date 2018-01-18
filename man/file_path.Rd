@@ -6,6 +6,11 @@
 \usage{
 file_path(..., fsep = .Platform$file.sep)
 }
+\arguments{
+\item{...}{character vectors.}
+
+\item{fsep}{the path separator to use.}
+}
 \description{
 Like \code{\link[base:file.path]{base::file.path()}}, but sorts our \code{character(1)} first
 }

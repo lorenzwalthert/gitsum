@@ -16,6 +16,7 @@ LazyData: true
 RoxygenNote: 6.0.1
 Depends: R(>= 2.10)
 Imports: lubridate,
+    cli,
     dplyr, 
     forcats,
     magrittr, 

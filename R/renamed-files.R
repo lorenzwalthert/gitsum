@@ -62,7 +62,10 @@ is_name_change <- function(changed_file,
 #' @param reassignment_index Integer vector indicating the position of the
 #'   re-assignment in the original unnested detailed log.
 #' @examples
-#' gitsum:::parse_reassignment(c("R/{a => b}", "API => api2", "{src => inst/include}/dplyr_types.h"), c(1, 2, 33))
+#' gitsum:::parse_reassignment(
+#'   c("R/{a => b}", "API => api2", "{src => inst/include}/dplyr_types.h"),
+#'   c(1, 2, 33)
+#' )
 parse_reassignment <- function(raw_reassignment, reassignment_index) {
   separated <- ensure_curly_enclosing(raw_reassignment) %>%
     ensure_dash_enclosing() %>%
@@ -155,7 +158,11 @@ separate_old_and_new_name <- function(reassignment) {
 #'   element and the new base name as the second.
 #' @inheritParams parse_reassignment
 #' @examples
-#' gitsum:::combine_dir_and_base("R", list(c("a", "b")), 1)
+#' gitsum:::combine_dir_and_base(
+#'   "R",
+#'   list(c("a", "b"), c("API", "api2"), c("scr", "inst/include")),
+#'   list("", "", "dplyr_types.h"), 1
+#' )
 #' @importFrom purrr pmap
 combine_dir_and_base <- function(dirs, base_names, extensions, reassignment_index) {
   pmap(list(dirs, base_names, extensions, reassignment_index),
@@ -178,6 +185,7 @@ combine_dir_and_base_one <- function(dirname, base_name, extensions, reassignmen
 #' Like [base::file.path()], but sorts our `character(1)` first
 #' @importFrom purrr compact flatten_chr
 #' @importFrom rlang set_names
+#' @inheritParams base::file.path
 file_path <- function(..., fsep = .Platform$file.sep) {
   compact_vars <- map(list(...), function(x) {
     if (x == "") {
