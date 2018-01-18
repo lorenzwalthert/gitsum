@@ -3,6 +3,7 @@
 ## Exported functions
 
 add_line_history(log)
+add_n_times_changed_file(log)
 find_last_commit(path = ".", update_dump = FALSE)
 init_gitsum(path = ".", over_write = FALSE)
 parse_log_detailed(path = ".", update_dump = TRUE)
@@ -11,3 +12,4 @@ parse_log_simple(path = ".", file_name = NULL)
 read_log(path = ".")
 remove_gitsum(path = ".")
 report_git(path = ".", output_file = NULL, output_format = "html_document", template = "gitsum::repo_summary_simple", input_file = NULL, directory = "gitsum", cached = TRUE, .libpath_index = 1)
+set_changed_file_to_latest_name(log)

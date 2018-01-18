@@ -61,6 +61,7 @@ log %>%
 Or how the line number of the files in the directory R changed.
 ```{r}
 lines <- log %>%
+  unnest() %>%
   add_line_history()
 
 r_files <- grep("^R/", lines$changed_file, value = TRUE)

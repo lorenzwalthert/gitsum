@@ -11,3 +11,4 @@ benchmarking
 ^_pkgdown\.yml$
 ^doc$
 CONTRIBUTING.md
+index.Rmd

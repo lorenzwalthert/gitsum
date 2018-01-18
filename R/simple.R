@@ -14,7 +14,7 @@
 #' @importFrom dplyr mutate_ select_ if_else rowwise rename_
 #' @importFrom dplyr everything arrange_
 #' @importFrom lubridate ymd_hms
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @export
 parse_log_simple <- function(path = ".", file_name = NULL) {
   file_name_prog <- ifelse(is.null(file_name),

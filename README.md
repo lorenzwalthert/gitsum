@@ -104,16 +104,37 @@ group_by(author_name) %>%
 ```
 
 We can also investigate how the number of lines of each file in the R
-directory evolved.
+directory evolved. For that, we probaly want to view files with changed
+names as one file. Also, we probably don’t want to see boring plots for
+files that got changed only a few times. Let’s focus on files that were
+changed in at least five commits.
 
 ``` r
 lines <- log %>%
+  unnest() %>%
+  set_changed_file_to_latest_name() %>%
   add_line_history()
+#> The following name changes were identified (13 in total):
+#> ● man/{get_log.Rd => get_log_simple.Rd}
+#> ● man/{parse_log.Rd => parse_log_one.Rd}
+#> ● man/{get_pattern.Rd => get_pattern_multiple.Rd}
+#> ● man/{get_log_regex.Rd => git_log_detailed.Rd}
+#> ● man/{rmd_simple.Rd => git_report.Rd}
+#> ● R/{gitsum.R => gitsum-package.R}
+#> ● man/{git_log_detailed.Rd => parse_log_detailed.Rd}
+#> ● man/{git_log_simple.Rd => parse_log_simple.Rd}
+#> ● man/{ensure_gitusm_repo.Rd => ensure_gitsum_repo.Rd}
+#> ● man/{log.Rd => gitsumlog.Rd}
+#> ● man/{git_report.Rd => report_git.Rd}
+#> ● API => api1
+#> ● API => API2
 
 r_files <- grep("^R/", lines$changed_file, value = TRUE)
 
 to_plot <- lines %>%
-  filter(changed_file %in% r_files)
+  filter(changed_file %in% r_files) %>%
+  add_n_times_changed_file() %>%
+  filter(n_times_changed_file >= 5)
 ggplot(to_plot, aes(x = date, y = current_lines)) + 
   geom_step() + 
   scale_y_continuous(name = "Number of Lines", limits = c(0, NA)) + 
