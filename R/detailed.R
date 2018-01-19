@@ -31,10 +31,10 @@
 #'   is exact (which is the case if the normalizing constant was one).
 #' @return A parsed git log as a nested tibble. Each line corresponds to a
 #'   commit. The unnested column names are: \cr
-#'   short_hash, author_name, date, short_message, hash, left_parent,
-#'   right_parent, author_email, weekday, month, monthday, time, year, timezone,
-#'   message, description, total_files_changed, total_insertions,
-#'   total_deletions, short_description, is_merge \cr
+#'   short_hash, author_name, local_date, global_date, short_message, hash,
+#'   left_parent, right_parent, author_email, weekday, month, monthday, time,
+#'   year, timezone, message, description, total_files_changed,
+#'   total_insertions, total_deletions, short_description, is_merge \cr
 #'   The nested columns contain more information on each commit. The column
 #'   names are: \cr
 #'   changed_file, edits, insertions, deletions.
@@ -60,6 +60,7 @@ parse_log_detailed <- function(path = ".", update_dump = TRUE) {
 
 #' @describeIn parse_log_detailed In contrast to parse_log_detailed, this function
 #'   does not read any history from the .gitum directory.
+#' @importFrom lubridate hours
 #' @export
 parse_log_detailed_full_run <- function(path = ".",
                                         na_to_zero = TRUE,
@@ -93,7 +94,8 @@ parse_log_detailed_full_run <- function(path = ".",
     ungroup() %>%
     unnest_(~nested) %>%
     mutate_(
-      date = ~ymd_hms(paste(year, month, monthday, time)),
+      local_date = ~ymd_hms(paste(year, month, monthday, time)),
+      global_date = ~ymd_hms(paste(year, month, monthday, time)) + hours(timezone),
       short_hash = ~substr(hash, 1, 4),
       short_message = ~substr(message, 1, 20),
       short_description = ~ifelse(!is.na(message),
@@ -130,10 +132,10 @@ parse_log_detailed_full_run <- function(path = ".",
       c("changed_file", "edits", "insertions", "deletions", "is_exact")
     ) %>%
     select_(
-      ~short_hash, ~author_name, ~date,
+      ~short_hash, ~author_name, ~global_date, ~local_date,
       ~short_message, ~everything(), ~-level
     ) %>%
-    arrange_(~date)
+    arrange_(~global_date)
 
   class(out) <- append("commit_level_log", class(out))
 
