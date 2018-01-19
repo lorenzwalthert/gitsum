@@ -34,7 +34,7 @@ test_that("simple log output is correct", {
 test_that("advanced log output is correct", {
   expect_is(git_det, "tbl_df")
   expect_named(git_det, c(
-    "short_hash", "author_name", "date",
+    "short_hash", "author_name", "global_date", "local_date",
     "short_message", "hash", "left_parent",
     "right_parent", "author_email", "weekday",
     "month", "monthday", "time", "year",
