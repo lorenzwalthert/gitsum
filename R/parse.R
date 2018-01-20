@@ -43,3 +43,25 @@ parse_log_one <- function(raw, fnc_list, has_merge) {
     deletions = all_changes_file[, 4]
   )
 }
+
+#' Turn a raw log of lines into a tabular format
+#'
+#' @param lines The output of [get_raw_log()].
+#' @importFrom magrittr set_names
+parse_lines <- function(lines) {
+  extractors <- set_names(
+    c(
+      find_message_and_desc,
+      lapply(get_pattern_multiple(), extract_factory_multiple)
+    ), nm = c("message_and_description",names(get_pattern_multiple()))
+  )
+  lines %>%
+    mutate_(
+    level = ~cumsum(grepl("^commit", lines)),
+    has_merge = ~grepl("^Merge:", lines)
+  ) %>%
+    group_by_(~level) %>%
+    do_(nested = ~parse_log_one(.$lines, extractors, any(.$has_merge))) %>%
+    ungroup() %>%
+    unnest_log()
+}
