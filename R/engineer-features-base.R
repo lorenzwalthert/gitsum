@@ -2,16 +2,22 @@
 #'
 #' Derives some attributes from the parsed raw log and converts them to the
 #' desired format.
+#' The following attributes merit special mentioning:
+#'
+#' * commit_nr: The number of the commit in the repo. This can be used to sort
+#'   commits (in contrast to the commit date) in chronological order, that is,
+#'   in the oder in which they were committed.
 add_attributes_detailed <- function(log) {
   mutate_(log,
+    commit_nr = ~seq(1L, nrow(log)),
     date = ~ymd_hms(paste(year, month, monthday, time)),
     short_hash = ~substr(hash, 1, 4),
     short_message = ~substr(message, 1, 20),
     short_description = ~ifelse(!is.na(message),
                                 substr(description, 1, 20), NA
     ),
-    deletions = ~ifelse(!deletions == "", nchar(deletions), 0),
-    insertions = ~ifelse(!insertions == "", nchar(insertions), 0),
+    deletions = ~ifelse(deletions != "", nchar(deletions), 0),
+    insertions = ~ifelse(!insertions != "", nchar(insertions), 0),
     is_merge = ~ifelse(!is.na(left_parent) & !is.na(right_parent),
                        TRUE, FALSE
     )

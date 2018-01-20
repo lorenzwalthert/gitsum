@@ -40,7 +40,7 @@ test_that("advanced log output is correct", {
     "month", "monthday", "time", "year",
     "timezone", "message", "description",
     "total_files_changed", "total_insertions",
-    "total_deletions", "short_description",
+    "total_deletions", "commit_nr", "short_description",
     "is_merge", "nested"
   ))
   expect_equal_to_reference(unnest_(git_det, ~nested), log_det)
