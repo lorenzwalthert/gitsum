@@ -67,7 +67,7 @@ r_files <- grep("^R/", lines$changed_file, value = TRUE)
 
 to_plot <- lines %>%
   filter(changed_file %in% r_files)
-ggplot(to_plot, aes(x = global_date, y = current_lines)) + 
+ggplot(to_plot, aes(x = date, y = current_lines)) + 
   geom_step() + 
   scale_y_continuous(name = "Number of Lines", limits = c(0, NA)) + 
   facet_wrap(~changed_file, scales = "free_y")

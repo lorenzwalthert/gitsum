@@ -12,6 +12,6 @@ add_line_history <- function(log) {
     unnest() %>%
     mutate(lines_added = insertions - deletions) %>%
     group_by(changed_file) %>%
-    arrange(global_date) %>%
+    arrange(date) %>%
     mutate(current_lines = cumsum(lines_added))
 }

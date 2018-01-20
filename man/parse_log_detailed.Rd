@@ -28,10 +28,10 @@ range to parse. \code{NULL} means all commits.}
 \value{
 A parsed git log as a nested tibble. Each line corresponds to a
 commit. The unnested column names are: \cr
-short_hash, author_name, local_date, global_date, short_message, hash,
-left_parent, right_parent, author_email, weekday, month, monthday, time,
-year, timezone, message, description, total_files_changed,
-total_insertions, total_deletions, short_description, is_merge \cr
+short_hash, author_name, date, short_message, hash, left_parent,
+right_parent, author_email, weekday, month, monthday, time, year, timezone,
+message, description, total_files_changed, total_insertions,
+total_deletions, short_description, is_merge \cr
 The nested columns contain more information on each commit. The column
 names are: \cr
 changed_file, edits, insertions, deletions.
