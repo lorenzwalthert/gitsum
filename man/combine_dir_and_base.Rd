@@ -12,6 +12,8 @@ combine_dir_and_base(dirs, base_names, extensions, reassignment_index)
 \item{base_names}{List of pairs containing the old base name as the first
 element and the new base name as the second.}
 
+\item{extensions}{The extensions that indicate the suffix of the name.}
+
 \item{reassignment_index}{Integer vector indicating the position of the
 re-assignment in the original unnested detailed log.}
 }
@@ -22,6 +24,6 @@ Derive full paths
 gitsum:::combine_dir_and_base(
   "R",
   list(c("a", "b"), c("API", "api2"), c("scr", "inst/include")),
-  list("", "", "dplyr_types.h"), 1
+  list("", "", "dplyr_types.h"), c(1, 42, 61)
 )
 }
