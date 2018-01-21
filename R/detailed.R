@@ -81,8 +81,6 @@ parse_log_detailed_full_run <- function(path = ".",
     ) %>%
     arrange_(~date)
 
-  class(out) <- append("commit_level_log", class(out))
-
   out
 }
 
