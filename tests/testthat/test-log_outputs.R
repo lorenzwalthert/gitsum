@@ -1,24 +1,10 @@
-context("check high-level function outputs")
+context("sample logs and names")
 
-#   ____________________________________________________________________________
-#   parameter                                                               ####
-
-path_det <- testthat_file("test_logs/testthat_log_detailed.txt")
-path_simp <- testthat_file("test_logs/testthat_log_simple.txt")
 log_simp <- testthat_file("test_logs/log_out_simp.rds")
 log_det <- testthat_file("test_logs/log_out_det.rds")
 
-git_det <- parse_log_detailed_full_run(path = dirname(path_det), file_name = basename(path_det))
-git_simp <- parse_log_simple(path = dirname(path_simp), file_name = basename(path_simp))
-
-#   ____________________________________________________________________________
-#   create reference files                                                  ####
-
-# readr::write_rds(unnest_(git_det, ~nested), "tests/testthat/test_logs/log_out_det.rds")
-# readr::write_rds(git_simp, "tests/testthat/test_logs/log_out_simp.rds")
-
-#   ____________________________________________________________________________
-#   actual tests                                                            ####
+git_det <- parse_test_log_detailed("test_logs/testthat_log_detailed.txt")
+git_simp <- parse_test_log_simple("test_logs/testthat_log_simple.txt")
 
 test_that("simple log output is correct", {
   expect_is(git_simp, "tbl_df")
