@@ -1,0 +1,57 @@
+---
+title: "Renaming"
+author: "Lorenz Walthert"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Renaming}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+# Input cases
+
+## base case 
+Renaming a file in a directory.
+```{r}
+"R/{rbind.r => bind.r}"
+```
+
+A file name change may not have `{` 
+```{r}
+"API => API2"
+```
+
+
+
+## add directory in between
+rename from vignettes/vagrant-setup.Rmd to vignettes/notes/vagrant-setup.Rmd
+```{r}
+"vignettes/{ => notes}/mysql-setup.Rmd" 
+```
+
+
+
+## rename directory
+rename from src/dplyr_types.h to inst/include/dplyr_types.h
+
+```{r}
+"{src => inst/include}/dplyr_types.h"
+```
+
+# Processing
+
+0. Preprocess name to have `{` and `}`.
+1. take left title (vignettes / None)
+2. take right title (file name)
+3. Set left expression in parenthesis as old, right one as new.
+4. Paste left title with left expr and right expr and add right title
+
