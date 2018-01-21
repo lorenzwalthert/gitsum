@@ -11,7 +11,6 @@
 #'   in the oder in which they were committed.
 add_attributes_detailed <- function(log) {
   mutate_(log,
-    commit_nr = ~seq(1L, nrow(log)),
     date = ~ymd_hms(paste(year, month, monthday, time)),
     short_hash = ~substr(hash, 1, 4),
     short_message = ~substr(message, 1, 20),
@@ -19,7 +18,7 @@ add_attributes_detailed <- function(log) {
                                 substr(description, 1, 20), NA
     ),
     deletions = ~ifelse(deletions != "", nchar(deletions), 0),
-    insertions = ~ifelse(!insertions != "", nchar(insertions), 0),
+    insertions = ~ifelse(insertions != "", nchar(insertions), 0),
     is_merge = ~ifelse(!is.na(left_parent) & !is.na(right_parent),
                        TRUE, FALSE
     )

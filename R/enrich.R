@@ -18,7 +18,6 @@ add_line_history <- function(log) {
       lines_added = ifelse(is.na(.data$lines_added), 0, .data$lines_added)
     ) %>%
     group_by(.data$changed_file) %>%
-    arrange(.data$date) %>%
     mutate(current_lines = cumsum(.data$lines_added))
 }
 
