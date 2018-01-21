@@ -4,7 +4,7 @@
 *Package is work in progress\! If you encounter errors / problems,
 please file an issue or make a PR.*
 
-![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)
 [![codecov](https://codecov.io/gh/lorenzwalthert/gitsum/branch/master/graph/badge.svg)](https://codecov.io/gh/lorenzwalthert/gitsum)
 [![Build
 Status](https://travis-ci.org/lorenzwalthert/gitsum.svg?branch=master)](https://travis-ci.org/lorenzwalthert/gitsum)
@@ -52,20 +52,20 @@ tbl <- parse_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 150 x 4
-#>    short_hash short_message        total_files_changed nested           
-#>    <chr>      <chr>                              <dbl> <list>           
-#>  1 243f       initial commit                   7.00000 <tibble [7 × 5]> 
-#>  2 f8ee       add log example data             1.00000 <tibble [1 × 5]> 
-#>  3 6328       add parents                      3.00000 <tibble [3 × 5]> 
-#>  4 dfab       intermediate                     1.00000 <tibble [1 × 5]> 
-#>  5 7825       add licence                      1.00000 <tibble [1 × 5]> 
-#>  6 2ac3       add readme                       2.00000 <tibble [2 × 5]> 
-#>  7 7a2a       document log data                1.00000 <tibble [1 × 5]> 
-#>  8 943c       add helpfiles                   10.0000  <tibble [10 × 5]>
-#>  9 917e       update infrastructur             3.00000 <tibble [3 × 5]> 
-#> 10 4fc0       remove garbage                   6.00000 <tibble [6 × 5]> 
-#> # ... with 140 more rows
+#> # A tibble: 473 x 4
+#>    short_hash short_message        total_files_changed nested          
+#>    <chr>      <chr>                              <dbl> <list>          
+#>  1 243f       initial commit                   7.00000 <tibble [1 × 5]>
+#>  2 243f       initial commit                   7.00000 <tibble [1 × 5]>
+#>  3 243f       initial commit                   7.00000 <tibble [1 × 5]>
+#>  4 243f       initial commit                   7.00000 <tibble [1 × 5]>
+#>  5 243f       initial commit                   7.00000 <tibble [1 × 5]>
+#>  6 243f       initial commit                   7.00000 <tibble [1 × 5]>
+#>  7 243f       initial commit                   7.00000 <tibble [1 × 5]>
+#>  8 f8ee       add log example data             1.00000 <tibble [1 × 5]>
+#>  9 6328       add parents                      3.00000 <tibble [1 × 5]>
+#> 10 6328       add parents                      3.00000 <tibble [1 × 5]>
+#> # ... with 463 more rows
 ```
 
 Since we used `parse_log_detailed()`, there is detailed file-specific
@@ -73,12 +73,10 @@ information available for every commit:
 
 ``` r
 tbl$nested[[3]]
-#> # A tibble: 3 x 5
-#>   changed_file    edits insertions deletions is_exact
-#>   <chr>           <dbl>      <dbl>     <dbl> <lgl>   
-#> 1 DESCRIPTION   6.00000    5.00000   1.00000 T       
-#> 2 NAMESPACE     3.00000    2.00000   1.00000 T       
-#> 3 R/get_log.R  19.0000    11.0000    8.00000 T
+#> # A tibble: 1 x 5
+#>   changed_file   edits insertions deletions is_exact
+#>   <chr>          <dbl>      <dbl>     <dbl> <lgl>   
+#> 1 DESCRIPTION  12.0000          0         0 F
 ```
 
 Since the data has such a high resolution, various graphs, tables etc.
@@ -98,9 +96,9 @@ group_by(author_name) %>%
 #> # A tibble: 3 x 2
 #>   author_name         n
 #>   <chr>           <int>
-#> 1 Jon Calder          2
-#> 2 jonmcalder          6
-#> 3 Lorenz Walthert   145
+#> 1 Jon Calder          3
+#> 2 jonmcalder         29
+#> 3 Lorenz Walthert   441
 ```
 
 We can also investigate how the number of lines of each file in the R
