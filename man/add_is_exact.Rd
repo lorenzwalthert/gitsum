@@ -2,10 +2,13 @@
 % Please edit documentation in R/engineer-features-base.R
 \name{add_is_exact}
 \alias{add_is_exact}
-\title{Create a column indicating whether insertions and deletions are exact counts}
+\title{Is the information exact?}
 \usage{
 add_is_exact(log)
 }
+\arguments{
+\item{log}{An unnested log.}
+}
 \description{
-Create a column indicating whether insertions and deletions are exact counts
+Create a column indicating whether insertions and deletions are exact counts.
 }

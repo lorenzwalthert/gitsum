@@ -1,5 +1,7 @@
 #' Add base attributes to a log
 #'
+#' @param log An unnested log.
+#' @details
 #' Derives some attributes from the parsed raw log and converts them to the
 #' desired format.
 #' The following attributes merit special mentioning:
@@ -43,7 +45,10 @@ type_convert_attributes_detailed <- function(log) {
 }
 
 
-#' Create a column indicating whether insertions and deletions are exact counts
+#' Is the information exact?
+#'
+#' Create a column indicating whether insertions and deletions are exact counts.
+#' @inheritParams add_attributes_detailed
 add_is_exact <- function(log) {
   mutate_(log,
     total_approx = ~ insertions + deletions,

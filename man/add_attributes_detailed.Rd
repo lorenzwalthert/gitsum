@@ -6,12 +6,16 @@
 \usage{
 add_attributes_detailed(log)
 }
+\arguments{
+\item{log}{An unnested log.}
+}
 \description{
+Add base attributes to a log
+}
+\details{
 Derives some attributes from the parsed raw log and converts them to the
 desired format.
 The following attributes merit special mentioning:
-}
-\details{
 \itemize{
 \item commit_nr: The number of the commit in the repo. This can be used to sort
 commits (in contrast to the commit date) in chronological order, that is,
