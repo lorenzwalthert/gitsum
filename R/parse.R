@@ -55,6 +55,7 @@ parse_lines <- function(lines) {
       lapply(get_pattern_multiple(), extract_factory_multiple)
     ), nm = c("message_and_description",names(get_pattern_multiple()))
   )
+
   lines %>%
     mutate_(
     level = ~cumsum(grepl("^commit", lines)),
@@ -63,5 +64,6 @@ parse_lines <- function(lines) {
     group_by_(~level) %>%
     do_(nested = ~parse_log_one(.$lines, extractors, any(.$has_merge))) %>%
     ungroup() %>%
-    unnest_log()
+    select_(~-level) %>%
+    unnest_("nested")
 }

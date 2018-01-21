@@ -77,7 +77,7 @@ parse_log_detailed_full_run <- function(path = ".",
     nest_log() %>%
     select_(
       ~short_hash, ~author_name, ~date,
-      ~short_message, ~everything(), ~-level
+      ~short_message, ~everything()
     ) %>%
     arrange_(~date)
 
@@ -100,6 +100,7 @@ set_na_to_zero <- function(log,
   out <- log %>%
     map_at(columns, if_na_to_zero) %>%
     as_data_frame()
+  out
 }
 
 if_na_to_zero <- function(vec) {

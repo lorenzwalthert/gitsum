@@ -4,7 +4,7 @@ is_detailed_log <- function(log, nested = NA) {
     "left_parent", "right_parent", "author_email", "weekday", "month",
     "monthday", "time", "year", "timezone", "message", "description",
     "total_files_changed", "total_insertions", "total_deletions",
-    "commit_id", "short_description", "is_merge", "nested"
+    "commit_nr", "short_description", "is_merge", "nested"
   )
   expected_names_unnested <- c(
     setdiff(expected_names_nested, "nested"),
