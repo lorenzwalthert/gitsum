@@ -79,7 +79,7 @@ parse_log_detailed_full_run <- function(path = ".",
       ~short_hash, ~author_name, ~date,
       ~short_message, ~everything()
     ) %>%
-    arrange_(~date)
+    arrange_(~commit_nr)
 
   out
 }

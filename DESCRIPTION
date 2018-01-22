@@ -13,12 +13,15 @@ Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate", "pkgapi
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.0.1
 Depends: R(>= 2.10)
 Imports: lubridate,
+    cli,
     dplyr, 
+    forcats,
     magrittr, 
     readr,
+    rlang,
     rmarkdown,
     tidyr,
     purrr,
@@ -28,6 +31,5 @@ Imports: lubridate,
     ggplot2
 Suggests: 
     testthat,
-    knitr, 
-    forcats
+    knitr
 VignetteBuilder: knitr

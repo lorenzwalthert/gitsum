@@ -47,7 +47,7 @@ parse_log_one <- function(raw, fnc_list, has_merge) {
 #' Turn a raw log of lines into a tabular format
 #'
 #' @param lines The output of [get_raw_log()].
-#' @importFrom magrittr set_names
+#' @importFrom rlang set_names
 parse_lines <- function(lines) {
   extractors <- set_names(
     c(
@@ -64,6 +64,7 @@ parse_lines <- function(lines) {
     group_by_(~level) %>%
     do_(nested = ~parse_log_one(.$lines, extractors, any(.$has_merge))) %>%
     ungroup() %>%
+    mutate_(commit_nr = ~seq(nrow(.), 1L)) %>%
     select_(~-level) %>%
     unnest_("nested")
 }
