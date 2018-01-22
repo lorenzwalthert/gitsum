@@ -17,32 +17,29 @@ add_attributes_detailed <- function(log) {
     short_description = ~ifelse(!is.na(message),
                                 substr(description, 1, 20), NA
     ),
-    deletions = ~ifelse(deletions != "", nchar(deletions), 0),
-    insertions = ~ifelse(insertions != "", nchar(insertions), 0),
     is_merge = ~ifelse(!is.na(left_parent) & !is.na(right_parent),
                        TRUE, FALSE
     )
   ) %>%
-    type_convert_attributes_detailed() %>%
     add_is_exact()
 }
 
-
-#' @importFrom readr type_convert cols col_integer col_time col_character
-type_convert_attributes_detailed <- function(log) {
-  type_convert(log, col_types = cols(
-      monthday = col_integer(),
-      time = col_time(),
-      timezone = col_integer(),
-      year = col_integer(),
-      total_files_changed = col_integer(),
-      total_insertions = col_integer(),
-      total_deletions = col_integer(),
-      edits = col_integer(),
-      short_hash = col_character()
-    ))
+#' @importFrom hms parse_hm
+type_convert_base_attributes <- function(log) {
+  log %>%
+    mutate(
+      monthday = as.integer(monthday),
+      time = parse_hm(time),
+      year = as.integer(year),
+      total_files_changed = as.integer(total_files_changed),
+      total_insertions = as.integer(total_insertions),
+      total_deletions = as.integer(total_deletions),
+      edits = ifelse(edits != "", nchar(edits), 0),
+      insertions = ifelse(insertions != "", nchar(insertions), 0),
+      deletions = ifelse(deletions != "", nchar(deletions), 0),
+      changed_file = trimws(changed_file)
+    )
 }
-
 
 #' Is the information exact?
 #'
@@ -52,8 +49,8 @@ add_is_exact <- function(log) {
   mutate_(log,
     total_approx = ~ insertions + deletions,
     multiplier = ~ edits / total_approx,
-    insertions = ~ round(multiplier * insertions),
-    deletions = ~ round(multiplier * deletions),
+    insertions = ~ as.integer(round(multiplier * insertions)),
+    deletions = ~ as.integer(round(multiplier * deletions)),
     is_exact = ~ if_else((is.na(edits) | multiplier == 1), TRUE, FALSE)
   )  %>%
     select_(~-multiplier, ~-total_approx)

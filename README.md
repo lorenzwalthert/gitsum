@@ -48,24 +48,24 @@ library("forcats")
 We can obtain a parsed log like this:
 
 ``` r
+init_gitsum()
 tbl <- parse_log_detailed() %>%
-  arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 140 x 4
+#> # A tibble: 141 x 4
 #>    short_hash short_message        total_files_changed nested           
-#>    <chr>      <chr>                              <dbl> <list>           
-#>  1 243f       initial commit                   7.00000 <tibble [7 × 5]> 
-#>  2 f8ee       add log example data             1.00000 <tibble [1 × 5]> 
-#>  3 6328       add parents                      3.00000 <tibble [3 × 5]> 
-#>  4 dfab       intermediate                     1.00000 <tibble [1 × 5]> 
-#>  5 7825       add licence                      1.00000 <tibble [1 × 5]> 
-#>  6 2ac3       add readme                       2.00000 <tibble [2 × 5]> 
-#>  7 7a2a       document log data                1.00000 <tibble [1 × 5]> 
-#>  8 943c       add helpfiles                   10.0000  <tibble [10 × 5]>
-#>  9 917e       update infrastructur             3.00000 <tibble [3 × 5]> 
-#> 10 4fc0       remove garbage                   6.00000 <tibble [6 × 5]> 
-#> # ... with 130 more rows
+#>    <chr>      <chr>                              <int> <list>           
+#>  1 243f       initial commit                         7 <tibble [7 × 5]> 
+#>  2 f8ee       add log example data                   1 <tibble [1 × 5]> 
+#>  3 6328       add parents                            3 <tibble [3 × 5]> 
+#>  4 dfab       intermediate                           1 <tibble [1 × 5]> 
+#>  5 7825       add licence                            1 <tibble [1 × 5]> 
+#>  6 2ac3       add readme                             2 <tibble [2 × 5]> 
+#>  7 7a2a       document log data                      1 <tibble [1 × 5]> 
+#>  8 943c       add helpfiles                         10 <tibble [10 × 5]>
+#>  9 917e       update infrastructur                   3 <tibble [3 × 5]> 
+#> 10 4fc0       remove garbage                         6 <tibble [6 × 5]> 
+#> # ... with 131 more rows
 ```
 
 Since we used `parse_log_detailed()`, there is detailed file-specific
@@ -74,11 +74,11 @@ information available for every commit:
 ``` r
 tbl$nested[[3]]
 #> # A tibble: 3 x 5
-#>   changed_file    edits insertions deletions is_exact
-#>   <chr>           <dbl>      <dbl>     <dbl> <lgl>   
-#> 1 DESCRIPTION   6.00000    5.00000   1.00000 T       
-#> 2 NAMESPACE     3.00000    2.00000   1.00000 T       
-#> 3 R/get_log.R  19.0000    11.0000    8.00000 T
+#>   changed_file edits insertions deletions is_exact
+#>   <chr>        <int>      <int>     <int> <lgl>   
+#> 1 DESCRIPTION      1          1         0 F       
+#> 2 NAMESPACE        1          1         0 F       
+#> 3 R/get_log.R      2          1         1 F
 ```
 
 Since the data has such a high resolution, various graphs, tables etc.
@@ -100,7 +100,7 @@ group_by(author_name) %>%
 #>   <chr>           <int>
 #> 1 Jon Calder          2
 #> 2 jonmcalder          6
-#> 3 Lorenz Walthert   132
+#> 3 Lorenz Walthert   133
 ```
 
 We can also investigate how the number of lines of each file in the R
@@ -111,7 +111,7 @@ changed in at least five commits.
 
 ``` r
 lines <- log %>%
-  unnest() %>%
+  unnest_log() %>%
   set_changed_file_to_latest_name() %>%
   add_line_history()
 #> The following name changes were identified (11 in total):
@@ -145,7 +145,7 @@ Next, we want to see which files were contained in most commits:
 
 ``` r
 log %>%
-  unnest(nested) %>% # unnest the tibble
+  unnest_log() %>%
   mutate(changed_file = fct_lump(fct_infreq(changed_file), n = 10)) %>%
   filter(changed_file != "Other") %>%
   ggplot(aes(x = changed_file)) + geom_bar() + coord_flip() + 

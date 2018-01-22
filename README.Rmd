@@ -53,9 +53,13 @@ library("forcats")
 
 We can obtain a parsed log like this:
 
+```{r, include=FALSE}
+# remove_gitsum()
+```
+
 ```{r}
+init_gitsum()
 tbl <- parse_log_detailed() %>%
-  arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
 ```
@@ -88,7 +92,7 @@ got changed only a few times. Let's focus on files that were changed in
 at least five commits.
 ```{r per_file, message=FALSE, warning=FALSE}
 lines <- log %>%
-  unnest() %>%
+  unnest_log() %>%
   set_changed_file_to_latest_name() %>%
   add_line_history()
 
@@ -108,7 +112,7 @@ ggplot(to_plot, aes(x = date, y = current_lines)) +
 Next, we want to see which files were contained in most commits:
 ```{r ggplot1}
 log %>%
-  unnest(nested) %>% # unnest the tibble
+  unnest_log() %>%
   mutate(changed_file = fct_lump(fct_infreq(changed_file), n = 10)) %>%
   filter(changed_file != "Other") %>%
   ggplot(aes(x = changed_file)) + geom_bar() + coord_flip() + 

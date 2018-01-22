@@ -25,3 +25,30 @@ parse_test_log <- function(path_to_raw_log, parser = parse_log_detailed_full_run
 #' @importFrom purrr partial
 parse_test_log_detailed <- partial(parse_test_log, parser = parse_log_detailed_full_run)
 parse_test_log_simple <- partial(parse_test_log, parser = parse_log_simple)
+
+#' @importFrom purrr map2_lgl
+#' @importFrom tibble as_tibble
+#' @importFrom dplyr pull
+expect_class <- function(data, class_mapping) {
+  tbl <- as_tibble(data)
+  is_correct_class <- map2_lgl(
+    pull(class_mapping, .data$name), pull(class_mapping, .data$class),
+    expect_class_one, data
+  )
+}
+
+#' @importFrom dplyr first pull
+#' @importFrom rlang sym
+expect_class_one <- function(name, class, data) {
+  cls <- pull(data, !!sym(name)) %>%
+    class() %>%
+    first()
+
+  if (cls != class) {
+    warning(
+      paste0("class for ", name, " was ", cls, ", but ", class, " was expected"),
+      call. = FALSE
+    )
+  }
+  cls == class
+}
