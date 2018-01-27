@@ -29,5 +29,5 @@ class_mapping <- tribble(
   "model", "character"
 )
 rownames_to_column(mtcars, var= "model") \%>\%
-  expect_class(class_mapping, must_check_all = FALSE)
+  gitsum:::expect_class(class_mapping, must_check_all = FALSE)
 }

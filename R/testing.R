@@ -45,7 +45,7 @@ parse_test_log_simple <- partial(parse_test_log, parser = parse_log_simple)
 #'   "model", "character"
 #' )
 #' rownames_to_column(mtcars, var= "model") %>%
-#'   expect_class(class_mapping, must_check_all = FALSE)
+#'   gitsum:::expect_class(class_mapping, must_check_all = FALSE)
 #' @importFrom purrr map2_lgl
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr pull
