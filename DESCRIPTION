@@ -18,7 +18,7 @@ Depends: R(>= 2.10)
 Imports: 
     lubridate,
     cli,
-    dplyr,
+    dplyr (>= 0.7),
     forcats,
     magrittr,
     readr,
