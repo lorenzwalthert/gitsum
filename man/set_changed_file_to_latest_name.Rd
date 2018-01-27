@@ -2,7 +2,7 @@
 % Please edit documentation in R/renamed-files.R
 \name{set_changed_file_to_latest_name}
 \alias{set_changed_file_to_latest_name}
-\title{Set the column  \code{changed_files} of a \code{log} to the latest name of the file}
+\title{Use the latest name of a file in every log entry}
 \usage{
 set_changed_file_to_latest_name(log)
 }
@@ -10,6 +10,9 @@ set_changed_file_to_latest_name(log)
 \item{log}{An unnested detailed log.}
 }
 \description{
+Set the column \code{changed_files} of a \code{log} to the latest name of the file
+}
+\details{
 \code{\link[=parse_log_detailed]{parse_log_detailed()}} parses a git log. However, changed file names
 are not corrected retroactively. Hence, if one wants to process file-specific
 commit data for one file across different names for that file, the column

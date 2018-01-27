@@ -10,7 +10,7 @@ separate_dir_and_reassignment(raw_reassignment)
 \item{raw_reassignment}{Character vector with raw re-assignments.}
 }
 \description{
-Separate the directory from the reassignment
+Splits according to regex "/\{|\}/".
 }
 \examples{
 gitsum:::separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}/")

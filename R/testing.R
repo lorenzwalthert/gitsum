@@ -26,14 +26,32 @@ parse_test_log <- function(path_to_raw_log, parser = parse_log_detailed_full_run
 parse_test_log_detailed <- partial(parse_test_log, parser = parse_log_detailed_full_run)
 parse_test_log_simple <- partial(parse_test_log, parser = parse_log_simple)
 
+#' Class validation
+#'
+#' Check whether columns of a data frame match are of a certain class and return
+#' an informative warning otherwise.
+#' @param data A data frame to check.
+#' @param class_mapping A data frame that contains two columns: name and class,
+#'   whereas the values in name indicate the name of a column to check, class
+#'   indicates the target class of the column.
+#' @examples
+#' library(tibble)
+#' library(magrittr)
+#' class_mapping <- tribble(
+#'   ~ name,  ~ class,
+#'   "cyl", "integer",
+#'   "model", "character"
+#' )
+#' rownames_to_column(mtcars, var= "model") %>%
+#'   expect_class(class_mapping)
 #' @importFrom purrr map2_lgl
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr pull
 expect_class <- function(data, class_mapping) {
-  tbl <- as_tibble(data)
+  class_mapping <- as_tibble(class_mapping)
   is_correct_class <- map2_lgl(
     pull(class_mapping, .data$name), pull(class_mapping, .data$class),
-    expect_class_one, data
+    expect_class_one, as_tibble(data)
   )
 }
 

@@ -1,5 +1,7 @@
-#' Set the column  `changed_files` of a `log` to the latest name of the file
+#' Use the latest name of a file in every log entry
 #'
+#' Set the column `changed_files` of a `log` to the latest name of the file
+#' @details
 #' [parse_log_detailed()] parses a git log. However, changed file names
 #' are not corrected retroactively. Hence, if one wants to process file-specific
 #' commit data for one file across different names for that file, the column
@@ -76,8 +78,17 @@ parse_reassignment <- function(raw_reassignment, reassignment_index) {
   combine_dir_and_base(paths, base_names, extensions, reassignment_index)
 }
 
+#' Ensure enclosing
+#'
+#' Make sure a string is enclosed with some values.
+#' @name ensure_enclosing
+NULL
+
+#' @describeIn ensure_enclosing Ensures curly braces enclosing.
 #' @examples
-#' gitsum:::ensure_curly_enclosing(c("API => api", "R/{a => b}"))
+#' gitsum:::ensure_curly_enclosing(
+#'   c("API => api", "R/{a => b}")
+#' )
 ensure_curly_enclosing <- function(raw_reassignment) {
   is_enclosed <- is_enclosed(raw_reassignment, c("{", "}"))
   raw_reassignment[!is_enclosed] <- enclose_string(
@@ -86,9 +97,12 @@ ensure_curly_enclosing <- function(raw_reassignment) {
   raw_reassignment
 }
 
+
+#' @describeIn ensure_enclosing Ensures dash enclosing.
 #' @examples
 #' gitsum:::ensure_leading_dash(
-#'   c("{API = api}", "R/{a => b}", "vignettes/{ => notes}/mysql-setup.Rmd")
+#'   c("{API = api}", "R/{a => b}",
+#'   "vignettes/{ => notes}/mysql-setup.Rmd")
 #' )
 ensure_dash_enclosing <- function(raw_reassignment) {
   raw_reassignment %>%
@@ -123,6 +137,7 @@ enclose_string <- function(string, enclosement) {
 
 #' Separate the directory from the reassignment
 #'
+#' Splits according to regex "/\\{|\\}/".
 #' @importFrom purrr map
 #' @importFrom stringr str_split fixed str_sub
 #' @inheritParams parse_reassignment
@@ -132,7 +147,6 @@ separate_dir_and_reassignment <- function(raw_reassignment) {
   str_split(raw_reassignment, "/\\{|\\}/")
 }
 
-#'
 correct_base_dir_for_toplevel_reassignments <- function(reassignments) {
   cleaned <- reassignments %>%
     map(complete_reassignment_if_necessary)
@@ -153,6 +167,8 @@ separate_old_and_new_name <- function(reassignment) {
 
 #' Derive full paths
 #'
+#' Derive full paths given directory paths, base_names, extensions and
+#' reassignment index.
 #' @param dirs Character vector with directories.
 #' @param base_names List of pairs containing the old base name as the first
 #'   element and the new base name as the second.
@@ -170,21 +186,27 @@ combine_dir_and_base <- function(dirs, base_names, extensions, reassignment_inde
        combine_dir_and_base_one)
 }
 
-#' Combine dir with old and new basename
+#' Combining paths
 #'
+#' Combine dir with old and new basename and extension
 #' @param dirname A directory name.
 #' @param base_name The base name of a file.
-#' @param combine_dir_and_base
 #' @inheritParams parse_reassignment
+#' @inheritParams combine_dir_and_base
 #' @importFrom purrr pmap
-combine_dir_and_base_one <- function(dirname, base_name, extensions, reassignment_index) {
+combine_dir_and_base_one <- function(dirname,
+                                     base_name,
+                                     extensions,
+                                     reassignment_index) {
   old_new_reassignment <- pmap(list(dirname, base_name, extensions), file_path) %>%
     append(reassignment_index) %>%
     set_names(c("old_path", "new_path", "reassignment_index"))
   old_new_reassignment
 }
 
-#' Like [base::file.path()], but sorts our `character(1)` first
+#' Composing file paths
+#'
+#' Like [base::file.path()], but sorts our `character(1)` first.
 #' @importFrom purrr compact flatten_chr
 #' @importFrom rlang set_names
 #' @inheritParams base::file.path
@@ -214,6 +236,7 @@ file_path <- function(..., fsep = .Platform$file.sep) {
 update_changed_file_sequentially <- function(log, transition_model) {
   reduce(transition_model, update_changed_file, .init = log)
 }
+
 
 #' Apply one file name update to a log
 #' @inheritParams set_changed_file_to_latest_name

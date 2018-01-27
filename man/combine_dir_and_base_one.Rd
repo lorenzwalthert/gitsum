@@ -2,7 +2,7 @@
 % Please edit documentation in R/renamed-files.R
 \name{combine_dir_and_base_one}
 \alias{combine_dir_and_base_one}
-\title{Combine dir with old and new basename}
+\title{Combining paths}
 \usage{
 combine_dir_and_base_one(dirname, base_name, extensions, reassignment_index)
 }
@@ -11,9 +11,11 @@ combine_dir_and_base_one(dirname, base_name, extensions, reassignment_index)
 
 \item{base_name}{The base name of a file.}
 
+\item{extensions}{The extensions that indicate the suffix of the name.}
+
 \item{reassignment_index}{Integer vector indicating the position of the
 re-assignment in the original unnested detailed log.}
 }
 \description{
-Combine dir with old and new basename
+Combine dir with old and new basename and extension
 }
