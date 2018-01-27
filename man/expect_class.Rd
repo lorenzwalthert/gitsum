@@ -4,7 +4,7 @@
 \alias{expect_class}
 \title{Class validation}
 \usage{
-expect_class(data, class_mapping)
+expect_class(data, class_mapping, must_check_all)
 }
 \arguments{
 \item{data}{A data frame to check.}
@@ -12,6 +12,9 @@ expect_class(data, class_mapping)
 \item{class_mapping}{A data frame that contains two columns: name and class,
 whereas the values in name indicate the name of a column to check, class
 indicates the target class of the column.}
+
+\item{must_check_all}{Whether or not all columns need to be checked in order
+to avoid a warning.}
 }
 \description{
 Check whether columns of a data frame match are of a certain class and return
@@ -26,5 +29,5 @@ class_mapping <- tribble(
   "model", "character"
 )
 rownames_to_column(mtcars, var= "model") \%>\%
-  expect_class(class_mapping)
+  expect_class(class_mapping, must_check_all = FALSE)
 }

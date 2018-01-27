@@ -14,6 +14,8 @@ test_that("detailed log returns correct classes", {
     "right_parent", "character",
     "author_email", "character",
     "weekday", "character",
+    "month", "character",
+    "hash", "character",
     "monthday", "integer",
     "time", "hms",
     "year", "integer",
@@ -31,5 +33,7 @@ test_that("detailed log returns correct classes", {
     "deletions", "integer",
     "is_exact", "logical"
   )
-  expect_silent(expect_class(unnest_log(detailed_log), mapping))
+  expect_silent(expect_class(
+    unnest_log(detailed_log), mapping, must_check_all = TRUE
+  ))
 })

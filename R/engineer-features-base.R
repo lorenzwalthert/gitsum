@@ -29,6 +29,8 @@ type_convert_base_attributes <- function(log) {
   log %>%
     mutate(
       monthday = as.integer(monthday),
+      month = as.character(month),
+      hash = as.character(hash),
       time = parse_hm(time),
       year = as.integer(year),
       total_files_changed = as.integer(total_files_changed),

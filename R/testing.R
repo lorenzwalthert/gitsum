@@ -34,6 +34,8 @@ parse_test_log_simple <- partial(parse_test_log, parser = parse_log_simple)
 #' @param class_mapping A data frame that contains two columns: name and class,
 #'   whereas the values in name indicate the name of a column to check, class
 #'   indicates the target class of the column.
+#' @param must_check_all Whether or not all columns need to be checked in order
+#'   to avoid a warning.
 #' @examples
 #' library(tibble)
 #' library(magrittr)
@@ -43,16 +45,24 @@ parse_test_log_simple <- partial(parse_test_log, parser = parse_log_simple)
 #'   "model", "character"
 #' )
 #' rownames_to_column(mtcars, var= "model") %>%
-#'   expect_class(class_mapping)
+#'   expect_class(class_mapping, must_check_all = FALSE)
 #' @importFrom purrr map2_lgl
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr pull
-expect_class <- function(data, class_mapping) {
+expect_class <- function(data, class_mapping, must_check_all) {
   class_mapping <- as_tibble(class_mapping)
   is_correct_class <- map2_lgl(
     pull(class_mapping, .data$name), pull(class_mapping, .data$class),
     expect_class_one, as_tibble(data)
   )
+  if (must_check_all) {
+    diff <- setdiff(names(data), class_mapping$name)
+    if (length(diff) > 0)
+      stop(
+        "All columns were required to be checked, but the following were not: ",
+        paste(diff, collapse = ", "), call. = FALSE
+      )
+  }
 }
 
 #' @importFrom dplyr first pull
