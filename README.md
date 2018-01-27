@@ -52,20 +52,20 @@ tbl <- parse_log_detailed() %>%
   arrange(date) %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 473 x 4
-#>    short_hash short_message        total_files_changed nested          
-#>    <chr>      <chr>                              <dbl> <list>          
-#>  1 243f       initial commit                   7.00000 <tibble [1 × 5]>
-#>  2 243f       initial commit                   7.00000 <tibble [1 × 5]>
-#>  3 243f       initial commit                   7.00000 <tibble [1 × 5]>
-#>  4 243f       initial commit                   7.00000 <tibble [1 × 5]>
-#>  5 243f       initial commit                   7.00000 <tibble [1 × 5]>
-#>  6 243f       initial commit                   7.00000 <tibble [1 × 5]>
-#>  7 243f       initial commit                   7.00000 <tibble [1 × 5]>
-#>  8 f8ee       add log example data             1.00000 <tibble [1 × 5]>
-#>  9 6328       add parents                      3.00000 <tibble [1 × 5]>
-#> 10 6328       add parents                      3.00000 <tibble [1 × 5]>
-#> # ... with 463 more rows
+#> # A tibble: 140 x 4
+#>    short_hash short_message        total_files_changed nested           
+#>    <chr>      <chr>                              <dbl> <list>           
+#>  1 243f       initial commit                   7.00000 <tibble [7 × 5]> 
+#>  2 f8ee       add log example data             1.00000 <tibble [1 × 5]> 
+#>  3 6328       add parents                      3.00000 <tibble [3 × 5]> 
+#>  4 dfab       intermediate                     1.00000 <tibble [1 × 5]> 
+#>  5 7825       add licence                      1.00000 <tibble [1 × 5]> 
+#>  6 2ac3       add readme                       2.00000 <tibble [2 × 5]> 
+#>  7 7a2a       document log data                1.00000 <tibble [1 × 5]> 
+#>  8 943c       add helpfiles                   10.0000  <tibble [10 × 5]>
+#>  9 917e       update infrastructur             3.00000 <tibble [3 × 5]> 
+#> 10 4fc0       remove garbage                   6.00000 <tibble [6 × 5]> 
+#> # ... with 130 more rows
 ```
 
 Since we used `parse_log_detailed()`, there is detailed file-specific
@@ -73,10 +73,12 @@ information available for every commit:
 
 ``` r
 tbl$nested[[3]]
-#> # A tibble: 1 x 5
-#>   changed_file   edits insertions deletions is_exact
-#>   <chr>          <dbl>      <dbl>     <dbl> <lgl>   
-#> 1 DESCRIPTION  12.0000          0         0 F
+#> # A tibble: 3 x 5
+#>   changed_file    edits insertions deletions is_exact
+#>   <chr>           <dbl>      <dbl>     <dbl> <lgl>   
+#> 1 DESCRIPTION   6.00000    5.00000   1.00000 T       
+#> 2 NAMESPACE     3.00000    2.00000   1.00000 T       
+#> 3 R/get_log.R  19.0000    11.0000    8.00000 T
 ```
 
 Since the data has such a high resolution, various graphs, tables etc.
@@ -96,9 +98,9 @@ group_by(author_name) %>%
 #> # A tibble: 3 x 2
 #>   author_name         n
 #>   <chr>           <int>
-#> 1 Jon Calder          3
-#> 2 jonmcalder         29
-#> 3 Lorenz Walthert   441
+#> 1 Jon Calder          2
+#> 2 jonmcalder          6
+#> 3 Lorenz Walthert   132
 ```
 
 We can also investigate how the number of lines of each file in the R
@@ -112,7 +114,7 @@ lines <- log %>%
   unnest() %>%
   set_changed_file_to_latest_name() %>%
   add_line_history()
-#> The following name changes were identified (13 in total):
+#> The following name changes were identified (11 in total):
 #> ● man/{get_log.Rd => get_log_simple.Rd}
 #> ● man/{parse_log.Rd => parse_log_one.Rd}
 #> ● man/{get_pattern.Rd => get_pattern_multiple.Rd}
@@ -124,8 +126,6 @@ lines <- log %>%
 #> ● man/{ensure_gitusm_repo.Rd => ensure_gitsum_repo.Rd}
 #> ● man/{log.Rd => gitsumlog.Rd}
 #> ● man/{git_report.Rd => report_git.Rd}
-#> ● API => api1
-#> ● API => API2
 
 r_files <- grep("^R/", lines$changed_file, value = TRUE)
 
