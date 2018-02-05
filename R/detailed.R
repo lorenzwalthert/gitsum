@@ -72,6 +72,7 @@ parse_log_detailed_full_run <- function(path = ".",
   parsed_lines <- lines %>%
     parse_lines()
   out <- parsed_lines  %>%
+    type_convert_base_attributes() %>%
     add_attributes_detailed() %>%
     set_na_to_zero(na_to_zero) %>%
     nest_log() %>%
@@ -102,5 +103,5 @@ set_na_to_zero <- function(log,
 }
 
 if_na_to_zero <- function(vec) {
-  ifelse(is.na(vec), 0, vec)
+  ifelse(is.na(vec), 0L, vec)
 }

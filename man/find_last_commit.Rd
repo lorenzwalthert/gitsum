@@ -4,13 +4,7 @@
 \alias{find_last_commit}
 \title{Find the last commit in a repo}
 \usage{
-find_last_commit(path = ".", update_dump = FALSE)
-}
-\arguments{
-\item{path}{The path to the git directory one wants to create summaries for.}
-
-\item{update_dump}{Whether or not to update the dump in .gitsum after
-parsing.}
+find_last_commit(log)
 }
 \description{
 Finds the last commit in a repo and optionally updates the dump.

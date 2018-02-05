@@ -2,7 +2,7 @@
 % Please edit documentation in R/renamed-files.R
 \name{file_path}
 \alias{file_path}
-\title{Like \code{\link[base:file.path]{base::file.path()}}, but sorts our \code{character(1)} first}
+\title{Composing file paths}
 \usage{
 file_path(..., fsep = .Platform$file.sep)
 }
@@ -12,5 +12,5 @@ file_path(..., fsep = .Platform$file.sep)
 \item{fsep}{the path separator to use.}
 }
 \description{
-Like \code{\link[base:file.path]{base::file.path()}}, but sorts our \code{character(1)} first
+Like \code{\link[base:file.path]{base::file.path()}}, but sorts our \code{character(1)} first.
 }

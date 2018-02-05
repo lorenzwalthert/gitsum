@@ -15,11 +15,12 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Depends: R(>= 2.10)
-Imports: lubridate,
+Imports: 
+    lubridate,
     cli,
-    dplyr, 
+    dplyr (>= 0.7),
     forcats,
-    magrittr, 
+    magrittr,
     readr,
     rlang,
     rmarkdown,
@@ -28,7 +29,8 @@ Imports: lubridate,
     tibble,
     stringr,
     rprojroot,
-    ggplot2
+    ggplot2,
+    hms
 Suggests: 
     testthat,
     knitr

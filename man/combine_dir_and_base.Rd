@@ -18,7 +18,8 @@ element and the new base name as the second.}
 re-assignment in the original unnested detailed log.}
 }
 \description{
-Derive full paths
+Derive full paths given directory paths, base_names, extensions and
+reassignment index.
 }
 \examples{
 gitsum:::combine_dir_and_base(
