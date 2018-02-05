@@ -52,7 +52,7 @@ init_gitsum()
 tbl <- parse_log_detailed() %>%
   select(short_hash, short_message, total_files_changed, nested)
 tbl 
-#> # A tibble: 141 x 4
+#> # A tibble: 149 x 4
 #>    short_hash short_message        total_files_changed nested           
 #>    <chr>      <chr>                              <int> <list>           
 #>  1 243f       initial commit                         7 <tibble [7 × 5]> 
@@ -65,7 +65,7 @@ tbl
 #>  8 943c       add helpfiles                         10 <tibble [10 × 5]>
 #>  9 917e       update infrastructur                   3 <tibble [3 × 5]> 
 #> 10 4fc0       remove garbage                         6 <tibble [6 × 5]> 
-#> # ... with 131 more rows
+#> # ... with 139 more rows
 ```
 
 Since we used `parse_log_detailed()`, there is detailed file-specific
@@ -76,9 +76,9 @@ tbl$nested[[3]]
 #> # A tibble: 3 x 5
 #>   changed_file edits insertions deletions is_exact
 #>   <chr>        <int>      <int>     <int> <lgl>   
-#> 1 DESCRIPTION      1          1         0 F       
-#> 2 NAMESPACE        1          1         0 F       
-#> 3 R/get_log.R      2          1         1 F
+#> 1 DESCRIPTION      6          5         1 T       
+#> 2 NAMESPACE        3          2         1 T       
+#> 3 R/get_log.R     19         11         8 T
 ```
 
 Since the data has such a high resolution, various graphs, tables etc.
@@ -100,7 +100,7 @@ group_by(author_name) %>%
 #>   <chr>           <int>
 #> 1 Jon Calder          2
 #> 2 jonmcalder          6
-#> 3 Lorenz Walthert   133
+#> 3 Lorenz Walthert   141
 ```
 
 We can also investigate how the number of lines of each file in the R
@@ -132,7 +132,7 @@ r_files <- grep("^R/", lines$changed_file, value = TRUE)
 to_plot <- lines %>%
   filter(changed_file %in% r_files) %>%
   add_n_times_changed_file() %>%
-  filter(n_times_changed_file >= 5)
+  filter(n_times_changed_file >= 10)
 ggplot(to_plot, aes(x = date, y = current_lines)) + 
   geom_step() + 
   scale_y_continuous(name = "Number of Lines", limits = c(0, NA)) + 
