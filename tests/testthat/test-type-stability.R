@@ -3,6 +3,7 @@ context("test-type-stability.R")
 detailed_log <- parse_test_log_detailed("test_logs/testthat_log_detailed.txt")
 
 test_that("detailed log returns correct classes", {
+  skip_on_appveyor()
   mapping <- tribble(
     ~name, ~class,
     "short_hash",   "character",
