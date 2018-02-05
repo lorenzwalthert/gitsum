@@ -14,9 +14,10 @@ get_raw_log <- function(path,
 
   if (is.null(file_name)) {
     sys_call <- paste(
-      "export COLUMNS=99999 &&",
       "cd", path, "&&",
-      "git log ", commit_range, " --stat --parents ", " >", file_name_progr
+      "git log ", commit_range, " --stat --parents ",
+      "--stat-width 99999",
+      " >", file_name_progr
     )
     if (Sys.info()[1] == "Windows") {
       error <- shell(sys_call)
