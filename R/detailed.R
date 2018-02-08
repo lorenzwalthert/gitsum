@@ -41,7 +41,6 @@
 #' @seealso See [parse_log_simple] for a fast alternative with less information.
 #' @importFrom dplyr mutate_ select_ everything group_by_ do_ last
 #' @importFrom lubridate ymd_hms
-#' @importFrom tidyr unnest_ nest_
 #' @importFrom dplyr arrange_ ungroup bind_rows
 #' @export
 parse_log_detailed <- function(path = ".", update_dump = TRUE) {
