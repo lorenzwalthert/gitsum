@@ -9,7 +9,7 @@ parse_log_one(raw, fnc_list, has_merge)
 \arguments{
 \item{raw}{a character vector corresponding to one commit.}
 
-\item{fnc_list}{the list list of named functions that return the elements
+\item{fnc_list}{the list of named functions that return the elements
 we want to extract from the log, i.e. author, hash etc.}
 
 \item{has_merge}{Whether or not \code{raw} is a merge commit. This is relevant

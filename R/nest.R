@@ -1,7 +1,7 @@
 #' Nest/unnest a gitsum log
 #'
 #' Forwards to [tidyr::nest()] while taking care of which columns have to be
-#' nested nested.
+#' nested.
 #' @param log A log to nest/unnest.
 #' @export
 #' @importFrom tidyr nest_

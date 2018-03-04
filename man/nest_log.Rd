@@ -14,7 +14,7 @@ unnest_log(log)
 }
 \description{
 Forwards to \code{\link[tidyr:nest]{tidyr::nest()}} while taking care of which columns have to be
-nested nested.
+nested.
 
 Forwards to \code{\link[tidyr:unnest]{tidyr::unnest()}} while taking care of which columns have to be
 nested unnested.

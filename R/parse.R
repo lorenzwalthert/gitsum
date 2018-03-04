@@ -1,7 +1,7 @@
 #' parse a raw log
 #'
 #' @param raw a character vector corresponding to one commit.
-#' @param fnc_list the list list of named functions that return the elements
+#' @param fnc_list the list of named functions that return the elements
 #'   we want to extract from the log, i.e. author, hash etc.
 #' @param has_merge Whether or not `raw` is a merge commit. This is relevant
 #'   because merge commits have additional lines.
