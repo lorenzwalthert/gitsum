@@ -57,9 +57,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <p><em>Package is work in progress! If you encounter errors / problems, please file an issue or make a PR.</em></p>
 <p><a href="https://github.com/joethorley/stability-badges#unstable"><img src="https://img.shields.io/badge/stability-unstable-yellow.svg" alt="stability-unstable"></a> <a href="https://codecov.io/gh/lorenzwalthert/gitsum"><img src="https://codecov.io/gh/lorenzwalthert/gitsum/branch/master/graph/badge.svg" alt="codecov"></a> <a href="https://travis-ci.org/lorenzwalthert/gitsum"><img src="https://travis-ci.org/lorenzwalthert/gitsum.svg?branch=master" alt="Build Status"></a> <a href="https://ci.appveyor.com/project/lorenzwalthert/gitsum"><img src="https://ci.appveyor.com/api/projects/status/github/lorenzwalthert/gitsum?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></p>
-<div id="introduction" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1></div>
+<section id="introduction" class="level1"><div class="page-header"><h1>Introduction</h1></div>
 <p>This package parses a git repository history to collect comprehensive information about the activity in the repo. The parsed data is made available to the user in a tabular format. The package can also generate reports based on the parse data.</p>
 <p>There are two main functions for parsing the history, both return tabular data:</p>
 <ul>
@@ -70,11 +68,11 @@
 </ul>
 <p><code><a href="reference/report_git.html">report_git()</a></code> creates a html, pdf, or word report with the parsed log data according to a template. Templates can be created by the user or a template from the <code>gitsum</code> package can be used.</p>
 <p>Let’s see the package in action.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"gitsum"</span>)</a>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"gitsum"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(<span class="st">"tidyverse"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(<span class="st">"forcats"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(<span class="st">"forcats"</span>)</a></code></pre>
 <p>We can obtain a parsed log like this:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">tbl &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_log_detailed.html">parse_log_detailed</a></span>() <span class="op">%&gt;%</span></a>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">tbl &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_log_detailed.html">parse_log_detailed</a></span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">  </span><span class="kw">arrange</span>(date) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">select</span>(short_hash, short_message, total_files_changed, nested)</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">tbl </a>
@@ -91,22 +89,19 @@
 <a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  8       943c        add helpfiles                  10 &lt;tibble [10 x 5]&gt;</span></a>
 <a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;  9       917e update infrastructur                   3  &lt;tibble [3 x 5]&gt;</span></a>
 <a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; 10       4fc0       remove garbage                   6  &lt;tibble [6 x 5]&gt;</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; # ... with 91 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; # ... with 91 more rows</span></a></code></pre>
 <p>Since we used <code><a href="reference/parse_log_detailed.html">parse_log_detailed()</a></code>, there is detailed file-specific information available for every commit:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">tbl<span class="op">$</span>nested[[<span class="dv">3</span>]]</a>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">tbl<span class="op">$</span>nested[[<span class="dv">3</span>]]</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; # A tibble: 3 x 5</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;   changed_file edits insertions deletions is_exact</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;          &lt;chr&gt; &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;lgl&gt;</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; 1  DESCRIPTION     6          5         1     TRUE</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; 2    NAMESPACE     3          2         1     TRUE</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3  R/get_log.R    19         11         8     TRUE</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; 3  R/get_log.R    19         11         8     TRUE</span></a></code></pre>
 <p>Since the data has such a high resolution, various graphs, tables etc. can be produced from it to provide insights into the git history.</p>
-</div>
-<div id="examples" class="section level1">
-<h1 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h1>
+</section><section id="examples" class="level1"><h1>Examples</h1>
 <p>Since the output of <code>git_log_detailed()</code> is a nested tibble, you can work on it as you work on any other tibble. Let us first have a look at who comitted to this repository:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">log &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_log_detailed.html">parse_log_detailed</a></span>()</a>
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">log &lt;-<span class="st"> </span><span class="kw"><a href="reference/parse_log_detailed.html">parse_log_detailed</a></span>()</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">log <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">group_by</span>(author_name) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">n</span>())</a>
@@ -115,46 +110,45 @@
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;             &lt;chr&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 1      Jon Calder     2</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 2      jonmcalder     6</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 3 Lorenz Walthert    93</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 3 Lorenz Walthert    93</span></a></code></pre>
 <p>We can also investigate how the number of lines of each file in the R directory evolved.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">lines &lt;-<span class="st"> </span>log <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">unnest</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/add_line_history.html">add_line_history</a></span>()</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">r_files &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">"^R/"</span>, lines<span class="op">$</span>changed_file, <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">to_plot &lt;-<span class="st"> </span>lines <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span><span class="kw">filter</span>(changed_file <span class="op">%in%</span><span class="st"> </span>r_files)</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="kw">ggplot</span>(to_plot, <span class="kw">aes</span>(<span class="dt">x =</span> date, <span class="dt">y =</span> current_lines)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_step</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">name =</span> <span class="st">"Number of Lines"</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="ot">NA</span>)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>changed_file, <span class="dt">scales =</span> <span class="st">"free_y"</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">lines &lt;-<span class="st"> </span>log <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/add_line_history.html">add_line_history</a></span>()</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">r_files &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">"^R/"</span>, lines<span class="op">$</span>changed_file, <span class="dt">value =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">to_plot &lt;-<span class="st"> </span>lines <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span><span class="kw">filter</span>(changed_file <span class="op">%in%</span><span class="st"> </span>r_files)</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="kw">ggplot</span>(to_plot, <span class="kw">aes</span>(<span class="dt">x =</span> date, <span class="dt">y =</span> current_lines)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_step</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">name =</span> <span class="st">"Number of Lines"</span>, <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="ot">NA</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>changed_file, <span class="dt">scales =</span> <span class="st">"free_y"</span>)</a></code></pre>
 <p><img src="README-per_file-1.png"><!-- --></p>
 <p>Next, we want to see which files were contained in most commits:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">log <span class="op">%&gt;%</span></a>
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">log <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">unnest</span>(nested) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># unnest the tibble</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">changed_file =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/forcats/topics/fct_lump">fct_lump</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/forcats/topics/fct_inorder">fct_infreq</a></span>(changed_file), <span class="dt">n =</span> <span class="dv">10</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw">filter</span>(changed_file <span class="op">!=</span><span class="st"> "Other"</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> changed_file)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre>
 <p><img src="README-ggplot1-1.png"><!-- --></p>
 <p>We can also easily get a visual overview of the number of insertions &amp; deletions in commits over time:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">commit.dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">commit.dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">    <span class="dt">edits =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"Insertions"</span>, <span class="st">"Deletions"</span>), <span class="dt">each =</span> <span class="kw">nrow</span>(log)),</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="dt">commit =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(log), <span class="dv">2</span>),</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="dt">count =</span> <span class="kw">c</span>(log<span class="op">$</span>total_insertions, <span class="op">-</span>log<span class="op">$</span>total_deletions))</a>
 <a class="sourceLine" id="cb7-5" data-line-number="5">    </a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw">ggplot</span>(commit.dat, <span class="kw">aes</span>(<span class="dt">x =</span> commit, <span class="dt">y =</span> count, <span class="dt">fill =</span> edits)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">"identity"</span>, <span class="dt">position =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre>
 <p><img src="README-ggplot2-1.png"><!-- --></p>
 <p>Or the number of commits broken down by day of the week:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">log <span class="op">%&gt;%</span></a>
+<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">log <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">weekday =</span> <span class="kw">factor</span>(weekday, <span class="kw">c</span>(<span class="st">"Mon"</span>, <span class="st">"Tue"</span>, <span class="st">"Wed"</span>, <span class="st">"Thu"</span>, <span class="st">"Fri"</span>, <span class="st">"Sat"</span>, <span class="st">"Sun"</span>))) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> weekday)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre>
 <p><img src="README-ggplot3-1.png"><!-- --></p>
-</div>
+</section>
 </div>
   </div>
 

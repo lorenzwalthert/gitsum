@@ -79,9 +79,9 @@
     </div>
 
     
-    <p>Add amount of lines added by each commits by file (insertions - deletions)
-plus number of total lines a file has according to past insertions and
-deletions (via <code><a href='http://www.rdocumentation.org/packages/base/topics/cumsum'>base::cumsum()</a></code>.</p>
+    <p>Add amount of lines added by commits (insertions - deletions) plus number of
+total lines a file has according to past insertions and deletions
+(via <code><a href='http://www.rdocumentation.org/packages/base/topics/cumsum'>base::cumsum()</a></code>.</p>
     
 
     <pre class="usage"><span class='fu'>add_line_history</span>(<span class='no'>log</span>)</pre>
@@ -91,41 +91,17 @@ deletions (via <code><a href='http://www.rdocumentation.org/packages/base/topics
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>log</th>
-      <td><p>An unested gitsum log, for example obtained through
-<code><a href='parse_log_detailed.html'>parse_log_detailed()</a></code>.</p></td>
+      <td><p>An nested gitsum log, for example obtained through <code><a href='parse_log_detailed.html'>parse_log_detailed()</a></code>.</p></td>
     </tr>
     </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>add_line_history</span>(<span class='kw pkg'>tidyr</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/tidyr/topics/unnest'>unnest</a></span>(<span class='no'>gitsumlog</span>))</div><div class='output co'>#&gt; # A tibble: 193 x 27
-#&gt; # Groups:   changed_file [67]
-#&gt;    short_hash author_name  date                short_message  hash  left_parent
-#&gt;    &lt;chr&gt;      &lt;chr&gt;        &lt;dttm&gt;              &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;      
-#&gt;  1 243f       Lorenz Walt… 2017-05-19 11:23:23 initial commit 243f… &lt;NA&gt;       
-#&gt;  2 243f       Lorenz Walt… 2017-05-19 11:23:23 initial commit 243f… &lt;NA&gt;       
-#&gt;  3 243f       Lorenz Walt… 2017-05-19 11:23:23 initial commit 243f… &lt;NA&gt;       
-#&gt;  4 243f       Lorenz Walt… 2017-05-19 11:23:23 initial commit 243f… &lt;NA&gt;       
-#&gt;  5 243f       Lorenz Walt… 2017-05-19 11:23:23 initial commit 243f… &lt;NA&gt;       
-#&gt;  6 243f       Lorenz Walt… 2017-05-19 11:23:23 initial commit 243f… &lt;NA&gt;       
-#&gt;  7 243f       Lorenz Walt… 2017-05-19 11:23:23 initial commit 243f… &lt;NA&gt;       
-#&gt;  8 f8ee       Lorenz Walt… 2017-05-19 14:26:32 add log examp… f8ee… 243fcdb327…
-#&gt;  9 6328       Lorenz Walt… 2017-05-19 14:26:53 add parents    6328… f8ee8fb785…
-#&gt; 10 6328       Lorenz Walt… 2017-05-19 14:26:53 add parents    6328… f8ee8fb785…
-#&gt; # ... with 183 more rows, and 21 more variables: right_parent &lt;chr&gt;,
-#&gt; #   author_email &lt;chr&gt;, weekday &lt;chr&gt;, month &lt;chr&gt;, monthday &lt;int&gt;,
-#&gt; #   time &lt;time&gt;, year &lt;int&gt;, timezone &lt;int&gt;, message &lt;chr&gt;, description &lt;chr&gt;,
-#&gt; #   total_files_changed &lt;int&gt;, total_insertions &lt;int&gt;, total_deletions &lt;int&gt;,
-#&gt; #   short_description &lt;chr&gt;, is_merge &lt;lgl&gt;, changed_file &lt;chr&gt;, edits &lt;int&gt;,
-#&gt; #   insertions &lt;dbl&gt;, deletions &lt;dbl&gt;, lines_added &lt;dbl&gt;, current_lines &lt;dbl&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>
