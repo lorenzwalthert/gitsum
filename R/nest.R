@@ -7,12 +7,15 @@
 #' @importFrom tidyr nest_
 nest_log <- function(log) {
   assert_detailed_log(log)
-  if (is_detailed_log(log, nested = TRUE)) {
+  if (is_detailed_log(log, nested = FALSE)) {
+    log <- nest_(log, "nested",
+          c("changed_file", "edits", "insertions", "deletions", "is_exact")
+    )
+  } else {
     warning("log was already nested, returning input log.", call. = FALSE)
   }
-  as_nested_log(log)
+  log
 }
-
 
 #' Nest/unnest a gitsum log
 #'
@@ -23,36 +26,10 @@ nest_log <- function(log) {
 #' @export
 unnest_log <- function(log) {
   assert_detailed_log(log)
-  if (is_detailed_log(log, nested = FALSE)) {
+  if (is_detailed_log(log, nested = TRUE)) {
+    log <- unnest_(log, "nested")
+  } else {
     warning("log was already unnested, returning input log.", call. = FALSE)
   }
-  as_unnested_log(log)
+  log
 }
-
-#' @importFrom tidyr nest
-as_unnested_log <- function(log) {
-  assert_detailed_log(log)
-  if (is_detailed_log(log, nested = FALSE)) {
-    unnested <- log
-  } else {
-    unnested <- unnest(log, .data$nested)
-  }
-  unnested
-}
-
-
-#' @importFrom tidyr unnest
-as_nested_log <- function(log) {
-  assert_detailed_log(log)
-  if (is_detailed_log(log, nested = TRUE)) {
-    nested <- log
-  } else {
-    nested <- nest(
-      log, .data$changed_file, .data$edits,
-      .data$insertions, .data$deletions, .data$is_exact,
-      .key = "nested"
-    )
-  }
-  nested
-}
-
