@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>parse a raw log — parse_log_one • gitsum</title>
+<title>Parse a raw reassignment into a list — parse_reassignment • gitsum</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,41 +75,77 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>parse a raw log</h1>
+    <h1>Parse a raw reassignment into a list</h1>
     </div>
 
     
-    <p>parse a raw log</p>
+    <p>Takes a vector of raw reassignments and turns them into a list of elements.
+Every element contains the old path, the new path and the index of the
+reassignment.</p>
     
 
-    <pre class="usage"><span class='fu'>parse_log_one</span>(<span class='no'>raw</span>, <span class='no'>fnc_list</span>, <span class='no'>has_merge</span>)</pre>
+    <pre class="usage"><span class='fu'>parse_reassignment</span>(<span class='no'>raw_reassignment</span>, <span class='no'>reassignment_index</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>raw</th>
-      <td><p>a character vector corresponding to one commit.</p></td>
+      <th>raw_reassignment</th>
+      <td><p>Character vector with raw re-assignments.</p></td>
     </tr>
     <tr>
-      <th>fnc_list</th>
-      <td><p>the list of named functions that return the elements
-we want to extract from the log, i.e. author, hash etc.</p></td>
-    </tr>
-    <tr>
-      <th>has_merge</th>
-      <td><p>Whether or not <code>raw</code> is a merge commit. This is relevant
-because merge commits have additional lines.</p></td>
+      <th>reassignment_index</th>
+      <td><p>Integer vector indicating the position of the
+re-assignment in the original unnested detailed log.</p></td>
     </tr>
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw pkg'>gitsum</span><span class='kw ns'>:::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/gitsum/topics/parse_reassignment'>parse_reassignment</a></span>(
+  <span class='fu'>c</span>(<span class='st'>"R/{a =&gt; b}"</span>, <span class='st'>"API =&gt; api2"</span>, <span class='st'>"{src =&gt; inst/include}/dplyr_types.h"</span>),
+  <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>33</span>)
+)</div><div class='output co'>#&gt; [[1]]
+#&gt; [[1]]$old_path
+#&gt; [1] "R/a"
+#&gt; 
+#&gt; [[1]]$new_path
+#&gt; [1] "R/b"
+#&gt; 
+#&gt; [[1]]$reassignment_index
+#&gt; [1] 1
+#&gt; 
+#&gt; 
+#&gt; [[2]]
+#&gt; [[2]]$old_path
+#&gt; [1] "API"
+#&gt; 
+#&gt; [[2]]$new_path
+#&gt; [1] "api2"
+#&gt; 
+#&gt; [[2]]$reassignment_index
+#&gt; [1] 2
+#&gt; 
+#&gt; 
+#&gt; [[3]]
+#&gt; [[3]]$old_path
+#&gt; [1] "src/dplyr_types.h"
+#&gt; 
+#&gt; [[3]]$new_path
+#&gt; [1] "inst/include/dplyr_types.h"
+#&gt; 
+#&gt; [[3]]$reassignment_index
+#&gt; [1] 33
+#&gt; 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

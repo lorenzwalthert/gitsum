@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>parse a raw log — parse_log_one • gitsum</title>
+<title>Parse a test log — parse_test_log • gitsum</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,31 +75,31 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>parse a raw log</h1>
+    <h1>Parse a test log</h1>
     </div>
 
     
-    <p>parse a raw log</p>
+    <p>Function to facilitate the reading and parsing of a raw log for unit test
+purposes.</p>
     
 
-    <pre class="usage"><span class='fu'>parse_log_one</span>(<span class='no'>raw</span>, <span class='no'>fnc_list</span>, <span class='no'>has_merge</span>)</pre>
+    <pre class="usage"><span class='fu'>parse_test_log</span>(<span class='no'>path_to_raw_log</span>, <span class='kw'>parser</span> <span class='kw'>=</span> <span class='no'>parse_log_detailed_full_run</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>raw</th>
-      <td><p>a character vector corresponding to one commit.</p></td>
+      <th>path_to_raw_log</th>
+      <td><p>The path to the raw log relative to tests/testthat/.</p></td>
     </tr>
     <tr>
-      <th>fnc_list</th>
-      <td><p>the list of named functions that return the elements
-we want to extract from the log, i.e. author, hash etc.</p></td>
+      <th>parser</th>
+      <td><p>The parser to use, i.e. either <code><a href='parse_log_detailed.html'>parse_log_detailed_full_run()</a></code>
+or <code><a href='parse_log_simple.html'>parse_log_simple()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>has_merge</th>
-      <td><p>Whether or not <code>raw</code> is a merge commit. This is relevant
-because merge commits have additional lines.</p></td>
+      <th>...</th>
+      <td><p>Params passed to <code><a href='parse_log_detailed.html'>parse_log_detailed_full_run()</a></code>.</p></td>
     </tr>
     </table>
     

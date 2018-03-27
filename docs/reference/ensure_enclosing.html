@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>parse a raw log — parse_log_one • gitsum</title>
+<title>Ensure enclosing — ensure_enclosing • gitsum</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,41 +75,43 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>parse a raw log</h1>
+    <h1>Ensure enclosing</h1>
     </div>
 
     
-    <p>parse a raw log</p>
+    <p>Make sure a string is enclosed with some values.</p>
     
 
-    <pre class="usage"><span class='fu'>parse_log_one</span>(<span class='no'>raw</span>, <span class='no'>fnc_list</span>, <span class='no'>has_merge</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>raw</th>
-      <td><p>a character vector corresponding to one commit.</p></td>
-    </tr>
-    <tr>
-      <th>fnc_list</th>
-      <td><p>the list of named functions that return the elements
-we want to extract from the log, i.e. author, hash etc.</p></td>
-    </tr>
-    <tr>
-      <th>has_merge</th>
-      <td><p>Whether or not <code>raw</code> is a merge commit. This is relevant
-because merge commits have additional lines.</p></td>
-    </tr>
-    </table>
+    <pre class="usage"><span class='fu'>ensure_curly_enclosing</span>(<span class='no'>raw_reassignment</span>)
+
+<span class='fu'>ensure_dash_enclosing</span>(<span class='no'>raw_reassignment</span>)</pre>
+        
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    <ul>
+<li><p><code>ensure_curly_enclosing</code>: Ensures curly braces enclosing.</p></li>
+<li><p><code>ensure_dash_enclosing</code>: Ensures dash enclosing.</p></li>
+</ul>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw pkg'>gitsum</span><span class='kw ns'>:::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/gitsum/topics/ensure_enclosing'>ensure_curly_enclosing</a></span>(
+  <span class='fu'>c</span>(<span class='st'>"API =&gt; api"</span>, <span class='st'>"R/{a =&gt; b}"</span>)
+)</div><div class='output co'>#&gt; [1] "{API =&gt; api}" "R/{a =&gt; b}"  </div><div class='input'><span class='kw pkg'>gitsum</span><span class='kw ns'>:::</span><span class='fu'>ensure_leading_dash</span>(
+  <span class='fu'>c</span>(<span class='st'>"{API = api}"</span>, <span class='st'>"R/{a =&gt; b}"</span>,
+  <span class='st'>"vignettes/{ =&gt; notes}/mysql-setup.Rmd"</span>)
+)</div><div class='output co'>#&gt; [1] "/{API = api}"                         
+#&gt; [2] "R/{a =&gt; b}"                           
+#&gt; [3] "vignettes/{ =&gt; notes}/mysql-setup.Rmd"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#functions">Functions</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

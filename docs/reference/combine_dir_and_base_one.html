@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>parse a raw log — parse_log_one • gitsum</title>
+<title>Combining paths — combine_dir_and_base_one • gitsum</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,31 +75,34 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>parse a raw log</h1>
+    <h1>Combining paths</h1>
     </div>
 
     
-    <p>parse a raw log</p>
+    <p>Combine dir with old and new basename and extension</p>
     
 
-    <pre class="usage"><span class='fu'>parse_log_one</span>(<span class='no'>raw</span>, <span class='no'>fnc_list</span>, <span class='no'>has_merge</span>)</pre>
+    <pre class="usage"><span class='fu'>combine_dir_and_base_one</span>(<span class='no'>dirname</span>, <span class='no'>base_name</span>, <span class='no'>extensions</span>, <span class='no'>reassignment_index</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>raw</th>
-      <td><p>a character vector corresponding to one commit.</p></td>
+      <th>dirname</th>
+      <td><p>A directory name.</p></td>
     </tr>
     <tr>
-      <th>fnc_list</th>
-      <td><p>the list of named functions that return the elements
-we want to extract from the log, i.e. author, hash etc.</p></td>
+      <th>base_name</th>
+      <td><p>The base name of a file.</p></td>
     </tr>
     <tr>
-      <th>has_merge</th>
-      <td><p>Whether or not <code>raw</code> is a merge commit. This is relevant
-because merge commits have additional lines.</p></td>
+      <th>extensions</th>
+      <td><p>The extensions that indicate the suffix of the name.</p></td>
+    </tr>
+    <tr>
+      <th>reassignment_index</th>
+      <td><p>Integer vector indicating the position of the
+re-assignment in the original unnested detailed log.</p></td>
     </tr>
     </table>
     

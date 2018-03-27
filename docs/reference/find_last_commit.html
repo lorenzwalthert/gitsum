@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>parse a raw log — parse_log_one • gitsum</title>
+<title>Find the last commit in a repo — find_last_commit • gitsum</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,40 +75,20 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>parse a raw log</h1>
+    <h1>Find the last commit in a repo</h1>
     </div>
 
     
-    <p>parse a raw log</p>
+    <p>Finds the last commit in a repo and optionally updates the dump.</p>
     
 
-    <pre class="usage"><span class='fu'>parse_log_one</span>(<span class='no'>raw</span>, <span class='no'>fnc_list</span>, <span class='no'>has_merge</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>raw</th>
-      <td><p>a character vector corresponding to one commit.</p></td>
-    </tr>
-    <tr>
-      <th>fnc_list</th>
-      <td><p>the list of named functions that return the elements
-we want to extract from the log, i.e. author, hash etc.</p></td>
-    </tr>
-    <tr>
-      <th>has_merge</th>
-      <td><p>Whether or not <code>raw</code> is a merge commit. This is relevant
-because merge commits have additional lines.</p></td>
-    </tr>
-    </table>
-    
+    <pre class="usage"><span class='fu'>find_last_commit</span>(<span class='no'>log</span>)</pre>
+        
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>
