@@ -13,7 +13,7 @@ add_attributes_detailed <- function(log) {
   mutate_(log,
     date = ~ymd_hms(paste(year, month, monthday, time)),
     short_hash = ~substr(hash, 1, 4),
-    short_message = ~substr(message, 1, 20),
+    short_message = ~substr(message, 1, 50),
     short_description = ~ifelse(!is.na(message),
                                 substr(description, 1, 20), NA
     ),
