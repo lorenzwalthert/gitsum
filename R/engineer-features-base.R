@@ -28,18 +28,18 @@ add_attributes_detailed <- function(log) {
 type_convert_base_attributes <- function(log) {
   log %>%
     mutate(
-      monthday = as.integer(monthday),
-      month = as.character(month),
-      hash = as.character(hash),
-      time = parse_hm(time),
-      year = as.integer(year),
-      total_files_changed = as.integer(total_files_changed),
-      total_insertions = as.integer(total_insertions),
-      total_deletions = as.integer(total_deletions),
-      edits = as.integer(ifelse(edits != "", edits, 0)),
-      insertions = ifelse(insertions != "", nchar(insertions), 0),
-      deletions = ifelse(deletions != "", nchar(deletions), 0),
-      changed_file = trimws(changed_file)
+      monthday = as.integer(.data$monthday),
+      month = as.character(.data$month),
+      hash = as.character(.data$hash),
+      time = parse_hm(.data$time),
+      year = as.integer(.data$year),
+      total_files_changed = as.integer(.data$total_files_changed),
+      total_insertions = as.integer(.data$total_insertions),
+      total_deletions = as.integer(.data$total_deletions),
+      edits = as.integer(ifelse(edits != "", .data$edits, 0)),
+      insertions = ifelse(insertions != "", nchar(.data$insertions), 0),
+      deletions = ifelse(deletions != "", nchar(.data$deletions), 0),
+      changed_file = trimws(.data$changed_file)
     )
 }
 

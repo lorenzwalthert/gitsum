@@ -49,7 +49,7 @@ dump_parsed_log <- function(log, path = ".", over_write = FALSE, verbose = TRUE)
 dump_last_commit <- function(log, path, verbose = TRUE) {
   gitsum_path_last_commit <- gitsum_path(path, "last_commit.rds")
   last <- log %>%
-    arrange(desc(commit_nr)) %>%
+    arrange(desc(.data$commit_nr)) %>%
     slice(1)
   write_rds(last, gitsum_path_last_commit)
   if (verbose) message("\nlast_commit saved at ", gitsum_path_last_commit)

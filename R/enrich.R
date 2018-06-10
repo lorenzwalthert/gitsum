@@ -27,11 +27,11 @@ add_line_history <- function(log) {
 #' the number of times a file was changed according to `log`. This may be
 #' helpful for subsetting.
 #' @param log An unnested log.
-#' @importFrom dplyr group_by summarize left_join
+#' @importFrom dplyr group_by summarize left_join n
 #' @export
 add_n_times_changed_file <- function(log) {
   stats <- log %>%
-    group_by(changed_file) %>%
+    group_by(.data$changed_file) %>%
     summarize(n_times_changed_file = n())
   left_join(log, stats, by = "changed_file")
 }

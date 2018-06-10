@@ -10,6 +10,10 @@ ensure_curly_enclosing(raw_reassignment)
 
 ensure_dash_enclosing(raw_reassignment)
 }
+\arguments{
+\item{raw_assignment}{A character vector containing text from
+raw assignemnts (see 'Examples').}
+}
 \description{
 Make sure a string is enclosed with some values.
 }
