@@ -10,9 +10,9 @@
 #' @seealso See [parse_log_detailed] for a slower alternative with more
 #'   information.
 #' @importFrom readr read_delim
-#' @importFrom tidyr separate_
-#' @importFrom dplyr mutate_ select_ if_else rowwise rename_
-#' @importFrom dplyr everything arrange_
+#' @importFrom tidyr separate
+#' @importFrom dplyr mutate select_ if_else rowwise rename
+#' @importFrom dplyr everything arrange
 #' @importFrom lubridate ymd_hms
 #' @importFrom magrittr %>%
 #' @export
@@ -50,20 +50,24 @@ parse_log_simple <- function(path = ".", file_name = NULL) {
     ),
     col_types = "ccccc"
   ) %>%
-    separate_("date", into = time, sep = " ") %>%
-    separate_(
-      "parents", into = c("left_parent", "right_parent"), sep = " ",
+    separate(.data$date, into = time, sep = " ") %>%
+    separate(
+      .data$parents, into = c("left_parent", "right_parent"), sep = " ",
       fill = "right"
     ) %>%
-    mutate_(
-      final_date = ~ymd_hms(paste(year, weekday, month, monthday, time)),
-      message_short = ~substr(message, 1, 20)
+    mutate(
+      final_date = ymd_hms(paste(
+        .data$year, .data$weekday, .data$month, .data$monthday, .data$time
+      )),
+      message_short = substr(.data$message, 1, 20)
     ) %>%
     rowwise() %>%
-    mutate_(n_parents = ~sum(!is.na(left_parent), !is.na(right_parent))) %>%
-    rename_(date = ~final_date) %>%
-    select_(~author, ~message_short, ~date, ~everything()) %>%
-    arrange_(~date)
+    mutate(n_parents = sum(
+      !is.na(.data$left_parent), !is.na(.data$right_parent))
+    ) %>%
+    rename(date = .data$final_date) %>%
+    select(.data$author, .data$message_short, .data$date, everything()) %>%
+    arrange(.data$date)
   if (is.null(file_name)) unlink(file.path(path, file_name_prog))
   log
 }

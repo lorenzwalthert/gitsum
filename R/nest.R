@@ -4,12 +4,12 @@
 #' nested.
 #' @param log A log to nest/unnest.
 #' @export
-#' @importFrom tidyr nest_
+#' @importFrom tidyr nest
 nest_log <- function(log) {
   assert_detailed_log(log)
   if (is_detailed_log(log, nested = FALSE)) {
-    log <- nest_(log, "nested",
-          c("changed_file", "edits", "insertions", "deletions", "is_exact")
+    log <- nest(log, .data$changed_file, .data$edits, .data$insertions,
+      .data$deletions, .data$is_exact, .key = "nested"
     )
   } else {
     warning("log was already nested, returning input log.", call. = FALSE)
@@ -27,7 +27,7 @@ nest_log <- function(log) {
 unnest_log <- function(log) {
   assert_detailed_log(log)
   if (is_detailed_log(log, nested = TRUE)) {
-    log <- unnest_(log, "nested")
+    log <- unnest(log, .data$nested)
   } else {
     warning("log was already unnested, returning input log.", call. = FALSE)
   }

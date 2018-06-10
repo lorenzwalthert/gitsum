@@ -39,10 +39,10 @@
 #'   names are: \cr
 #'   changed_file, edits, insertions, deletions.
 #' @seealso See [parse_log_simple] for a fast alternative with less information.
-#' @importFrom dplyr mutate_ select_ everything group_by_ do_ last
+#' @importFrom dplyr mutate select everything group_by do last
 #' @importFrom lubridate ymd_hms
-#' @importFrom tidyr unnest_ nest_
-#' @importFrom dplyr arrange_ ungroup bind_rows
+#' @importFrom tidyr unnest nest
+#' @importFrom dplyr arrange ungroup bind_rows
 #' @export
 parse_log_detailed <- function(path = ".", update_dump = TRUE) {
   last_hash <- read_last_hash(path)
@@ -76,11 +76,11 @@ parse_log_detailed_full_run <- function(path = ".",
     add_attributes_detailed() %>%
     set_na_to_zero(na_to_zero) %>%
     nest_log() %>%
-    select_(
-      ~short_hash, ~author_name, ~date,
-      ~short_message, ~everything()
+    select(
+      .data$short_hash, .data$author_name, .data$date,
+      .data$short_message, everything()
     ) %>%
-    arrange_(~commit_nr)
+    arrange(commit_nr)
 
   out
 }

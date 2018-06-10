@@ -53,18 +53,18 @@ parse_lines <- function(lines) {
     c(
       find_message_and_desc,
       lapply(get_pattern_multiple(), extract_factory_multiple)
-    ), nm = c("message_and_description",names(get_pattern_multiple()))
+    ), nm = c("message_and_description", names(get_pattern_multiple()))
   )
 
   lines %>%
-    mutate_(
-    level = ~cumsum(grepl("^commit", lines)),
-    has_merge = ~grepl("^Merge:", lines)
+    mutate(
+    level = cumsum(grepl("^commit", .data$lines)),
+    has_merge = grepl("^Merge:", .data$lines)
   ) %>%
-    group_by_(~level) %>%
-    do_(nested = ~parse_log_one(.$lines, extractors, any(.$has_merge))) %>%
+    group_by(.data$level) %>%
+    do(nested = parse_log_one(.$lines, extractors, any(.$has_merge))) %>%
     ungroup() %>%
-    mutate_(commit_nr = ~seq(nrow(.), 1L)) %>%
-    select_(~-level) %>%
-    unnest_("nested")
+    mutate(commit_nr = seq(nrow(.), 1L)) %>%
+    select(-.data$level) %>%
+    unnest(.data$nested)
 }

@@ -29,5 +29,5 @@ test_that("advanced log output is correct", {
     "total_deletions", "short_description",
     "is_merge", "nested"
   ))
-  expect_equal_to_reference(unnest_(git_det, ~nested), log_det)
+  expect_equal_to_reference(unnest(git_det, .data$nested), log_det)
 })

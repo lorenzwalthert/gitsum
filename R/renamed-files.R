@@ -85,7 +85,7 @@ parse_reassignment <- function(raw_reassignment, reassignment_index) {
 NULL
 
 #' @describeIn ensure_enclosing Ensures curly braces enclosing.
-#' @param raw_assignment A character vector containing text from
+#' @param raw_reassignment A character vector containing text from
 #'   raw assignemnts (see 'Examples').
 #' @examples
 #' gitsum:::ensure_curly_enclosing(
