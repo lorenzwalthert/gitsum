@@ -106,7 +106,7 @@ read_last_commit <- function(path = ".") {
 #' @importFrom dplyr arrange desc slice
 find_last_commit <- function(path = ".", update_dump = FALSE) {
   parse_log_detailed(path, update_dump) %>%
-    arrange(desc(commit_nr)) %>%
+    arrange(desc(.data$commit_nr)) %>%
     slice(1)
 }
 
