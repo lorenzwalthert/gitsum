@@ -141,5 +141,5 @@ gitsum_path <- function(path = ".", ...) {
   file.path(path, ".gitsum", ...)
 }
 assert_gitsum_repo <- function(path = ".") {
-  if (!is_gitsum_repo(path)) stop(path, " is not a gitsum repo")
+  if (!is_gitsum_repo(path)) init_gitsum(path)
 }
