@@ -13,7 +13,7 @@ Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate", "pkgapi
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Depends: R(>= 2.10)
 Imports: 
     lubridate,
