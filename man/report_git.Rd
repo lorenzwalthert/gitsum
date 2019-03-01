@@ -5,9 +5,9 @@
 \title{Create a summary report of a git repository}
 \usage{
 report_git(path = ".", output_file = NULL,
-  output_format = "html_document", template = "gitsum::repo_summary_simple",
-  input_file = NULL, directory = "gitsum", cached = TRUE,
-  .libpath_index = 1)
+  output_format = "html_document",
+  template = "gitsum::repo_summary_simple", input_file = NULL,
+  directory = "gitsum", cached = TRUE, .libpath_index = 1)
 }
 \arguments{
 \item{path}{The path to the git directory one wants to create summaries for.}

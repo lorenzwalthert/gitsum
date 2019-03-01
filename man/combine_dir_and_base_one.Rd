@@ -4,7 +4,8 @@
 \alias{combine_dir_and_base_one}
 \title{Combining paths}
 \usage{
-combine_dir_and_base_one(dirname, base_name, extensions, reassignment_index)
+combine_dir_and_base_one(dirname, base_name, extensions,
+  reassignment_index)
 }
 \arguments{
 \item{dirname}{A directory name.}

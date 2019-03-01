@@ -4,7 +4,6 @@
 \name{gitsum}
 \alias{gitsum}
 \alias{gitsum-package}
-\alias{gitsum-package}
 \title{Parse and summarize a git repository}
 \description{
 \code{gitsum} provides tools to parse a git repository history and

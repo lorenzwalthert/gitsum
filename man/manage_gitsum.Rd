@@ -4,8 +4,6 @@
 \alias{manage_gitsum}
 \alias{init_gitsum}
 \alias{remove_gitsum}
-\alias{init_gitsum}
-\alias{remove_gitsum}
 \title{Manage a gitsum repository}
 \usage{
 init_gitsum(path = ".", over_write = FALSE)

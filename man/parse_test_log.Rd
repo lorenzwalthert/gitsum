@@ -4,7 +4,8 @@
 \alias{parse_test_log}
 \title{Parse a test log}
 \usage{
-parse_test_log(path_to_raw_log, parser = parse_log_detailed_full_run, ...)
+parse_test_log(path_to_raw_log, parser = parse_log_detailed_full_run,
+  ...)
 }
 \arguments{
 \item{path_to_raw_log}{The path to the raw log relative to tests/testthat/.}

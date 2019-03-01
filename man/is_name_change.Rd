@@ -4,7 +4,8 @@
 \alias{is_name_change}
 \title{Detect whether a \code{changed_file}-entry is a renaming}
 \usage{
-is_name_change(changed_file, reassignment_pattern = ".+\\\\s\\\\=\\\\>.+$")
+is_name_change(changed_file,
+  reassignment_pattern = ".+\\\\s\\\\=\\\\>.+$")
 }
 \arguments{
 \item{changed_file}{The column \code{changed_file} from a parsed unnested
