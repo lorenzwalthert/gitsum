@@ -14,3 +14,4 @@ update_changed_file(log, transition)
 \description{
 Apply one file name update to a log
 }
+\keyword{internal}

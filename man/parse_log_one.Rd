@@ -18,3 +18,4 @@ because merge commits have additional lines.}
 \description{
 parse a raw log
 }
+\keyword{internal}

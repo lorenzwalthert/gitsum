@@ -6,6 +6,7 @@
 #' @param commit_range A string of the form "hash1..hash2" indicating the commit
 #'   range to parse. `NULL` means all commits.
 #' @importFrom readr read_lines
+#' @keywords internal
 get_raw_log <- function(path,
                         file_name = NULL,
                         remove = is.null(file_name),

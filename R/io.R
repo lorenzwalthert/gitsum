@@ -34,6 +34,7 @@ remove_gitsum <- function(path = ".") {
 #' @param verbose Whether or not to send informative messages to the console.
 #' @inheritParams check_overwriting_clearance
 #' @importFrom readr write_rds
+#' @keywords internal
 dump_parsed_log <- function(log, path = ".", over_write = FALSE, verbose = TRUE) {
   gitsum_path <- ensure_gitsum_repo(path)
   gitsum_path_log <- file.path(gitsum_path, "log.rds")
@@ -46,6 +47,7 @@ dump_parsed_log <- function(log, path = ".", over_write = FALSE, verbose = TRUE)
 #' @describeIn dump_parsed_log Dumps the last commit into .gitsum
 #' @importFrom readr write_rds
 #' @importFrom dplyr slice arrange desc
+#' @keywords internal
 dump_last_commit <- function(log, path, verbose = TRUE) {
   gitsum_path_last_commit <- gitsum_path(path, "last_commit.rds")
   last <- log %>%
@@ -57,6 +59,7 @@ dump_last_commit <- function(log, path, verbose = TRUE) {
 
 #' Make sure the repository is a gitsum repository and create one if it is not
 #' @inheritParams dump_parsed_log
+#' @keywords internal
 ensure_gitsum_repo <- function(path = ".") {
   if (!is_gitsum_repo(path)) {
     dir.create(gitsum_path(path))
@@ -71,6 +74,7 @@ ensure_gitsum_repo <- function(path = ".") {
 #'   overwritten.
 #' @param fun The function to apply to the path, either file.exists, or
 #'   dir.exists.
+#' @keywords internal
 check_overwriting_clearance <- function(path, over_write, fun = file.exists) {
   if (fun(path)) {
     if (!over_write) {
@@ -88,12 +92,13 @@ check_overwriting_clearance <- function(path, over_write, fun = file.exists) {
 NULL
 
 #' @describeIn read_gitsum Reads a parsed log.
-#' @export
+#' @keywords internal
 read_log <- function(path = ".") {
   read_gitsum_data(path, "log.rds")
 }
 
 #' @describeIn read_gitsum Reads the last parsed commit.
+#' @keywords internal
 read_last_commit <- function(path = ".") {
   read_gitsum_data(path, "last_commit.rds")
 }
@@ -111,6 +116,7 @@ find_last_commit <- function(path = ".", update_dump = FALSE) {
 }
 
 #' @describeIn read_gitsum Reads the last parsed hash.
+#' @keywords internal
 read_last_hash <- function(path = ".") {
   last_commit <- read_last_commit(path)
   last_commit$hash

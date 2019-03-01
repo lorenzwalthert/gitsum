@@ -21,3 +21,4 @@ range to parse. \code{NULL} means all commits.}
 \description{
 Obtain the log raw data
 }
+\keyword{internal}

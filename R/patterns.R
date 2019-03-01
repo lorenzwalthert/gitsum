@@ -2,6 +2,7 @@
 #'
 #' @return returns a named vector with regex patterns to extract from a
 #'   git log.
+#' @keywords internal
 get_pattern_multiple <- function() {
   c(
     all_changes = paste0(

@@ -2,6 +2,7 @@
 #'
 #' @param pattern The pattern the function should be able to extract.
 #' @importFrom stringr str_match
+#' @keywords internal
 extract_factory_multiple <- function(pattern) {
   function(raw) {
     out <- str_match(raw, pattern)[, -1]

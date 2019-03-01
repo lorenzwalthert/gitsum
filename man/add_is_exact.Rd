@@ -12,3 +12,4 @@ add_is_exact(log)
 \description{
 Create a column indicating whether insertions and deletions are exact counts.
 }
+\keyword{internal}

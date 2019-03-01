@@ -20,3 +20,4 @@ dir.exists.}
 Check whether a file / path exists and return an error when it cannot be
 overwritten.
 }
+\keyword{internal}

@@ -28,3 +28,4 @@ gitsum:::combine_dir_and_base(
   list("", "", "dplyr_types.h"), c(1, 42, 61)
 )
 }
+\keyword{internal}

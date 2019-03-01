@@ -49,6 +49,7 @@ set_changed_file_to_latest_name <- function(log) {
 #'   "R/{gitsum.R => gitsum-package.R}", "API => API2",
 #'   "this is jus a file with => in it, it's not a name change"
 #' ))
+#' @keywords internal
 is_name_change <- function(changed_file,
                            reassignment_pattern = ".+\\s\\=\\>.+$") {
   regex_position_matrix <- str_locate(changed_file, reassignment_pattern)
@@ -68,6 +69,7 @@ is_name_change <- function(changed_file,
 #'   c("R/{a => b}", "API => api2", "{src => inst/include}/dplyr_types.h"),
 #'   c(1, 2, 33)
 #' )
+#' @keywords internal
 parse_reassignment <- function(raw_reassignment, reassignment_index) {
   separated <- ensure_curly_enclosing(raw_reassignment) %>%
     ensure_dash_enclosing() %>%
@@ -91,6 +93,7 @@ NULL
 #' gitsum:::ensure_curly_enclosing(
 #'   c("API => api", "R/{a => b}")
 #' )
+#' @keywords internal
 ensure_curly_enclosing <- function(raw_reassignment) {
   is_enclosed <- is_enclosed(raw_reassignment, c("{", "}"))
   raw_reassignment[!is_enclosed] <- enclose_string(
@@ -106,6 +109,7 @@ ensure_curly_enclosing <- function(raw_reassignment) {
 #'   c("{API = api}", "R/{a => b}",
 #'   "vignettes/{ => notes}/mysql-setup.Rmd")
 #' )
+#' @keywords internal
 ensure_dash_enclosing <- function(raw_reassignment) {
   raw_reassignment %>%
     ensure_leading_dash() %>%
@@ -113,6 +117,7 @@ ensure_dash_enclosing <- function(raw_reassignment) {
 }
 
 #' @importFrom stringr str_locate fixed
+#' @keywords internal
 ensure_leading_dash <- function(string) {
   starts_with_brace <- str_locate(string, fixed("{"))[, 1] == 1L
   string[starts_with_brace] <- paste0("/", string[starts_with_brace])
@@ -120,6 +125,7 @@ ensure_leading_dash <- function(string) {
 }
 
 #' @importFrom stringr str_locate fixed str_length
+#' @keywords internal
 ensure_trailing_dash <- function(string) {
   ends_with_brace <- str_locate(string, fixed("}"))[, 2] == str_length(string)
   string[ends_with_brace] <- paste0(string[ends_with_brace], "/")
@@ -127,6 +133,7 @@ ensure_trailing_dash <- function(string) {
 }
 
 #' @importFrom stringr str_locate fixed
+#' @keywords internal
 is_enclosed <- function(string, pattern) {
   is_enclosed <- str_locate(string, fixed(pattern[1]))[, 2] <=
     str_locate(string, fixed(pattern[2]))[, 1]
@@ -145,6 +152,7 @@ enclose_string <- function(string, enclosement) {
 #' @inheritParams parse_reassignment
 #' @examples
 #' gitsum:::separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}/")
+#' @keywords internal
 separate_dir_and_reassignment <- function(raw_reassignment) {
   str_split(raw_reassignment, "/\\{|\\}/")
 }
@@ -183,6 +191,7 @@ separate_old_and_new_name <- function(reassignment) {
 #'   list("", "", "dplyr_types.h"), c(1, 42, 61)
 #' )
 #' @importFrom purrr pmap
+#' @keywords internal
 combine_dir_and_base <- function(dirs, base_names, extensions, reassignment_index) {
   pmap(list(dirs, base_names, extensions, reassignment_index),
        combine_dir_and_base_one)
@@ -196,6 +205,7 @@ combine_dir_and_base <- function(dirs, base_names, extensions, reassignment_inde
 #' @inheritParams parse_reassignment
 #' @inheritParams combine_dir_and_base
 #' @importFrom purrr pmap
+#' @keywords internal
 combine_dir_and_base_one <- function(dirname,
                                      base_name,
                                      extensions,
@@ -212,6 +222,7 @@ combine_dir_and_base_one <- function(dirname,
 #' @importFrom purrr compact flatten_chr
 #' @importFrom rlang set_names
 #' @inheritParams base::file.path
+#' @keywords internal
 file_path <- function(..., fsep = .Platform$file.sep) {
   compact_vars <- map(list(...), function(x) {
     if (x == "") {
@@ -235,6 +246,7 @@ file_path <- function(..., fsep = .Platform$file.sep) {
 #' [parse_reassignment()].
 #' @inheritParams set_changed_file_to_latest_name
 #' @importFrom purrr reduce
+#' @keywords internal
 update_changed_file_sequentially <- function(log, transition_model) {
   reduce(transition_model, update_changed_file, .init = log)
 }
@@ -245,6 +257,7 @@ update_changed_file_sequentially <- function(log, transition_model) {
 #' @param transition A named list with one entry from the transition model.
 #' @importFrom rlang seq2
 #' @importFrom dplyr bind_rows
+#' @keywords internal
 update_changed_file <- function(log, transition) {
   seq_to_update <- group_reassignment(log, transition)
   grouped <- split(log, seq_to_update)
@@ -258,6 +271,7 @@ update_changed_file <- function(log, transition) {
 #' up to that name change. Also needs to update the last entry in log, which
 #' is the transition itself.
 #' @inheritParams update_changed_file
+#' @keywords internal
 update_changed_file_one <- function(log, transition) {
   to_update <- log$changed_file %in% transition$old_path
   log[c(which(to_update), nrow(log)), "changed_file"] <- transition$new_path
@@ -268,6 +282,7 @@ update_changed_file_one <- function(log, transition) {
 #' not update
 #' @inheritParams update_changed_file_one
 #' @importFrom forcats fct_inorder
+#' @keywords internal
 group_reassignment <- function(log, transition) {
   fct_inorder(c(
     rep("to_update", transition$reassignment_index),

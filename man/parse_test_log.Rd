@@ -19,3 +19,4 @@ or \code{\link[=parse_log_simple]{parse_log_simple()}}.}
 Function to facilitate the reading and parsing of a raw log for unit test
 purposes.
 }
+\keyword{internal}

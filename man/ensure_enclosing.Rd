@@ -33,3 +33,4 @@ gitsum:::ensure_leading_dash(
   "vignettes/{ => notes}/mysql-setup.Rmd")
 )
 }
+\keyword{internal}

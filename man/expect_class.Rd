@@ -31,3 +31,4 @@ class_mapping <- tribble(
 rownames_to_column(mtcars, var= "model") \%>\%
   gitsum:::expect_class(class_mapping, must_check_all = FALSE)
 }
+\keyword{internal}

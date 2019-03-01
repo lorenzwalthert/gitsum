@@ -16,3 +16,4 @@ group_reassignment(log, transition)
 Create indices for splitting \code{log} into a group to update and a group to
 not update
 }
+\keyword{internal}

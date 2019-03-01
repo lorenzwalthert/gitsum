@@ -27,3 +27,4 @@ Store a parsed git log in a gitsum repository.
 \item \code{dump_last_commit}: Dumps the last commit into .gitsum
 }}
 
+\keyword{internal}

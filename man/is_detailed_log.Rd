@@ -16,3 +16,4 @@ inspection.}
 \description{
 Check whether an object is a detailed log
 }
+\keyword{internal}

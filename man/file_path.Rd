@@ -14,3 +14,4 @@ file_path(..., fsep = .Platform$file.sep)
 \description{
 Like \code{\link[base:file.path]{base::file.path()}}, but sorts our \code{character(1)} first.
 }
+\keyword{internal}

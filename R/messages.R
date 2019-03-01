@@ -4,6 +4,7 @@
 #'   one cannot rely on the approach with the simple extraction factory.
 #' @param raw A character vector corresponding to one commit.
 #' @param target either "message" or "description
+#' @keywords internal
 find_message_and_desc <- function(raw, target) {
   message_and_desc_sep <- which(raw == "")
   message_start <- message_and_desc_sep[1] + 1

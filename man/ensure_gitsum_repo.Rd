@@ -12,3 +12,4 @@ ensure_gitsum_repo(path = ".")
 \description{
 Make sure the repository is a gitsum repository and create one if it is not
 }
+\keyword{internal}

@@ -28,3 +28,4 @@ Read gitsum data into R
 \item \code{read_last_hash}: Reads the last parsed hash.
 }}
 
+\keyword{internal}

@@ -88,6 +88,7 @@ parse_log_detailed_full_run <- function(path = ".",
 
 #' @importFrom purrr map_at
 #' @importFrom dplyr as_data_frame
+#' @keywords internal
 set_na_to_zero <- function(log,
                            na_to_zero = TRUE,
                            columns = c(

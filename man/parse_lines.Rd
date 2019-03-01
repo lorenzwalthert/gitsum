@@ -12,3 +12,4 @@ parse_lines(lines)
 \description{
 Turn a raw log of lines into a tabular format
 }
+\keyword{internal}

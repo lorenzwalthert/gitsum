@@ -1,6 +1,7 @@
 #' Create the path to a test that file
 #' @param ... Arguments passed to [file.path()] to construct the path after
 #'   ".../tests/testthat/"
+#' @keywords internal
 testthat_file <- function(...) {
   file.path(rprojroot::find_testthat_root_file(), ...)
 }
@@ -13,6 +14,7 @@ testthat_file <- function(...) {
 #' @param ... Params passed to [parse_log_detailed_full_run()].
 #' @param parser The parser to use, i.e. either [parse_log_detailed_full_run()]
 #'   or [parse_log_simple()].
+#' @keywords internal
 parse_test_log <- function(path_to_raw_log, parser = parse_log_detailed_full_run, ...) {
   path <- testthat_file(path_to_raw_log)
   parser(
@@ -49,6 +51,7 @@ parse_test_log_simple <- partial(parse_test_log, parser = parse_log_simple)
 #' @importFrom purrr map2_lgl
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr pull
+#' @keywords internal
 expect_class <- function(data, class_mapping, must_check_all) {
   class_mapping <- as_tibble(class_mapping)
   is_correct_class <- map2_lgl(
@@ -67,6 +70,7 @@ expect_class <- function(data, class_mapping, must_check_all) {
 
 #' @importFrom dplyr first pull
 #' @importFrom rlang sym
+#' @keywords internal
 expect_class_one <- function(name, class, data) {
   cls <- pull(data, !!sym(name)) %>%
     class() %>%

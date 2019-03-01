@@ -16,3 +16,4 @@ update_changed_file_sequentially(log, transition_model)
 Recursively updates the column \code{changed_file} of \code{log} according to a
 transition scheme provided in \code{transition_model}.
 }
+\keyword{internal}

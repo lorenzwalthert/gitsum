@@ -4,6 +4,7 @@
 #' @param nested Whether or not the object to inspect should be nested or not.
 #'   `NA` indicates that both nested and unnested logs shoud pass the
 #'   inspection.
+#' @keywords internal
 is_detailed_log <- function(log, nested = NA) {
   expected_names_nested <- c(
     "short_hash", "author_name", "date", "short_message", "hash",

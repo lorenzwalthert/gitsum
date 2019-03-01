@@ -9,6 +9,7 @@
 #' * commit_nr: The number of the commit in the repo. This can be used to sort
 #'   commits (in contrast to the commit date) in chronological order, that is,
 #'   in the oder in which they were committed.
+#' @keywords internal
 add_attributes_detailed <- function(log) {
   mutate(log,
     date = ymd_hms(paste(.data$year, .data$month, .data$monthday, .data$time)),
@@ -47,6 +48,7 @@ type_convert_base_attributes <- function(log) {
 #'
 #' Create a column indicating whether insertions and deletions are exact counts.
 #' @inheritParams add_attributes_detailed
+#' @keywords internal
 add_is_exact <- function(log) {
   mutate(log,
     total_approx = .data$insertions + .data$deletions,

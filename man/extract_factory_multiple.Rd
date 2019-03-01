@@ -12,3 +12,4 @@ extract_factory_multiple(pattern)
 \description{
 closure to extract multiple regex pattern from vector
 }
+\keyword{internal}

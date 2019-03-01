@@ -15,3 +15,4 @@ Splits according to regex "/\{|\}/".
 \examples{
 gitsum:::separate_dir_and_reassignment("R/{gitsum.R => gitsum-package.R}/")
 }
+\keyword{internal}

@@ -7,6 +7,7 @@
 #'   because merge commits have additional lines.
 #' @importFrom stringr str_split str_sub
 #' @importFrom tibble data_frame
+#' @keywords internal
 parse_log_one <- function(raw, fnc_list, has_merge) {
   if (has_merge) {
     count <- 3
@@ -48,6 +49,7 @@ parse_log_one <- function(raw, fnc_list, has_merge) {
 #'
 #' @param lines The output of [get_raw_log()].
 #' @importFrom rlang set_names
+#' @keywords internal
 parse_lines <- function(lines) {
   extractors <- set_names(
     c(
