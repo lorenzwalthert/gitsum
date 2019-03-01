@@ -65,6 +65,7 @@ parse_log_simple <- function(path = ".", file_name = NULL) {
     mutate(n_parents = sum(
       !is.na(.data$left_parent), !is.na(.data$right_parent))
     ) %>%
+    ungroup() %>%
     rename(date = .data$final_date) %>%
     select(.data$author, .data$message_short, .data$date, everything()) %>%
     arrange(.data$date)
