@@ -25,3 +25,4 @@ gitsum:::is_name_change(c(
   "this is jus a file with => in it, it's not a name change"
 ))
 }
+\keyword{internal}

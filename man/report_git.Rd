@@ -12,17 +12,24 @@ report_git(path = ".", output_file = NULL,
 \arguments{
 \item{path}{The path to the git directory one wants to create summaries for.}
 
-\item{output_file}{Output file. If \code{NULL} then a default based on
-  the name of the input file is chosen.}
+\item{output_file}{The name of the output file. If using \code{NULL} then the
+output filename will be based on filename for the input file. If a filename
+is provided, a path to the output file can also be provided. Note that the
+\code{output_dir} option allows for specifying the output file path as well,
+however, if also specifying the path, the directory must exist. If
+\code{output_file} is specified but does not have a file extension, an
+extension will be automatically added according to the output format. To
+avoid the automatic file extension, put the \code{output_file} value in
+\code{\link{I}()}, e.g., \code{I('my-output')}.}
 
-\item{output_format}{R Markdown output format to convert to. Pass
-  \code{"all"} to render all formats defined within the file. Pass
-  the name of a format (e.g. \code{"html_document"}) to render a single
-  format or pass a vector of format names to render multiple formats.
-  Alternatively you can pass an output format object;
-  e.g. \code{html_document()}. If \code{NULL} is passed then the
-  output format is the first one defined in the YAML metadata of the
-  input file (defaulting to HTML if none is specified).}
+\item{output_format}{The R Markdown output format to convert to. The option
+\code{"all"} will render all formats defined within the file. The option can
+be the name of a format (e.g. \code{"html_document"}) and that will render
+the document to that single format. One can also use a vector of format
+names to render to multiple formats. Alternatively, you can pass an output
+format object (e.g. \code{html_document()}). If using \code{NULL} then the
+output format is the first one defined in the YAML frontmatter in the input
+file (this defaults to HTML if no format is specified there).}
 
 \item{template}{the template file to be used. Either one from a package
 (e.g. \code{gitsum::repo_summary_simple}), or a user defined template,
