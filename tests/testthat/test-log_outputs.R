@@ -20,14 +20,11 @@ test_that("simple log output is correct", {
 test_that("advanced log output is correct", {
   expect_is(git_det, "tbl_df")
   expect_named(git_det, c(
-    "short_hash", "author_name", "date",
-    "short_message", "commit_nr", "hash", "left_parent",
-    "right_parent", "author_email", "weekday",
-    "month", "monthday", "time", "year",
-    "timezone", "message", "description",
-    "total_files_changed", "total_insertions",
-    "total_deletions", "short_description",
-    "is_merge", "nested"
+    "short_hash", "author_name", "date", "short_message", "hash",
+    "left_parent", "right_parent", "author_email", "weekday", "month",
+    "monthday", "time", "year", "timezone", "message", "description",
+    "total_files_changed", "total_insertions", "total_deletions",
+    "commit_nr", "short_description", "is_merge", "nested"
   ))
   expect_equal_to_reference(unnest(git_det, .data$nested), log_det)
 })

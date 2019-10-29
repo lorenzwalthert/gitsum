@@ -8,8 +8,11 @@
 nest_log <- function(log) {
   assert_detailed_log(log)
   if (is_detailed_log(log, nested = FALSE)) {
-    log <- nest(log, .data$changed_file, .data$edits, .data$insertions,
-      .data$deletions, .data$is_exact, .key = "nested"
+    log <- nest(
+      log,
+      "nested" = c(
+        .data$changed_file, .data$edits, .data$insertions,
+      .data$deletions, .data$is_exact)
     )
   } else {
     warning("log was already nested, returning input log.", call. = FALSE)

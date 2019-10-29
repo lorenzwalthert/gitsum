@@ -8,7 +8,7 @@ extract_factory_multiple <- function(pattern) {
     out <- str_match(raw, pattern)[, -1]
     out <- out[!is.na(out[, 1]), , drop = FALSE]
     if (length(out) == 0) {
-      matrix(NA, ncol = 4)
+      matrix(NA_character_, ncol = 4)
     } else {
       out
     }
