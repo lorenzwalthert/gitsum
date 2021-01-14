@@ -33,5 +33,5 @@ get_raw_log <- function(path,
   temp <- read_lines(path_to_file, progress = TRUE)
   if (remove) unlink(path_to_file)
 
-  data_frame(lines = temp)
+  tibble::tibble(lines = temp)
 }

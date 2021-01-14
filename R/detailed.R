@@ -65,7 +65,7 @@ parse_log_detailed_full_run <- function(path = ".",
                                         commit_range = NULL) {
   # create log
   lines <- get_raw_log(path, file_name, commit_range = commit_range)
-  if (nrow(lines) < 1) return(data_frame())
+  if (nrow(lines) < 1) return(tibble::tibble())
   if (last(lines$lines) != "") {
     lines[nrow(lines) + 1, 1] <- ""
   }
@@ -87,7 +87,6 @@ parse_log_detailed_full_run <- function(path = ".",
 
 
 #' @importFrom purrr map_at
-#' @importFrom dplyr as_data_frame
 #' @keywords internal
 set_na_to_zero <- function(log,
                            na_to_zero = TRUE,
@@ -99,7 +98,7 @@ set_na_to_zero <- function(log,
   if (!na_to_zero) return(log)
   out <- log %>%
     map_at(columns, if_na_to_zero) %>%
-    as_data_frame()
+    tibble::as_tibble()
   out
 }
 

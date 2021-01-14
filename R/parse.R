@@ -21,7 +21,7 @@ parse_log_one <- function(raw, fnc_list, has_merge) {
   all_changes <- fnc_list$all_changes(other)
   all_changes_file <- fnc_list$all_changes_file(other)
   ms <- fnc_list$message_and_description(other)
-  data_frame(
+  tibble::tibble(
     hash = commit[2],
     left_parent = commit[3],
     right_parent = commit[4],
