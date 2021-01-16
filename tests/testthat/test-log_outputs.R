@@ -1,7 +1,7 @@
 context("sample logs and names")
 
 log_simp <- testthat_file("test_logs/log_out_simp.rds")
-log_det <- testthat_file("test_logs/log_out_det.rds")
+log_det <- testthat_file("test_logs/log_out_det_new.rds")
 
 git_det <- parse_test_log_detailed("test_logs/testthat_log_detailed.txt")
 git_simp <- parse_test_log_simple("test_logs/testthat_log_simple.txt")
